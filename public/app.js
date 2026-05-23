@@ -10,6 +10,7 @@ const appConfig = {
   passwordResetApiUrl: "/api/auth/password-reset",
   supabaseUrl: "https://lwrnoexybfqykfvxgjjs.supabase.co",
   supabaseAnonKey: "sb_publishable_4l0vcy9ofspgvk-oON7UxA_RT8pDBlI",
+  youtubeChannelUrl: "https://www.youtube.com/@palopintocountycowboychurc3584",
 };
 const demoAdminPasscode = "ppccctest2026";
 const localAdminStorageKey = "ppcc-local-admin-beta";
@@ -1160,27 +1161,29 @@ Object.assign(appPages, {
   sermons: {
     title: "Sermons",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/band.jpg",
-    body: "Sermons\n\nRecent messages from the website, presented as an in-app media list.",
+    body: "Sermons\n\nRecent messages from the website, presented as an in-app media library. Videos play inside the app when a YouTube video ID is available from the website sync or media admin entry.",
     mediaItems: [
-      { title: "The Way Home", date: "05/10/2026", speaker: "Roger Keck" },
-      { title: "The Believer's Battle", date: "04/12/2026", speaker: "Roger Keck" },
-      { title: "Narrow is the Way", date: "04/05/2026", speaker: "Roger Keck" },
-      { title: "Wayfaring Stranger", date: "10/05/2021", speaker: "Worship Team" },
-      { title: "Keeper of My Heart", date: "10/05/2021", speaker: "Worship Team" },
+      { title: "The Way Home", date: "05/10/2026", speaker: "Roger Keck", videoUrl: "" },
+      { title: "The Believer's Battle", date: "04/12/2026", speaker: "Roger Keck", videoUrl: "" },
+      { title: "Narrow is the Way", date: "04/05/2026", speaker: "Roger Keck", videoUrl: "" },
+      { title: "Wayfaring Stranger", date: "10/05/2021", speaker: "Worship Team", videoUrl: "" },
+      { title: "Keeper of My Heart", date: "10/05/2021", speaker: "Worship Team", videoUrl: "" },
     ],
+    actions: [{ label: "YouTube Channel", url: "youtube" }],
   },
   "bible-study": {
     title: "Bible Study",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/20180408_sundayscripture_ps18.jpg",
-    body: "Bible Study\n\nStudy sessions from the website archive.",
+    body: "Bible Study\n\nStudy sessions from the website archive. Recordings stay in-app when the source provides an embeddable YouTube video ID.",
     mediaItems: [
-      { title: "Session 17 Psalms", date: "05/11/2022" },
-      { title: "Session 16 Speaking in Tongues", date: "05/04/2022" },
-      { title: "Psalm Session 15", date: "Bible Study Archive" },
-      { title: "Psalm Session 14", date: "Bible Study Archive" },
-      { title: "Psalm Session 13", date: "Bible Study Archive" },
-      { title: "Psalm Session 12", date: "Bible Study Archive" },
+      { title: "Session 17 Psalms", date: "05/11/2022", videoUrl: "" },
+      { title: "Session 16 Speaking in Tongues", date: "05/04/2022", videoUrl: "" },
+      { title: "Psalm Session 15", date: "Bible Study Archive", videoUrl: "" },
+      { title: "Psalm Session 14", date: "Bible Study Archive", videoUrl: "" },
+      { title: "Psalm Session 13", date: "Bible Study Archive", videoUrl: "" },
+      { title: "Psalm Session 12", date: "Bible Study Archive", videoUrl: "" },
     ],
+    actions: [{ label: "YouTube Channel", url: "youtube" }],
   },
   testimonies: {
     title: "Testimonies",
@@ -1334,6 +1337,11 @@ function openExternal(url) {
   window.open(url, "_blank", "noopener,noreferrer");
 }
 
+function resolveActionUrl(url) {
+  if (url === "youtube") return appConfig.youtubeChannelUrl;
+  return url;
+}
+
 function openMaps() {
   const isApple = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent);
   openExternal(isApple ? contactInfo.mapsUrl : contactInfo.googleMapsUrl);
@@ -1342,6 +1350,35 @@ function openMaps() {
 function openEmail() {
   const subject = encodeURIComponent("Palo Pinto Cowboy Church App Contact");
   openExternal(`mailto:${contactInfo.email}?subject=${subject}`);
+}
+
+function extractYouTubeVideoId(item) {
+  if (item.youtubeVideoId) return item.youtubeVideoId;
+  const url = item.videoUrl || item.url || "";
+  const match = String(url).match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{6,32})/);
+  return match ? match[1] : "";
+}
+
+function mediaEmbed(item) {
+  const videoId = extractYouTubeVideoId(item);
+  if (!videoId) {
+    return `
+      <div class="media-placeholder">
+        <button class="play-button" aria-label="Video pending">▶</button>
+        <span>Video embed ready</span>
+      </div>
+    `;
+  }
+
+  return `
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/${videoId}?playsinline=1&rel=0&modestbranding=1"
+      title="${item.title}"
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  `;
 }
 
 function formFieldValues(container) {
@@ -2012,6 +2049,7 @@ function renderAppPage() {
           if (action.pageId) return `<button class="button full" data-page="${action.pageId}">${action.label}</button>`;
           if (action.route && titles[action.route]) return `<button class="button full" data-go="${action.route}">${action.label}</button>`;
           if (action.route) return `<button class="button full" data-page="${action.route}">${action.label}</button>`;
+          if (action.url) return `<button class="button full" data-open="${resolveActionUrl(action.url)}">${action.label}</button>`;
           return `<button class="button full">${action.label}</button>`;
         }).join("")}</div>` : ""}
       </article>` : ""}
@@ -2028,11 +2066,14 @@ function renderAppPage() {
       ${page.mediaItems ? `
         <article class="stack">
           ${page.mediaItems.map((item) => `
-            <article class="card media-row">
-              <button class="play-button" aria-label="Play ${item.title}">▶</button>
-              <div>
+            <article class="card media-embed-card">
+              <div class="media-embed-frame">
+                ${mediaEmbed(item)}
+              </div>
+              <div class="media-embed-body">
                 <h3>${item.title}</h3>
                 <p class="muted">${item.date}${item.speaker ? ` • ${item.speaker}` : ""}</p>
+                ${extractYouTubeVideoId(item) ? `<span class="pill gold">In-app video</span>` : `<span class="pill">Waiting on video ID</span>`}
               </div>
             </article>
           `).join("")}
@@ -2384,7 +2425,8 @@ document.body.addEventListener("click", async (event) => {
   }
 
   if (target.id === "watchLive") {
-    showToast("Opening the in-app livestream player.");
+    navigate("page", { pageId: "sermons" });
+    showToast("Live stream embeds here once the live video ID is available.");
   }
 
   if (target.id === "sendContact") {

@@ -491,6 +491,59 @@ h3 {
     0 12px 24px rgba(32, 17, 10, 0.34);
 }
 
+.media-embed-card {
+  overflow: hidden;
+  padding: 0;
+}
+
+.media-embed-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(20, 13, 8, 0.28), rgba(20, 13, 8, 0.78)),
+    url("https://faithconnector.s3.amazonaws.com/6267/images/marquee/band.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.media-embed-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.media-placeholder {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 10px;
+  color: #fff4df;
+  text-align: center;
+}
+
+.media-placeholder span {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.media-embed-body {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+}
+
+.media-embed-body h3,
+.media-embed-body p {
+  margin-bottom: 0;
+}
+
 .split-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -632,8 +632,10 @@ h3 {
   position: relative;
   display: block;
   color: #fff4df;
-  font-size: 42px;
-  line-height: 1;
+  max-width: 230px;
+  font-size: clamp(28px, 9vw, 42px);
+  line-height: 1.05;
+  overflow-wrap: anywhere;
   text-shadow: 0 2px 10px rgba(30, 16, 8, 0.3);
 }
 
@@ -746,6 +748,10 @@ h3 {
 .settings-card .native-list,
 .settings-card .info-list,
 .settings-card .field,
+.settings-card .account-switch,
+.settings-card .linked-family-list,
+.settings-card .linked-setup,
+.settings-card .empty-state,
 .settings-card > p,
 .settings-card > .grid,
 .settings-card > .button {
@@ -760,6 +766,110 @@ h3 {
 
 .beta-admin-card {
   border-color: color-mix(in srgb, var(--blue) 34%, var(--line) 66%);
+}
+
+.account-access-card {
+  border-color: color-mix(in srgb, var(--green) 34%, var(--line) 66%);
+}
+
+.account-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.account-switch .filter-chip {
+  width: 100%;
+  min-height: 40px;
+}
+
+.account-note {
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 74%, var(--blue) 26%);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--card) 86%, var(--blue) 14%);
+}
+
+.linked-setup {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid color-mix(in srgb, var(--line) 78%, var(--gold) 22%);
+}
+
+.linked-setup h4 {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+
+.family-form-grid {
+  display: grid;
+  gap: 2px;
+}
+
+.linked-family-list {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.family-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 11px;
+  border: 1px solid color-mix(in srgb, var(--line) 78%, var(--gold) 22%);
+  border-radius: var(--card-radius);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--card) 94%, var(--gold) 6%), color-mix(in srgb, var(--card-warm) 92%, var(--green) 8%));
+  box-shadow: var(--inner-highlight), 0 6px 14px rgba(46, 31, 20, 0.08);
+}
+
+.family-card-main {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.family-card-main strong,
+.family-card-main span {
+  display: block;
+}
+
+.family-number-chip {
+  min-width: 54px;
+  padding: 9px 10px;
+  border-radius: 12px;
+  color: var(--button-ink);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--blue) 78%, var(--green) 22%), color-mix(in srgb, var(--gold) 58%, var(--red) 42%));
+  font-weight: 800;
+  text-align: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.compact-button {
+  min-height: 36px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.empty-state {
+  display: grid;
+  gap: 4px;
+  padding: 13px;
+  border: 1px dashed color-mix(in srgb, var(--line) 72%, var(--gold) 28%);
+  border-radius: var(--card-radius);
+  background: color-mix(in srgb, var(--card) 88%, var(--gold) 12%);
+}
+
+.empty-state span {
+  color: var(--muted);
+  line-height: 1.35;
 }
 
 .admin-status-row {

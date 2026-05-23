@@ -20,7 +20,9 @@
       "supportsTablet": true,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "NSFaceIDUsageDescription": "Use Face ID to protect staff and Kids Korral actions."
+        "NSFaceIDUsageDescription": "Use Face ID to protect staff and Kids Korral actions.",
+        "NSCalendarsUsageDescription": "Allow Palo Pinto Cowboy Church to add church events to your calendar.",
+        "NSCalendarsFullAccessUsageDescription": "Allow Palo Pinto Cowboy Church to add church events to your calendar."
       }
     },
     "android": {
@@ -33,10 +35,18 @@
         "POST_NOTIFICATIONS",
         "USE_BIOMETRIC",
         "android.permission.USE_BIOMETRIC",
-        "android.permission.USE_FINGERPRINT"
+        "android.permission.USE_FINGERPRINT",
+        "android.permission.READ_CALENDAR",
+        "android.permission.WRITE_CALENDAR"
       ]
     },
     "plugins": [
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "Allow Palo Pinto Cowboy Church to add church events to your calendar."
+        }
+      ],
       "expo-notifications",
       "expo-local-authentication",
       "expo-secure-store"

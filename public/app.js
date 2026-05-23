@@ -11,10 +11,37 @@ const appConfig = {
   supabaseUrl: "https://lwrnoexybfqykfvxgjjs.supabase.co",
   supabaseAnonKey: "sb_publishable_4l0vcy9ofspgvk-oON7UxA_RT8pDBlI",
   youtubeChannelUrl: "https://www.youtube.com/@palopintocountycowboychurc3584",
+  verseApiUrl: "/api/app/daily-verse?version=CSB",
 };
 const demoAdminPasscode = "ppccctest2026";
 const localAdminStorageKey = "ppcc-local-admin-beta";
+const localAccountStorageKey = "ppcc-local-account-beta";
 const hasLocalAdminMode = () => localStorage.getItem(localAdminStorageKey) === "true";
+
+function loadLocalAccount() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(localAccountStorageKey) || "{}");
+    return {
+      isSignedIn: Boolean(saved.isSignedIn),
+      name: saved.name || "",
+      email: saved.email || "",
+      phone: saved.phone || "",
+      parentName: saved.parentName || "",
+      role: saved.role || "end_user",
+      linkedFamilies: Array.isArray(saved.linkedFamilies) ? saved.linkedFamilies : [],
+    };
+  } catch {
+    return {
+      isSignedIn: false,
+      name: "",
+      email: "",
+      phone: "",
+      parentName: "",
+      role: "end_user",
+      linkedFamilies: [],
+    };
+  }
+}
 
 if (platformPreview) {
   document.documentElement.dataset.platform = platformPreview;
@@ -141,16 +168,21 @@ const roles = {
   admin: { label: "Admin" },
 };
 
+const localAccount = loadLocalAccount();
+
 const state = {
   route: "home",
   history: [],
-  kidsNumber: "247",
-  parentName: "Brandon Family",
+  accountSignedIn: localAccount.isSignedIn,
+  accountMode: localAccount.isSignedIn ? "profile" : "create",
+  parentName: localAccount.parentName || "",
+  linkedFamilies: localAccount.linkedFamilies,
   notifications: false,
   currentUser: {
-    name: "Brandon",
-    email: "brandon@example.com",
-    role: hasLocalAdminMode() ? "admin" : "end_user",
+    name: localAccount.isSignedIn ? localAccount.name || "Church Family" : "Guest",
+    email: localAccount.isSignedIn ? localAccount.email || "" : "",
+    phone: localAccount.phone || "",
+    role: hasLocalAdminMode() ? "admin" : localAccount.role || "end_user",
   },
   theme: localStorage.getItem("ppcc-theme") || "light",
   eventFilter: "All",
@@ -232,10 +264,22 @@ const contactInfo = {
   googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=2731%20S%20FM%20129%2C%20Santo%2C%20TX%2076472",
 };
 
-const verseOfDay = {
-  reference: "Psalm 118:24",
-  text: "This is the day which the LORD hath made; we will rejoice and be glad in it.",
-};
+const verseFallbacks = [
+  { reference: "Psalm 118:24", text: "This is the day the LORD has made; let's rejoice and be glad in it.", version: "CSB" },
+  { reference: "Proverbs 3:5", text: "Trust in the LORD with all your heart, and do not rely on your own understanding.", version: "CSB" },
+  { reference: "John 14:6", text: "I am the way, the truth, and the life.", version: "CSB" },
+  { reference: "Romans 12:12", text: "Rejoice in hope; be patient in affliction; be persistent in prayer.", version: "CSB" },
+  { reference: "Philippians 4:4", text: "Rejoice in the Lord always. I will say it again: Rejoice!", version: "CSB" },
+  { reference: "Colossians 3:2", text: "Set your minds on things above, not on earthly things.", version: "CSB" },
+  { reference: "1 Thessalonians 5:17", text: "Pray constantly.", version: "CSB" },
+];
+
+function dailyVerseFallback() {
+  const dayNumber = Math.floor(new Date(`${todayIso()}T12:00:00`).getTime() / 86400000);
+  return verseFallbacks[dayNumber % verseFallbacks.length];
+}
+
+let verseOfDay = dailyVerseFallback();
 
 const eventFilters = ["All", "Church Wide", "Arena Event", "Kids Korral", "Women's Ministry", "Men's Ministry", "Celebrate Recovery"];
 const teamupCalendars = {
@@ -1328,6 +1372,24 @@ async function fetchJson(url) {
   return response.json();
 }
 
+async function loadVerseOfDay() {
+  try {
+    const payload = await fetchJson(appConfig.verseApiUrl);
+    if (payload?.text && payload?.reference) {
+      verseOfDay = {
+        text: String(payload.text).trim(),
+        reference: String(payload.reference).trim(),
+        version: payload.version || "CSB",
+      };
+      return true;
+    }
+  } catch {
+    // A licensed CSB verse feed can be connected here for production.
+  }
+  verseOfDay = dailyVerseFallback();
+  return false;
+}
+
 async function fetchIcs(url) {
   const response = await fetch(url, { cache: "no-store", headers: { accept: "text/calendar,text/plain,*/*" } });
   if (!response.ok) throw new Error(`Unable to load ${url}`);
@@ -1390,6 +1452,77 @@ function sendLocalNotification(title, body) {
 
 function isLocalAdminMode() {
   return state.currentUser.role === "admin" && hasLocalAdminMode();
+}
+
+function isSignedIn() {
+  return Boolean(state.accountSignedIn);
+}
+
+function safeText(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function normalizeFamilyNumber(value) {
+  return String(value || "").replace(/\D/g, "").slice(0, 8);
+}
+
+function saveAccountState() {
+  localStorage.setItem(localAccountStorageKey, JSON.stringify({
+    isSignedIn: state.accountSignedIn,
+    name: state.currentUser.name,
+    email: state.currentUser.email,
+    phone: state.currentUser.phone || "",
+    parentName: state.parentName,
+    role: state.currentUser.role === "admin" && hasLocalAdminMode() ? "end_user" : state.currentUser.role,
+    linkedFamilies: state.linkedFamilies,
+  }));
+}
+
+function resetCurrentUser() {
+  state.accountSignedIn = false;
+  state.accountMode = "sign-in";
+  state.parentName = "";
+  state.linkedFamilies = [];
+  state.currentUser = {
+    name: "Guest",
+    email: "",
+    phone: "",
+    role: "end_user",
+  };
+}
+
+function setLocalAccount({ name, email, phone = "", parentName = "", linkedFamilies = [] }) {
+  state.accountSignedIn = true;
+  state.accountMode = "profile";
+  state.parentName = parentName || `${name}'s Family`;
+  state.linkedFamilies = linkedFamilies;
+  state.currentUser = {
+    name,
+    email,
+    phone,
+    role: hasLocalAdminMode() ? "admin" : "end_user",
+  };
+  saveAccountState();
+}
+
+function familyNumbers() {
+  return state.linkedFamilies.map((family) => normalizeFamilyNumber(family.number)).filter(Boolean);
+}
+
+function linkedFamilySummary() {
+  const numbers = familyNumbers();
+  if (!numbers.length) return "Link Kids Korral";
+  if (numbers.length === 1) return `#${numbers[0]}`;
+  return numbers.map((number) => `#${number}`).join(", ");
+}
+
+function firstLinkedFamilyNumber() {
+  return familyNumbers()[0] || "";
 }
 
 function openExternal(url) {
@@ -1500,8 +1633,22 @@ function icsDate(date, time) {
   return `${compact}T${String(hour).padStart(2, "0")}${String(minute).padStart(2, "0")}00`;
 }
 
+function sendNativeMessage(message) {
+  if (!window.ReactNativeWebView?.postMessage) return false;
+  window.ReactNativeWebView.postMessage(JSON.stringify(message));
+  return true;
+}
+
 function addToCalendar(eventId) {
   const event = [...events, ...teamupEvents].find((item) => item.id === eventId);
+  if (!event) {
+    showToast("Event not found.");
+    return;
+  }
+  if (sendNativeMessage({ type: "calendar", event })) {
+    showToast("Opening device calendar.");
+    return;
+  }
   const start = icsDate(event.date, event.time);
   const ics = [
     "BEGIN:VCALENDAR",
@@ -1546,6 +1693,13 @@ function brandIcon(type) {
     instagram: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9Zm4.5 3.3a4.7 4.7 0 1 1 0 9.4 4.7 4.7 0 0 1 0-9.4Zm0 2a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4Zm5-2.3a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Z"/></svg>`,
     youtube: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.1a3 3 0 0 0-2.1-2.1C17.7 4.5 12 4.5 12 4.5s-5.7 0-7.5.5a3 3 0 0 0-2.1 2.1A31.2 31.2 0 0 0 2 12a31.2 31.2 0 0 0 .4 4.9 3 3 0 0 0 2.1 2.1c1.8.5 7.5.5 7.5.5s5.7 0 7.5-.5a3 3 0 0 0 2.1-2.1A31.2 31.2 0 0 0 22 12a31.2 31.2 0 0 0-.4-4.9ZM10 15.4V8.6l6 3.4-6 3.4Z"/></svg>`,
     mail: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5h15A2.5 2.5 0 0 1 22 7.5v9a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 16.5v-9A2.5 2.5 0 0 1 4.5 5Zm.2 2 7.3 5 7.3-5H4.7Zm15.3 9.1V9.2l-7.4 5a1 1 0 0 1-1.2 0L4 9.2v6.9c0 .5.4.9.9.9h14.2c.5 0 .9-.4.9-.9Z"/></svg>`,
+    map: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18-5 2V6l5-2 6 2 5-2v14l-5 2-6-2Zm1-11.7v9.9l4 1.3V7.6l-4-1.3Zm-4 1v9.8l2-.8V6.5l-2 .8Zm10 .4v9.8l2-.8V6.9l-2 .8Z"/></svg>`,
+    staff: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 9a7 7 0 0 1 14 0H5Zm13.5-8.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1.1 2.2A8.8 8.8 0 0 1 21 21h-2a6.9 6.9 0 0 0-1.6-6.3ZM5.5 12.5a3 3 0 1 1 0-6 3 3 0 0 1 0 6ZM6.6 14.7A6.9 6.9 0 0 0 5 21H3a8.8 8.8 0 0 1 3.6-6.3Z"/></svg>`,
+    clock: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 11h5v-2h-4V6h-2v7Z"/></svg>`,
+    calendar: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h2v3h6V2h2v3h3a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3V2Zm13 8H4v10h16V10ZM4 8h16V7H4v1Z"/></svg>`,
+    prayer: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.4 2.8c.8-.5 1.8-.2 2.2.6l1.4 2.5 1.4-2.5c.4-.8 1.4-1.1 2.2-.6.8.4 1.1 1.4.6 2.2l-2.4 4.2 1.8 3.2 2.2-3.8c.5-.8 1.5-1 2.2-.6.8.5 1 1.5.6 2.2l-4.5 7.8A6 6 0 0 1 5.8 18L1.3 10.2C.9 9.4 1.1 8.4 1.9 8c.8-.4 1.8-.2 2.2.6l2.2 3.8 1.8-3.2L5.7 5c-.4-.8-.1-1.8.7-2.2Z"/></svg>`,
+    people: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7Zm8.5-.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm0 1.5a6 6 0 0 1 5.8 6H18a8.9 8.9 0 0 0-2.1-5.7c.5-.2 1-.3 1.6-.3Z"/></svg>`,
+    document: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm8 2v5h4l-4-5ZM7 13h10v-2H7v2Zm0 4h10v-2H7v2Z"/></svg>`,
   };
   return icons[type] || "";
 }
@@ -1555,7 +1709,10 @@ function linkList(items) {
     const action = item.id ? `id="${item.id}"` : item.pageId ? `data-page="${item.pageId}"` : item.route ? `data-go="${item.route}"` : `data-open="${item.url}"`;
     const thumb = item.image || (item.pageId ? pageThumb(item.pageId) : "");
     const icon = item.icon || item.title.slice(0, 1);
-    const iconMarkup = item.brand ? `<span class="row-icon brand-icon brand-${item.brand}">${brandIcon(item.brand)}</span>` : `<span class="row-icon">${icon}</span>`;
+    const iconSvg = brandIcon(icon);
+    const iconMarkup = item.brand
+      ? `<span class="row-icon brand-icon brand-${item.brand}">${brandIcon(item.brand)}</span>`
+      : `<span class="row-icon ${iconSvg ? "brand-icon" : ""}">${iconSvg || safeText(icon)}</span>`;
     return `
       <button class="native-row" ${action}>
         ${thumb ? `<img src="${thumb}" alt="" />` : iconMarkup}
@@ -1564,6 +1721,73 @@ function linkList(items) {
       </button>
     `;
   }).join("")}</div>`;
+}
+
+function linkedFamilyCards({ removable = false } = {}) {
+  if (!state.linkedFamilies.length) {
+    return `
+      <div class="empty-state">
+        <strong>No Kids Korral numbers linked yet</strong>
+        <span>Add the family number from check-in so alerts can be routed to the right people.</span>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="linked-family-list">
+      ${state.linkedFamilies.map((family, index) => `
+        <article class="family-card">
+          <div class="family-card-main">
+            <span class="family-number-chip">#${safeText(family.number)}</span>
+            <div>
+              <strong>${safeText(family.childName || "Child confirmed")}</strong>
+              <span class="muted">Pickup name: ${safeText(family.pickupName || state.parentName || state.currentUser.name)}</span>
+            </div>
+          </div>
+          ${removable ? `<button class="button secondary compact-button" data-remove-family="${index}">Remove</button>` : ""}
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
+function kidsFamilyForm(prefix, buttonId, buttonLabel = "Link Kids Korral Number") {
+  const pickupValue = state.parentName || (state.currentUser.name === "Guest" ? "" : state.currentUser.name);
+  return `
+    <div class="family-form-grid">
+      <div class="field">
+        <label for="${prefix}KidsNumber">Family Number</label>
+        <input id="${prefix}KidsNumber" inputmode="numeric" autocomplete="off" placeholder="Number from check-in" />
+      </div>
+      <div class="field">
+        <label for="${prefix}ChildName">Child Name</label>
+        <input id="${prefix}ChildName" autocomplete="name" placeholder="Child name to confirm" />
+      </div>
+      <div class="field">
+        <label for="${prefix}PickupName">Parent or Pickup Name</label>
+        <input id="${prefix}PickupName" autocomplete="name" placeholder="Name staff will recognize" value="${safeText(pickupValue)}" />
+      </div>
+    </div>
+    <button class="button full" id="${buttonId}" data-family-prefix="${prefix}">${buttonLabel}</button>
+  `;
+}
+
+function readFamilyForm(prefix) {
+  const number = normalizeFamilyNumber(document.querySelector(`#${prefix}KidsNumber`)?.value);
+  const childName = document.querySelector(`#${prefix}ChildName`)?.value?.trim() || "";
+  const pickupName = document.querySelector(`#${prefix}PickupName`)?.value?.trim() || "";
+  const hasAnyValue = Boolean(number || childName || pickupName);
+  if (!number || !childName || !pickupName) return { hasAnyValue, family: null };
+  return {
+    hasAnyValue,
+    family: {
+      id: `family-${Date.now()}-${Math.round(Math.random() * 1000)}`,
+      number,
+      childName,
+      pickupName,
+      linkedAt: new Date().toISOString(),
+    },
+  };
 }
 
 function categoryTiles(items) {
@@ -1579,11 +1803,11 @@ function categoryTiles(items) {
 function syncStatusCard() {
   return `
     <article class="card settings-card">
-      <h3>Developer</h3>
+      <h3>Website Updates</h3>
       <div class="native-list">
         <button class="native-row" data-sync-info="overview">
-          <span class="row-icon">↔</span>
-          <span><strong>Website Sync Status</strong><span class="muted">${syncSources.length} mapped sources ready for APIs/webhooks</span></span>
+          <span class="row-icon">Sync</span>
+          <span><strong>Content Sources</strong><span class="muted">Church website, calendar, livestream, and media sources</span></span>
           <span class="chevron">&gt;</span>
         </button>
       </div>
@@ -1596,15 +1820,15 @@ function fullSyncStatusCard() {
     <article class="card settings-card">
       <div class="row">
         <div>
-          <h3>Website Sync Readiness</h3>
-          <p class="muted">The app is structured so website content can feed native screens through APIs, webhooks, or scheduled imports.</p>
+          <h3>Website Content</h3>
+          <p class="muted">Church website content, calendar updates, livestream details, and media can be connected here as those sources are approved.</p>
         </div>
         <span class="pill gold">${syncSources.length} Sources</span>
       </div>
       <div class="native-list">
         ${syncSources.map((item) => `
           <button class="native-row" data-sync-info="${item.key}">
-            <span class="row-icon">↔</span>
+            <span class="row-icon">Sync</span>
             <span><strong>${item.label}</strong><span class="muted">${item.status}</span></span>
             <span class="chevron">&gt;</span>
           </button>
@@ -1645,6 +1869,7 @@ function goBack() {
 
 function renderHome() {
   const upcoming = teamupEvents.filter((event) => event.date >= todayIso()).slice(0, 3);
+  const accountLabel = isSignedIn() ? roles[state.currentUser.role]?.label || "Signed In" : "Guest";
   app.innerHTML = `
     <section class="home-hero">
       <span class="pill gold">Sunday 10:30 AM</span>
@@ -1670,8 +1895,8 @@ function renderHome() {
       </button>
       <button class="dashboard-card" data-go="kids">
         <span class="mini-chip">Korral</span>
-        <strong>Family Number</strong>
-        <span class="muted">Kids Korral alerts and settings</span>
+        <strong>${linkedFamilySummary()}</strong>
+        <span class="muted">${state.linkedFamilies.length ? "Kids Korral alerts are linked" : "Add your Kids Korral number"}</span>
       </button>
       <button class="dashboard-card" data-go="events">
         <span class="mini-chip">Calendar</span>
@@ -1686,7 +1911,7 @@ function renderHome() {
     <section class="panel">
       <h2>Verse of the Day</h2>
       <p>${verseOfDay.text}</p>
-      <p class="muted">${verseOfDay.reference}</p>
+      <p class="muted">${verseOfDay.reference} ${verseOfDay.version ? `(${verseOfDay.version})` : ""}</p>
     </section>
     <section class="panel">
       <h2>Service Times</h2>
@@ -1738,10 +1963,10 @@ function renderHome() {
     <section class="panel">
       <div class="row">
         <div>
-          <h3>Welcome back, ${state.currentUser.name}</h3>
-          <p class="muted">${state.currentUser.role === "admin" ? "Local beta admin mode is enabled for app previews." : "Open Settings to enter the TestFlight demo admin passcode."}</p>
+          <h3>${isSignedIn() ? `Welcome back, ${safeText(state.currentUser.name)}` : "Welcome"}</h3>
+          <p class="muted">${isSignedIn() ? "Your profile, alerts, and Kids Korral links are in Settings." : "Create an account in Settings to save family and alert preferences on this device."}</p>
         </div>
-        <span class="pill gold">${state.currentUser.role === "admin" ? "Local Admin" : "Signed In"}</span>
+        <span class="pill gold">${safeText(accountLabel)}</span>
       </div>
     </section>
   `;
@@ -1850,9 +2075,9 @@ function renderLive() {
         <div class="row">
           <div>
             <h3>Admin Broadcast</h3>
-            <p class="muted">Preview the livestream notification control. Demo sends stay local until Supabase auth and push routing are connected.</p>
+            <p class="muted">Notify members when Sunday service is live.</p>
           </div>
-          <span class="pill red">${isLocalAdminMode() ? "Beta Local Admin" : "Admin"}</span>
+          <span class="pill red">Admin</span>
         </div>
         <button class="button danger full" id="liveAlert">Notify Members</button>
       </article>
@@ -1871,30 +2096,32 @@ function renderLive() {
 
 function renderKids() {
   const canAlert = state.currentUser.role === "kids_korral" || state.currentUser.role === "admin";
+  const linkedNumbers = familyNumbers();
+  const alertNumber = firstLinkedFamilyNumber();
   app.innerHTML = `
     <section class="stack">
       <article class="screen-hero" style="--screen-image: url('https://faithconnector.s3.amazonaws.com/6267/images/marquee/kk1.jpg')">
         <span class="pill gold">Kids 0-12</span>
         <div>
           <h2>Kids Korral</h2>
-          <p>Save your family number and receive parent alerts when needed.</p>
+          <p>Link family check-in numbers and receive parent alerts when needed.</p>
         </div>
       </article>
       <article class="korral-number">
         <div>
-          <span>Family Number</span>
-          <strong>${state.kidsNumber}</strong>
+          <span>${linkedNumbers.length === 1 ? "Linked Family Number" : "Linked Family Numbers"}</span>
+          <strong>${linkedNumbers.length ? linkedNumbers.map((number) => `#${safeText(number)}`).join(" ") : "None"}</strong>
         </div>
-        <span class="pill gold">Saved</span>
+        <span class="pill gold">${linkedNumbers.length ? `${linkedNumbers.length} Linked` : "Add One"}</span>
       </article>
       <article class="card settings-group">
-        <h3>My Family</h3>
-        <p class="muted">Save the pickup number your family uses at Kids Korral.</p>
-        <div class="field">
-          <label for="kidsNumber">Family Number</label>
-          <input id="kidsNumber" value="${state.kidsNumber}" inputmode="numeric" />
-        </div>
-        <button class="button full" id="saveKids">Save Family Number</button>
+        <h3>My Linked Families</h3>
+        ${linkedFamilyCards({ removable: true })}
+      </article>
+      <article class="card settings-group">
+        <h3>Link Kids Korral</h3>
+        <p class="muted">Add each family number separately and confirm the child and pickup name staff should recognize.</p>
+        ${kidsFamilyForm("kids", "addKidsFamily")}
       </article>
       <article class="card settings-group">
         <h3>Schedule</h3>
@@ -1907,12 +2134,12 @@ function renderKids() {
       <article class="card settings-group ${canAlert ? "" : "locked"}">
         <div class="row">
           <h3>Send Parent Alert</h3>
-          ${canAlert ? `<span class="pill gold">${isLocalAdminMode() ? "Beta Local Admin" : "Staff"}</span>` : ""}
+          ${canAlert ? `<span class="pill gold">Staff</span>` : ""}
         </div>
-        <p class="muted">${canAlert ? "Approved staff can notify a parent by family number. Demo sends stay local until Supabase auth and push routing are connected." : "Kids Korral staff tools are available to approved team members. TestFlight demo admin mode can be enabled in Settings."}</p>
+        <p class="muted">${canAlert ? "Approved staff can notify a parent by family number." : "Kids Korral staff tools are available to approved team members."}</p>
         <div class="field">
           <label for="alertNumber">Family Number</label>
-          <input id="alertNumber" value="${state.kidsNumber}" inputmode="numeric" />
+          <input id="alertNumber" value="${safeText(alertNumber)}" inputmode="numeric" />
         </div>
         <div class="field">
           <label for="alertReason">Message</label>
@@ -1935,19 +2162,19 @@ function renderMore() {
         <img src="https://faithconnector.s3.amazonaws.com/6267/images/marquee/3_1.png" alt="" />
         <div class="card-body">
           <h2>Explore PPCCC</h2>
-          <p>Ministries, resources, staff, care, media, and church info. App-first, with only true handoffs for social, maps, phone, and email.</p>
+          <p>Ministries, resources, staff, care, media, and church info in one place.</p>
         </div>
       </article>
       <article class="card menu-section menu-card">
         <h3>New Here</h3>
         ${linkList([
-          { title: "Visitors", pageId: "visitors", subtitle: "What to expect and welcome info" },
-          { title: "Service Times", pageId: "service-times", subtitle: "Sunday, Wednesday, and CR" },
-          { title: "Get Directions", pageId: "directions", subtitle: contactInfo.address, icon: "M" },
-          { title: "Meet the Staff", route: "staff", subtitle: "Pastors and church office" },
-          { title: "Elders & Lay Pastors", pageId: "elders", subtitle: "Church shepherding team" },
-          { title: "Team Leaders", pageId: "team-leaders", subtitle: "Ministry contacts" },
-          { title: "Mission Statement", pageId: "mission", subtitle: "Our code and values" },
+          { title: "Visitors", pageId: "visitors", subtitle: "What to expect and welcome info", icon: "people" },
+          { title: "Service Times", pageId: "service-times", subtitle: "Sunday, Wednesday, and CR", icon: "clock" },
+          { title: "Get Directions", pageId: "directions", subtitle: contactInfo.address, icon: "map" },
+          { title: "Meet the Staff", route: "staff", subtitle: "Pastors and church office", icon: "staff" },
+          { title: "Elders & Lay Pastors", pageId: "elders", subtitle: "Church shepherding team", icon: "people" },
+          { title: "Team Leaders", pageId: "team-leaders", subtitle: "Ministry contacts", icon: "staff" },
+          { title: "Mission Statement", pageId: "mission", subtitle: "Our code and values", icon: "document" },
         ])}
       </article>
       <article class="card menu-section menu-card">
@@ -1957,14 +2184,14 @@ function renderMore() {
       <article class="card menu-section menu-card">
         <h3>Resources</h3>
         ${linkList([
-          { title: "Calendar", route: "events", subtitle: "Monthly events and add-to-calendar" },
+          { title: "Calendar", route: "events", subtitle: "Monthly events and add-to-calendar", icon: "calendar" },
           { title: "Sermons", pageId: "sermons", subtitle: "Messages and replays" },
           { title: "Bible Study", pageId: "bible-study", subtitle: "Session archive" },
-          { title: "Prayer Requests", pageId: "prayer-requests", subtitle: "Prayer or praise report form" },
+          { title: "Prayer Requests", pageId: "prayer-requests", subtitle: "Prayer or praise report form", icon: "prayer" },
           { title: "Testimonies", pageId: "testimonies", subtitle: "Quotes from the website" },
           { title: "Connect Groups", pageId: "connect-groups", subtitle: "Request help finding a group" },
           { title: "Text Alerts", pageId: "text-alerts", subtitle: "SMS announcements and updates" },
-          { title: "Give", pageId: "give", subtitle: "Secure giving handoff later" },
+          { title: "Give", pageId: "give", subtitle: "Tithing and secure giving" },
         ])}
       </article>
       <article class="card menu-section menu-card">
@@ -2210,19 +2437,103 @@ function renderAppPage() {
 }
 
 function renderAccount() {
+  if (!isSignedIn()) {
+    app.innerHTML = `
+      <section class="stack">
+        <article class="settings-profile">
+          <div class="avatar">P</div>
+          <div>
+            <h2>Set Up Your Account</h2>
+            <p class="muted">Save your profile, alerts, and Kids Korral links on this device.</p>
+            <span class="pill gold">Account Preview</span>
+          </div>
+        </article>
+        <article class="card settings-card account-access-card">
+          <h3>Account Access</h3>
+          <div class="account-switch" role="group" aria-label="Account access mode">
+            <button class="filter-chip ${state.accountMode === "create" ? "active" : ""}" data-account-mode="create">Create Account</button>
+            <button class="filter-chip ${state.accountMode === "sign-in" ? "active" : ""}" data-account-mode="sign-in">Sign In</button>
+          </div>
+          <p class="muted account-note">For beta testing, this saves only on this device. Secure sign-in will be connected before public launch.</p>
+          ${state.accountMode === "sign-in" ? `
+            <div class="field">
+              <label for="signinEmail">Email Address</label>
+              <input id="signinEmail" inputmode="email" autocomplete="email" placeholder="you@example.com" />
+            </div>
+            <div class="field">
+              <label for="signinName">Name</label>
+              <input id="signinName" autocomplete="name" placeholder="Your name" />
+            </div>
+            <button class="button full" id="signInAccount">Continue</button>
+          ` : `
+            <div class="field">
+              <label for="createName">Name</label>
+              <input id="createName" autocomplete="name" placeholder="Your name" />
+            </div>
+            <div class="field">
+              <label for="createEmail">Email Address</label>
+              <input id="createEmail" inputmode="email" autocomplete="email" placeholder="you@example.com" />
+            </div>
+            <div class="field">
+              <label for="createPhone">Phone</label>
+              <input id="createPhone" inputmode="tel" autocomplete="tel" placeholder="Phone number" />
+            </div>
+            <div class="field">
+              <label for="createFamilyName">Family Display Name</label>
+              <input id="createFamilyName" autocomplete="organization" placeholder="Smith Family" />
+            </div>
+            <div class="linked-setup">
+              <h4>Link Kids Korral</h4>
+              <p class="muted">Optional now. You can add more family numbers after setup.</p>
+              ${kidsFamilyForm("setup", "createAccount", "Create Account")}
+            </div>
+          `}
+        </article>
+        <article class="card settings-card beta-admin-card">
+          <h3>TestFlight Admin Beta</h3>
+          <p class="muted">Local demo only. Enter the shared passcode to preview staff controls until real account permissions are connected.</p>
+          <div class="admin-status-row">
+            <strong>Admin Mode</strong>
+            <span class="pill ${isLocalAdminMode() ? "gold" : ""}">${isLocalAdminMode() ? "On locally" : "Off"}</span>
+          </div>
+          ${isLocalAdminMode() ? `
+            <button class="button secondary full" id="demoAdminSignOut">Turn Off Local Admin</button>
+          ` : `
+            <div class="field">
+              <label for="demoAdminPasscode">Passcode</label>
+              <input id="demoAdminPasscode" type="password" inputmode="text" autocomplete="off" placeholder="Enter TestFlight passcode" />
+            </div>
+            <button class="button full" id="demoAdminSignIn">Unlock Admin Preview</button>
+          `}
+          <p class="muted small-note">For TestFlight preview only. Public launch will use secure server permissions.</p>
+        </article>
+      </section>
+    `;
+    return;
+  }
+
   app.innerHTML = `
     <section class="stack">
       <article class="settings-profile">
-        <div class="avatar">${state.currentUser.name.slice(0, 1)}</div>
+        <div class="avatar">${safeText(state.currentUser.name.slice(0, 1))}</div>
         <div>
-          <h2>${state.currentUser.name}</h2>
-          <p class="muted">${state.currentUser.email}</p>
+          <h2>${safeText(state.currentUser.name)}</h2>
+          <p class="muted">${safeText(state.currentUser.email)}</p>
           <span class="pill gold">${isLocalAdminMode() ? "Beta Local Admin" : roles[state.currentUser.role].label}</span>
         </div>
       </article>
+      <article class="card settings-card account-access-card">
+        <h3>Account</h3>
+        <div class="admin-status-row">
+          <strong>Account Preview</strong>
+          <span class="pill gold">Saved on this device</span>
+        </div>
+        <p class="muted">This account setup is for beta testing only. Public launch will use secure sign-in and account permissions.</p>
+        <button class="button secondary full" id="signOutAccount">Sign Out on This Device</button>
+      </article>
       <article class="card settings-card beta-admin-card">
         <h3>TestFlight Admin Beta</h3>
-        <p class="muted">Local demo only. Enter the shared passcode to preview admin controls until real Supabase auth is connected.</p>
+        <p class="muted">Local demo only. Enter the shared passcode to preview staff controls until real account permissions are connected.</p>
         <div class="admin-status-row">
           <strong>Admin Mode</strong>
           <span class="pill ${isLocalAdminMode() ? "gold" : ""}">${isLocalAdminMode() ? "On locally" : "Off"}</span>
@@ -2236,15 +2547,35 @@ function renderAccount() {
           </div>
           <button class="button full" id="demoAdminSignIn">Unlock Admin Preview</button>
         `}
-        <p class="muted small-note">This does not authenticate with a server or protect production data.</p>
+        <p class="muted small-note">For TestFlight preview only. Public launch will use secure server permissions.</p>
       </article>
       <article class="card settings-card">
         <h3>Profile</h3>
         <div class="field">
+          <label for="accountName">Name</label>
+          <input id="accountName" value="${safeText(state.currentUser.name)}" />
+        </div>
+        <div class="field">
+          <label for="accountEmail">Email Address</label>
+          <input id="accountEmail" value="${safeText(state.currentUser.email)}" inputmode="email" autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="accountPhone">Phone</label>
+          <input id="accountPhone" value="${safeText(state.currentUser.phone || "")}" inputmode="tel" autocomplete="tel" />
+        </div>
+        <div class="field">
           <label for="parentName">Family Display Name</label>
-          <input id="parentName" value="${state.parentName}" />
+          <input id="parentName" value="${safeText(state.parentName)}" />
         </div>
         <button class="button full" id="saveAccount">Save Profile</button>
+      </article>
+      <article class="card settings-card">
+        <h3>Kids Korral Links</h3>
+        <p class="muted">Link one or more Kids Korral family numbers and confirm the child and pickup name for each one.</p>
+        ${linkedFamilyCards({ removable: true })}
+        <div class="linked-setup">
+          ${kidsFamilyForm("settings", "addKidsFamily")}
+        </div>
       </article>
       <article class="card settings-card">
         <h3>Account Security</h3>
@@ -2350,10 +2681,10 @@ function renderForgotPassword() {
       <article class="card">
         <div class="field">
           <label for="resetEmail">Email Address</label>
-          <input id="resetEmail" value="${state.currentUser.email}" placeholder="you@example.com" inputmode="email" autocomplete="email" />
+          <input id="resetEmail" value="${safeText(state.currentUser.email)}" placeholder="you@example.com" inputmode="email" autocomplete="email" />
         </div>
         <button class="button full" id="sendPasswordReset">Send Reset Link</button>
-        <p class="muted small-note">For security, the app will show the same confirmation whether or not the email exists. The production backend should rate-limit this action and send links through the auth provider.</p>
+        <p class="muted small-note">For your privacy, the app shows the same confirmation either way and sends reset links only through the secure account system.</p>
       </article>
       <article class="card security-list">
         <h3>Reset Link Rules</h3>
@@ -2392,7 +2723,7 @@ function renderSecurity() {
       </article>
       <article class="card">
         <h3>Production Security Standard</h3>
-        <p class="copy-block">No app is impossible to hack or DDoS, but this design minimizes exposed data, keeps secrets off phones, rate-limits abuse, logs sensitive actions, and requires server-side role checks before anything involving accounts, admins, Kids Korral, or push notifications.</p>
+        <p class="copy-block">This design minimizes exposed data, keeps secrets off phones, rate-limits abuse, logs sensitive actions, and requires server-side role checks before anything involving accounts, admins, Kids Korral, or push notifications.</p>
       </article>
       <article class="card security-list">
         <h3>Required Controls</h3>
@@ -2457,6 +2788,12 @@ document.body.addEventListener("click", async (event) => {
   if (target.dataset.eventFilter) {
     state.eventFilter = target.dataset.eventFilter;
     renderEvents();
+    restoreScroll(0);
+  }
+
+  if (target.dataset.accountMode) {
+    state.accountMode = target.dataset.accountMode;
+    renderAccount();
     restoreScroll(0);
   }
 
@@ -2536,6 +2873,7 @@ document.body.addEventListener("click", async (event) => {
     }
     localStorage.setItem(localAdminStorageKey, "true");
     state.currentUser.role = "admin";
+    if (isSignedIn()) saveAccountState();
     showToast("Local beta admin mode enabled.");
     render();
   }
@@ -2543,6 +2881,7 @@ document.body.addEventListener("click", async (event) => {
   if (target.id === "demoAdminSignOut") {
     localStorage.removeItem(localAdminStorageKey);
     state.currentUser.role = "end_user";
+    if (isSignedIn()) saveAccountState();
     showToast("Local beta admin mode turned off.");
     render();
   }
@@ -2565,16 +2904,78 @@ document.body.addEventListener("click", async (event) => {
 
   if (target.dataset.syncInfo) {
     if (target.dataset.syncInfo === "overview") {
-      showToast(`${syncSources.length} sync surfaces are mapped for APIs/webhooks.`);
+      showToast("Church content sources are mapped for future automatic updates.");
       return;
     }
     const item = syncSources.find((source) => source.key === target.dataset.syncInfo);
     if (item) showToast(`${item.label}: ${item.strategy}.`);
   }
 
-  if (target.id === "saveKids") {
-    state.kidsNumber = document.querySelector("#kidsNumber").value || state.kidsNumber;
-    showToast(`Kids Korral number ${state.kidsNumber} saved.`);
+  if (target.id === "createAccount") {
+    const name = document.querySelector("#createName")?.value?.trim();
+    const email = document.querySelector("#createEmail")?.value?.trim();
+    const phone = document.querySelector("#createPhone")?.value?.trim() || "";
+    const parentName = document.querySelector("#createFamilyName")?.value?.trim() || "";
+    if (!name || !email || !email.includes("@")) {
+      showToast("Enter your name and a valid email address.");
+      return;
+    }
+    const linkedFamilies = [];
+    const setupFamily = readFamilyForm("setup");
+    if (setupFamily.hasAnyValue) {
+      if (!setupFamily.family) {
+        showToast("Finish the Kids Korral number, child name, and pickup name to link it.");
+        return;
+      }
+      linkedFamilies.push(setupFamily.family);
+    }
+    setLocalAccount({ name, email, phone, parentName, linkedFamilies });
+    showToast("Account setup saved on this device.");
+    render();
+  }
+
+  if (target.id === "signInAccount") {
+    const email = document.querySelector("#signinEmail")?.value?.trim();
+    const name = document.querySelector("#signinName")?.value?.trim() || email?.split("@")[0] || "Church Family";
+    if (!email || !email.includes("@")) {
+      showToast("Enter a valid email address.");
+      return;
+    }
+    setLocalAccount({ name, email, linkedFamilies: state.linkedFamilies });
+    showToast("Signed in on this device.");
+    render();
+  }
+
+  if (target.id === "signOutAccount") {
+    localStorage.removeItem(localAdminStorageKey);
+    resetCurrentUser();
+    saveAccountState();
+    showToast("Signed out on this device.");
+    render();
+  }
+
+  if (target.id === "addKidsFamily") {
+    const prefix = target.dataset.familyPrefix || "kids";
+    const result = readFamilyForm(prefix);
+    if (!result.family) {
+      showToast("Enter the family number, child name, and pickup name.");
+      return;
+    }
+    if (state.linkedFamilies.some((family) => normalizeFamilyNumber(family.number) === result.family.number)) {
+      showToast(`Kids Korral number #${result.family.number} is already linked.`);
+      return;
+    }
+    state.linkedFamilies.push(result.family);
+    if (isSignedIn()) saveAccountState();
+    showToast(`Kids Korral number #${result.family.number} linked.`);
+    render();
+  }
+
+  if (target.dataset.removeFamily) {
+    const index = Number(target.dataset.removeFamily);
+    const removed = state.linkedFamilies.splice(index, 1)[0];
+    if (isSignedIn()) saveAccountState();
+    showToast(removed ? `Kids Korral number #${removed.number} removed.` : "Kids Korral link removed.");
     render();
   }
 
@@ -2583,7 +2984,11 @@ document.body.addEventListener("click", async (event) => {
       showToast("Kids Korral alerts require staff access.");
       return;
     }
-    const number = document.querySelector("#alertNumber").value || state.kidsNumber;
+    const number = normalizeFamilyNumber(document.querySelector("#alertNumber").value) || firstLinkedFamilyNumber();
+    if (!number) {
+      showToast("Enter a Kids Korral family number.");
+      return;
+    }
     showToast(`Push sent to family linked to #${number}.`);
     sendLocalNotification("Kids Korral Alert", `Family #${number}, please check in with Kids Korral.`);
   }
@@ -2613,7 +3018,17 @@ document.body.addEventListener("click", async (event) => {
   }
 
   if (target.id === "saveAccount") {
+    const name = document.querySelector("#accountName")?.value?.trim() || state.currentUser.name;
+    const email = document.querySelector("#accountEmail")?.value?.trim() || state.currentUser.email;
+    if (!email || !email.includes("@")) {
+      showToast("Enter a valid email address.");
+      return;
+    }
+    state.currentUser.name = name;
+    state.currentUser.email = email;
+    state.currentUser.phone = document.querySelector("#accountPhone")?.value?.trim() || "";
     state.parentName = document.querySelector("#parentName").value || state.parentName;
+    saveAccountState();
     showToast("Family profile saved.");
     render();
   }
@@ -2630,4 +3045,7 @@ if ("serviceWorker" in navigator) {
 render();
 loadEvents().then((loaded) => {
   if (loaded && (state.route === "events" || state.route === "home")) render();
+});
+loadVerseOfDay().then((loaded) => {
+  if (loaded && state.route === "home") render();
 });

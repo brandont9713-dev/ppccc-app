@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import * as Calendar from "expo-calendar";
 import { useMemo, useRef } from "react";
 import { Alert, Linking, Platform, SafeAreaView, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
@@ -10,7 +11,18 @@ import { webAppHtml } from "./src/webAppHtml";
 type NativeMessage =
   | { type: "external"; url?: string }
   | { type: "notify" }
+  | { type: "calendar"; event?: CalendarEventPayload }
   | { type: "ready" };
+
+type CalendarEventPayload = {
+  id?: string;
+  title?: string;
+  date?: string;
+  time?: string;
+  location?: string;
+  description?: string;
+  category?: string;
+};
 
 const nativeBridge = `
   (function () {
@@ -73,6 +85,87 @@ export default function App() {
     }
   }
 
+  function calendarDates(event: CalendarEventPayload) {
+    const date = event.date && /^\d{4}-\d{2}-\d{2}$/.test(event.date) ? event.date : new Date().toISOString().slice(0, 10);
+    const time = event.time || "All day";
+
+    if (!time || time === "All day") {
+      const startDate = new Date(`${date}T00:00:00`);
+      const endDate = new Date(startDate);
+      endDate.setDate(startDate.getDate() + 1);
+      return { startDate, endDate, allDay: true };
+    }
+
+    const match = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+    const startDate = new Date(`${date}T09:00:00`);
+    if (match) {
+      let hour = Number(match[1]);
+      const minute = Number(match[2]);
+      const meridiem = match[3].toUpperCase();
+      if (meridiem === "PM" && hour !== 12) hour += 12;
+      if (meridiem === "AM" && hour === 12) hour = 0;
+      startDate.setHours(hour, minute, 0, 0);
+    }
+
+    const endDate = new Date(startDate);
+    endDate.setMinutes(startDate.getMinutes() + 90);
+    return { startDate, endDate, allDay: false };
+  }
+
+  async function writableCalendarId() {
+    if (Platform.OS === "ios") {
+      const defaultCalendar = await Calendar.getDefaultCalendarAsync();
+      if (defaultCalendar?.allowsModifications) return defaultCalendar.id;
+    }
+
+    const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+    const writable = calendars.find((calendar) => calendar.allowsModifications);
+    if (writable) return writable.id;
+
+    if (Platform.OS === "android") {
+      const source =
+        calendars.find((calendar) => calendar.source)?.source ??
+        ({ isLocalAccount: true, name: "PPCCC" } as Calendar.Source);
+      return Calendar.createCalendarAsync({
+        title: "PPCCC",
+        color: "#b77a31",
+        entityType: Calendar.EntityTypes.EVENT,
+        source,
+        name: "PPCCC",
+        ownerAccount: "PPCCC",
+        accessLevel: Calendar.CalendarAccessLevel.OWNER,
+      });
+    }
+
+    throw new Error("No writable calendar was found.");
+  }
+
+  async function addCalendarEvent(event?: CalendarEventPayload) {
+    if (!event) return;
+
+    const permission = await Calendar.requestCalendarPermissionsAsync();
+    if (permission.status !== "granted") {
+      Alert.alert("Calendar Permission", "Allow calendar access to add church events to this device.");
+      return;
+    }
+
+    try {
+      const calendarId = await writableCalendarId();
+      const { startDate, endDate, allDay } = calendarDates(event);
+      await Calendar.createEventAsync(calendarId, {
+        title: event.title || "Palo Pinto Cowboy Church Event",
+        startDate,
+        endDate,
+        allDay,
+        location: event.location || "Palo Pinto Cowboy Church",
+        notes: event.description || event.category || "Palo Pinto Cowboy Church event",
+      });
+      Alert.alert("Added to Calendar", `${event.title || "Event"} was added to this device.`);
+    } catch {
+      Alert.alert("Calendar", "This device could not add the event to Calendar.");
+    }
+  }
+
   function handleMessage(event: WebViewMessageEvent) {
     let message: NativeMessage | null = null;
 
@@ -88,6 +181,10 @@ export default function App() {
 
     if (message.type === "notify") {
       enablePush();
+    }
+
+    if (message.type === "calendar") {
+      addCalendarEvent(message.event);
     }
   }
 

@@ -8,7 +8,8 @@ if (!input) {
   process.exit(1);
 }
 
-const source = await readFile(input, "utf8");
+const teamupKey = process.env.TEAMUP_KEY || "kse1p8ynvg2fvo2ez6";
+const source = (await readFile(input, "utf8")).replace(/\r?\n[ \t]/g, "");
 const blocks = source.split("BEGIN:VEVENT").slice(1).map((block) => block.split("END:VEVENT")[0]);
 
 function field(block, name) {
@@ -35,17 +36,28 @@ function parseTime(value) {
 const events = blocks.map((block, index) => {
   const start = field(block, "DTSTART");
   const title = field(block, "SUMMARY") || "Untitled Event";
+  const uid = field(block, "UID") || `${title}-${index}`;
+  const sourceId = uid.split("@")[0] || uid;
   return {
-    id: (field(block, "UID") || `${title}-${index}`).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+    id: uid.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+    sourceId,
     title,
     date: parseDate(start),
     time: parseTime(start),
     category: field(block, "CATEGORIES") || "Church Wide",
     location: field(block, "LOCATION") || "Palo Pinto Cowboy Church",
     description: field(block, "DESCRIPTION"),
+    image: "",
+    sourceUrl: `https://teamup.com/${teamupKey}`,
+    source: "teamup-ics",
   };
-}).filter((event) => event.date);
+}).filter((event) => event.date).sort((a, b) => a.date.localeCompare(b.date));
 
-await writeFile(output, `${JSON.stringify(events, null, 2)}\n`);
+await writeFile(output, `${JSON.stringify({
+  source: "teamup-ics",
+  calendarUrl: `https://teamup.com/${teamupKey}`,
+  calendarFeedUrl: `https://ics.teamup.com/feed/${teamupKey}/0.ics`,
+  lastSyncedAt: new Date().toISOString(),
+  events,
+}, null, 2)}\n`);
 console.log(`Imported ${events.length} events to ${output}`);
-

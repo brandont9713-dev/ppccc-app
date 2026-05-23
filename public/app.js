@@ -1163,11 +1163,11 @@ Object.assign(appPages, {
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/band.jpg",
     body: "Sermons\n\nRecent messages from the website, presented as an in-app media library. Videos play inside the app when a YouTube video ID is available from the website sync or media admin entry.",
     mediaItems: [
-      { title: "The Way Home", date: "05/10/2026", speaker: "Roger Keck", videoUrl: "" },
-      { title: "The Believer's Battle", date: "04/12/2026", speaker: "Roger Keck", videoUrl: "" },
-      { title: "Narrow is the Way", date: "04/05/2026", speaker: "Roger Keck", videoUrl: "" },
-      { title: "Wayfaring Stranger", date: "10/05/2021", speaker: "Worship Team", videoUrl: "" },
-      { title: "Keeper of My Heart", date: "10/05/2021", speaker: "Worship Team", videoUrl: "" },
+      { title: "The Way Home", date: "05/10/2026", speaker: "Roger Keck", youtubeVideoId: "zIZoHHk_vug", image: "https://faithconnector.s3.amazonaws.com/6267/images/thumbs/downloads/the_way_home_square.png" },
+      { title: "The Believer's Battle", date: "04/12/2026", speaker: "Roger Keck", youtubeVideoId: "ARI_IobhLWU", image: "https://faithconnector.s3.amazonaws.com/6267/images/thumbs/downloads/a_believer_s_facebook_post.png" },
+      { title: "Narrow is the Way", date: "04/05/2026", speaker: "Roger Keck", youtubeVideoId: "UwuLNdZEfGI", image: "https://faithconnector.s3.amazonaws.com/6267/images/thumbs/downloads/narrow_is_the_way_square_940_x_788_px.png" },
+      { title: "Crowd or Follower", date: "Website Sermon Archive", speaker: "Roger Keck", youtubeVideoId: "Sk_YnPGa8hg", image: "https://faithconnector.s3.amazonaws.com/6267/images/thumbs/downloads/crowd_or_follower_sermon_slides_facebook_post.png" },
+      { title: "Green with Envy", date: "Website Sermon Archive", speaker: "Roger Keck", youtubeVideoId: "8v9EcuqKlcY", image: "https://faithconnector.s3.amazonaws.com/6267/images/thumbs/downloads/green_with_envy_square.png" },
     ],
     actions: [{ label: "YouTube Channel", url: "youtube" }],
   },
@@ -1270,22 +1270,81 @@ function formatTime(value) {
   return new Date(value).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
 }
 
+function unfoldIcs(text) {
+  return text.replace(/\r?\n[ \t]/g, "");
+}
+
+function icsField(block, name) {
+  const line = block.split(/\r?\n/).find((entry) => entry.startsWith(`${name}:`) || entry.startsWith(`${name};`));
+  if (!line) return "";
+  return line.slice(line.indexOf(":") + 1)
+    .replace(/\\n/g, " ")
+    .replace(/\\,/g, ",")
+    .replace(/\\;/g, ";")
+    .trim();
+}
+
+function icsDate(value) {
+  const compact = String(value).slice(0, 8);
+  if (!/^\d{8}$/.test(compact)) return "";
+  return `${compact.slice(0, 4)}-${compact.slice(4, 6)}-${compact.slice(6, 8)}`;
+}
+
+function icsTime(value) {
+  if (!String(value).includes("T")) return "All day";
+  const hour = Number(value.slice(9, 11));
+  const minute = value.slice(11, 13);
+  const suffix = hour >= 12 ? "PM" : "AM";
+  return `${hour % 12 || 12}:${minute} ${suffix}`;
+}
+
+function parseIcsEvents(text) {
+  return unfoldIcs(text)
+    .split("BEGIN:VEVENT")
+    .slice(1)
+    .map((block, index) => {
+      const start = icsField(block, "DTSTART");
+      const title = icsField(block, "SUMMARY") || "Untitled Event";
+      const uid = icsField(block, "UID") || `${title}-${index}`;
+      return {
+        id: uid.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+        sourceId: uid,
+        title,
+        date: icsDate(start),
+        time: icsTime(start),
+        category: icsField(block, "CATEGORIES") || "Church Wide",
+        location: icsField(block, "LOCATION") || "Palo Pinto Cowboy Church",
+        description: icsField(block, "DESCRIPTION"),
+        sourceUrl: icsField(block, "URL") || appConfig.calendarUrl,
+        source: "teamup-ics",
+      };
+    })
+    .filter((event) => event.date);
+}
+
 async function fetchJson(url) {
   const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) throw new Error(`Unable to load ${url}`);
   return response.json();
 }
 
+async function fetchIcs(url) {
+  const response = await fetch(url, { cache: "no-store", headers: { accept: "text/calendar,text/plain,*/*" } });
+  if (!response.ok) throw new Error(`Unable to load ${url}`);
+  return parseIcsEvents(await response.text());
+}
+
 async function loadEvents() {
   state.eventsLoading = true;
   const sources = [
     { url: appConfig.eventsApiUrl, label: "Live Teamup feed" },
+    { url: appConfig.calendarFeedUrl, label: "Public Teamup iCalendar", type: "ics" },
     { url: appConfig.generatedEventsUrl, label: "Generated Teamup cache" },
   ];
 
   for (const source of sources) {
     try {
-      const payload = await fetchJson(source.url);
+      const payload = source.type === "ics" ? await fetchIcs(source.url) : await fetchJson(source.url);
       const items = Array.isArray(payload) ? payload : payload.events;
       if (Array.isArray(items) && items.length) {
         teamupEvents = items.map(normalizeEvent).filter((event) => event.date).sort((a, b) => a.date.localeCompare(b.date));
@@ -1353,17 +1412,18 @@ function openEmail() {
 }
 
 function extractYouTubeVideoId(item) {
-  if (item.youtubeVideoId) return item.youtubeVideoId;
+  const directId = item.youtubeVideoId || item.youtube_video_id || item.videoId || item.video_id;
+  if (/^[A-Za-z0-9_-]{6,32}$/.test(String(directId || ""))) return String(directId);
   const url = item.videoUrl || item.url || "";
-  const match = String(url).match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{6,32})/);
-  return match ? match[1] : "";
+  const match = String(url).match(/(?:youtube(?:-nocookie)?\.com\/(?:.*[?&]v=|embed\/|shorts\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{6,32})/);
+  return match && /^[A-Za-z0-9_-]{6,32}$/.test(match[1]) ? match[1] : "";
 }
 
 function mediaEmbed(item) {
   const videoId = extractYouTubeVideoId(item);
   if (!videoId) {
     return `
-      <div class="media-placeholder">
+      <div class="media-placeholder" ${item.image ? `style="--media-image: url('${item.image}')"` : ""}>
         <button class="play-button" aria-label="Video pending">▶</button>
         <span>Video embed ready</span>
       </div>
@@ -1373,7 +1433,7 @@ function mediaEmbed(item) {
   return `
     <iframe
       src="https://www.youtube-nocookie.com/embed/${videoId}?playsinline=1&rel=0&modestbranding=1"
-      title="${item.title}"
+      title="${String(item.title || "Video").replaceAll('"', "&quot;")}"
       loading="lazy"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen>
@@ -1715,8 +1775,12 @@ function eventCard(event) {
 function renderEvents() {
   const upcomingEvents = teamupEvents.filter((event) => event.date >= todayIso());
   const monthEvents = state.eventFilter === "All" ? upcomingEvents : upcomingEvents.filter((event) => event.category === state.eventFilter);
-  const eventDays = new Set(monthEvents.map((event) => Number(event.date.slice(-2))));
-  const days = Array.from({ length: 31 }, (_, index) => index + 1);
+  const visibleMonth = (monthEvents[0]?.date || todayIso()).slice(0, 7);
+  const visibleMonthDate = new Date(`${visibleMonth}-01T12:00:00`);
+  const monthLabel = visibleMonthDate.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+  const dayCount = new Date(visibleMonthDate.getFullYear(), visibleMonthDate.getMonth() + 1, 0).getDate();
+  const eventDays = new Set(monthEvents.filter((event) => event.date.startsWith(visibleMonth)).map((event) => Number(event.date.slice(-2))));
+  const days = Array.from({ length: dayCount }, (_, index) => index + 1);
   app.innerHTML = `
     <section class="stack">
       <article class="panel">
@@ -1736,6 +1800,10 @@ function renderEvents() {
         ${eventFilters.map((filter) => `<button class="filter-chip ${state.eventFilter === filter ? "active" : ""}" data-event-filter="${filter}">${filter}</button>`).join("")}
       </div>
       <article class="card">
+        <div class="section-title compact-title">
+          <h3>${monthLabel}</h3>
+          <span class="muted">${eventDays.size} event days</span>
+        </div>
         <div class="month-grid">
           ${days.map((day) => `<div class="day-cell ${eventDays.has(day) ? "has-event" : ""}">${day}</div>`).join("")}
         </div>

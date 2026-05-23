@@ -1,0 +1,35 @@
+name: iOS TestFlight
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-submit:
+    name: Build and submit iOS
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: native-app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: native-app/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Build and submit to TestFlight
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          EAS_NO_VCS: "1"
+          EXPO_NO_TELEMETRY: "1"
+        run: npx eas-cli build --platform ios --profile production --non-interactive --auto-submit

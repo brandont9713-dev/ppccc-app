@@ -65,19 +65,9 @@ Deno.serve(async (req) => {
     data: { route: "korral", familyNumber },
   }));
 
-  let status = "sent";
-  let errorText = null;
-  if (messages.length) {
-    const response = await fetch("https://exp.host/--/api/v2/push/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(messages),
-    });
-    if (!response.ok) {
-      status = "failed";
-      errorText = await response.text();
-    }
-  }
+  const sendResult = await sendExpoMessages(messages);
+  const status = sendResult.ok ? "sent" : "failed";
+  const errorText = sendResult.error;
 
   await admin.from("notification_audit").insert({
     kind: "kids_korral",
@@ -90,7 +80,7 @@ Deno.serve(async (req) => {
     error: errorText,
   });
 
-  return json({ ok: status === "sent", recipientCount: messages.length, status });
+  return json({ ok: status === "sent", recipientCount: messages.length, status, chunks: sendResult.chunks });
 });
 
 function json(body: unknown, status = 200) {
@@ -107,4 +97,29 @@ async function readJson(req: Request): Promise<Record<string, unknown> | null> {
   } catch {
     return null;
   }
+}
+
+async function sendExpoMessages(messages: Array<Record<string, unknown>>) {
+  let chunks = 0;
+  const errors: string[] = [];
+
+  for (let index = 0; index < messages.length; index += 100) {
+    chunks += 1;
+    const chunk = messages.slice(index, index + 100);
+    const response = await fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(chunk),
+    });
+
+    if (!response.ok) {
+      errors.push(await response.text());
+    }
+  }
+
+  return {
+    ok: errors.length === 0,
+    chunks,
+    error: errors.length ? errors.join("\n").slice(0, 4000) : null,
+  };
 }

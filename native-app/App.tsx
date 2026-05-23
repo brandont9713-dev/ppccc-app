@@ -109,7 +109,7 @@ export default function App() {
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
       <WebView
         ref={webRef}
-        source={{ html }}
+        source={{ html, baseUrl: "https://app.ppccc.local/" }}
         originWhitelist={["*"]}
         javaScriptEnabled
         domStorageEnabled

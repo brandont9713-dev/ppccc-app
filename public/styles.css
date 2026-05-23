@@ -634,6 +634,22 @@ h3 {
   margin-bottom: 14px;
 }
 
+.beta-admin-card {
+  border-color: color-mix(in srgb, var(--blue) 34%, var(--line) 66%);
+}
+
+.admin-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 14px 12px;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 80%, var(--blue) 20%);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--card) 90%, var(--blue) 10%);
+}
+
 .home-hero {
   min-height: 260px;
   display: grid;

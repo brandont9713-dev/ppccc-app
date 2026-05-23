@@ -4,6 +4,8 @@ import { Platform } from "react-native";
 
 import { invokeSupabaseFunction, supabaseReady } from "./supabase";
 
+const easProjectId = "f1abd24a-4471-4766-aa0f-8f3188411106";
+
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -38,7 +40,7 @@ export async function registerForPushNotificationsAsync() {
     });
   }
 
-  const token = await Notifications.getExpoPushTokenAsync();
+  const token = await Notifications.getExpoPushTokenAsync({ projectId: easProjectId });
 
   let savedToBackend = false;
 

@@ -9,6 +9,9 @@ const appConfig = {
   notificationApiUrl: "/api/notifications/send",
   passwordResetApiUrl: "/api/auth/password-reset",
 };
+const demoAdminPasscode = "celtics3397";
+const localAdminStorageKey = "ppcc-local-admin-beta";
+const hasLocalAdminMode = () => localStorage.getItem(localAdminStorageKey) === "true";
 
 if (platformPreview) {
   document.documentElement.dataset.platform = platformPreview;
@@ -144,7 +147,7 @@ const state = {
   currentUser: {
     name: "Brandon",
     email: "brandon@example.com",
-    role: "admin",
+    role: hasLocalAdminMode() ? "admin" : "end_user",
   },
   theme: localStorage.getItem("ppcc-theme") || "light",
   eventFilter: "All",
@@ -1321,6 +1324,10 @@ function sendLocalNotification(title, body) {
   }).catch(() => new Notification(title, { body, icon: "/icons/icon.svg" }));
 }
 
+function isLocalAdminMode() {
+  return state.currentUser.role === "admin" && hasLocalAdminMode();
+}
+
 function openExternal(url) {
   window.open(url, "_blank", "noopener,noreferrer");
 }
@@ -1600,9 +1607,9 @@ function renderHome() {
       <div class="row">
         <div>
           <h3>Welcome back, ${state.currentUser.name}</h3>
-          <p class="muted">Your account is set as admin for app management.</p>
+          <p class="muted">${state.currentUser.role === "admin" ? "Local beta admin mode is enabled for app previews." : "Open Settings to enter the TestFlight demo admin passcode."}</p>
         </div>
-        <span class="pill gold">Signed In</span>
+        <span class="pill gold">${state.currentUser.role === "admin" ? "Local Admin" : "Signed In"}</span>
       </div>
     </section>
   `;
@@ -1703,9 +1710,9 @@ function renderLive() {
         <div class="row">
           <div>
             <h3>Admin Broadcast</h3>
-            <p class="muted">Notify members when the livestream starts.</p>
+            <p class="muted">Preview the livestream notification control. Demo sends stay local until Supabase auth and push routing are connected.</p>
           </div>
-          <span class="pill red">Admin</span>
+          <span class="pill red">${isLocalAdminMode() ? "Beta Local Admin" : "Admin"}</span>
         </div>
         <button class="button danger full" id="liveAlert">Notify Members</button>
       </article>
@@ -1758,8 +1765,11 @@ function renderKids() {
         <button class="button secondary full" data-page="kids-ministry">Kids Korral Ministry Info</button>
       </article>
       <article class="card settings-group ${canAlert ? "" : "locked"}">
-        <h3>Send Parent Alert</h3>
-        <p class="muted">${canAlert ? "Approved staff can notify a parent by family number." : "Kids Korral staff tools are available to approved team members."}</p>
+        <div class="row">
+          <h3>Send Parent Alert</h3>
+          ${canAlert ? `<span class="pill gold">${isLocalAdminMode() ? "Beta Local Admin" : "Staff"}</span>` : ""}
+        </div>
+        <p class="muted">${canAlert ? "Approved staff can notify a parent by family number. Demo sends stay local until Supabase auth and push routing are connected." : "Kids Korral staff tools are available to approved team members. TestFlight demo admin mode can be enabled in Settings."}</p>
         <div class="field">
           <label for="alertNumber">Family Number</label>
           <input id="alertNumber" value="${state.kidsNumber}" inputmode="numeric" />
@@ -2063,8 +2073,26 @@ function renderAccount() {
         <div>
           <h2>${state.currentUser.name}</h2>
           <p class="muted">${state.currentUser.email}</p>
-          <span class="pill gold">${roles[state.currentUser.role].label}</span>
+          <span class="pill gold">${isLocalAdminMode() ? "Beta Local Admin" : roles[state.currentUser.role].label}</span>
         </div>
+      </article>
+      <article class="card settings-card beta-admin-card">
+        <h3>TestFlight Admin Beta</h3>
+        <p class="muted">Local demo only. Enter the shared passcode to preview admin controls until real Supabase auth is connected.</p>
+        <div class="admin-status-row">
+          <strong>Admin Mode</strong>
+          <span class="pill ${isLocalAdminMode() ? "gold" : ""}">${isLocalAdminMode() ? "On locally" : "Off"}</span>
+        </div>
+        ${isLocalAdminMode() ? `
+          <button class="button secondary full" id="demoAdminSignOut">Turn Off Local Admin</button>
+        ` : `
+          <div class="field">
+            <label for="demoAdminPasscode">Passcode</label>
+            <input id="demoAdminPasscode" type="password" inputmode="text" autocomplete="off" placeholder="Enter TestFlight passcode" />
+          </div>
+          <button class="button full" id="demoAdminSignIn">Unlock Admin Preview</button>
+        `}
+        <p class="muted small-note">This does not authenticate with a server or protect production data.</p>
       </article>
       <article class="card settings-card">
         <h3>Profile</h3>
@@ -2312,6 +2340,10 @@ document.body.addEventListener("click", async (event) => {
   }
 
   if (target.id === "liveAlert") {
+    if (state.currentUser.role !== "admin") {
+      showToast("Live notifications require admin access.");
+      return;
+    }
     showToast("Live now push prepared.");
     sendLocalNotification("Live Now", "Palo Pinto Cowboy Church service is live.");
   }
@@ -2335,6 +2367,25 @@ document.body.addEventListener("click", async (event) => {
       return;
     }
     showToast("If that email has an account, a reset link will be sent.");
+  }
+
+  if (target.id === "demoAdminSignIn") {
+    const passcode = document.querySelector("#demoAdminPasscode")?.value?.trim();
+    if (passcode !== demoAdminPasscode) {
+      showToast("Passcode did not match.");
+      return;
+    }
+    localStorage.setItem(localAdminStorageKey, "true");
+    state.currentUser.role = "admin";
+    showToast("Local beta admin mode enabled.");
+    render();
+  }
+
+  if (target.id === "demoAdminSignOut") {
+    localStorage.removeItem(localAdminStorageKey);
+    state.currentUser.role = "end_user";
+    showToast("Local beta admin mode turned off.");
+    render();
   }
 
   if (target.dataset.formSubmit) {

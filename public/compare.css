@@ -1,0 +1,123 @@
+:root {
+  --site-bg: url("https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/bg_v2.jpg");
+  --ink: #fffaf0;
+  --muted: rgba(255, 250, 240, 0.72);
+  --green: #486b3d;
+  --gold: #b8792f;
+  --frame: rgba(255, 250, 240, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: Aptos, "Segoe UI", system-ui, -apple-system, sans-serif;
+  background:
+    linear-gradient(rgba(44, 31, 24, 0.78), rgba(44, 31, 24, 0.82)),
+    var(--site-bg);
+  background-size: cover;
+  background-position: center;
+}
+
+.compare-shell {
+  min-height: 100vh;
+  padding: 24px;
+  overflow-x: auto;
+}
+
+.compare-header {
+  width: min(1120px, 100%);
+  min-width: 760px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 auto 18px;
+}
+
+.compare-header p,
+.compare-header h1 {
+  margin: 0;
+}
+
+.compare-header p {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.compare-header h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1;
+}
+
+.compare-header a {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 9px 14px;
+  color: #fff;
+  background: var(--green);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.preview-grid {
+  width: min(1120px, 100%);
+  min-width: 760px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(340px, 1fr));
+  gap: 22px;
+  align-items: start;
+  margin: 0 auto;
+}
+
+.preview-card {
+  min-width: 0;
+  border: 1px solid var(--frame);
+  border-radius: 20px;
+  padding: 14px;
+  background: rgba(15, 13, 11, 0.42);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+}
+
+.preview-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.preview-title span {
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.preview-title small {
+  color: var(--muted);
+  text-align: right;
+}
+
+iframe {
+  width: 100%;
+  height: min(860px, calc(100vh - 150px));
+  min-height: 720px;
+  display: block;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+}
+
+@media (max-width: 880px) {
+  .compare-shell {
+    padding: 16px;
+  }
+}

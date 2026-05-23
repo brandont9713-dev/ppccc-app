@@ -1,0 +1,26 @@
+{
+  "name": "Palo Pinto County Cowboy Church",
+  "short_name": "PPCCC",
+  "description": "Church app for services, events, live worship, ministries, prayer, and Kids Korral alerts.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f5ef",
+  "theme_color": "#2d6a4f",
+  "categories": ["lifestyle", "social", "productivity"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

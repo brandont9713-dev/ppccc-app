@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Palo Pinto Cowboy Church App</title>
+    <meta name="description" content="Palo Pinto County Cowboy Church mobile app for services, events, live worship, ministries, prayer, and Kids Korral alerts." />
+    <meta name="theme-color" content="#2d6a4f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="PPCCC" />
+    <link rel="manifest" href="app.webmanifest?v=2" />
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.svg" />
+    <link rel="stylesheet" href="styles.css?v=20260522-prod-ready" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="phone">
+        <header class="topbar">
+          <button class="back-button" id="backButton" aria-label="Go back" title="Go back">&lt;</button>
+          <div>
+            <p class="eyebrow">Palo Pinto Cowboy Church</p>
+            <h1 id="screenTitle">Home</h1>
+          </div>
+          <div class="top-actions">
+            <button class="icon-button" id="themeButton" aria-label="Toggle theme" title="Toggle theme">&#9680;</button>
+            <button class="icon-button" id="notifyButton" aria-label="Enable notifications" title="Enable notifications">&#128276;</button>
+          </div>
+        </header>
+
+        <section class="content" id="app"></section>
+
+        <nav class="tabs" aria-label="Primary navigation">
+          <button class="tab active" data-route="home"><span class="tab-icon">&#8962;</span><span>Home</span></button>
+          <button class="tab" data-route="events"><span class="tab-icon">&#128197;</span><span>Events</span></button>
+          <button class="tab" data-route="live"><span class="tab-icon live-mark">((!))</span><span>Live</span></button>
+          <button class="tab" data-route="kids"><span class="tab-icon">&#9733;</span><span>Korral</span></button>
+          <button class="tab" data-route="more"><span class="tab-icon">&#128279;</span><span>More</span></button>
+          <button class="tab" data-route="account"><span class="tab-icon">&#9881;</span><span>Settings</span></button>
+        </nav>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js?v=20260522-prod-ready"></script>
+  </body>
+</html>

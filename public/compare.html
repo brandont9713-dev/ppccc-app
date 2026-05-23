@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PPCCC App OS Preview</title>
+    <link rel="stylesheet" href="compare.css" />
+  </head>
+  <body>
+    <main class="compare-shell">
+      <header class="compare-header">
+        <div>
+          <p>Palo Pinto Cowboy Church</p>
+          <h1>iOS / Android Preview</h1>
+        </div>
+        <a href="/">Open single app view</a>
+      </header>
+
+      <section class="preview-grid" aria-label="Side by side mobile OS preview">
+        <article class="preview-card">
+          <div class="preview-title">
+            <span>iOS</span>
+            <small>Safe areas, rounded device, iPhone-style chrome</small>
+          </div>
+          <iframe title="iOS app preview" src="/?platform=ios&preview=compare"></iframe>
+        </article>
+
+        <article class="preview-card">
+          <div class="preview-title">
+            <span>Android</span>
+            <small>Gesture area, Android-style device, Play Store target</small>
+          </div>
+          <iframe title="Android app preview" src="/?platform=android&preview=compare"></iframe>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

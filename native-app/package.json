@@ -1,0 +1,35 @@
+{
+  "name": "ppccc-native-app",
+  "version": "0.1.0",
+  "private": true,
+  "main": "expo/AppEntry",
+  "scripts": {
+    "start": "expo start",
+    "ios": "expo run:ios",
+    "android": "expo run:android",
+    "web": "expo start --web",
+    "build:ios": "eas build --platform ios",
+    "build:android": "eas build --platform android",
+    "update": "eas update --branch production"
+  },
+  "dependencies": {
+    "expo": "latest",
+    "expo-dev-client": "^56.0.15",
+    "expo-device": "latest",
+    "expo-linking": "latest",
+    "expo-local-authentication": "latest",
+    "expo-notifications": "latest",
+    "expo-secure-store": "latest",
+    "expo-status-bar": "latest",
+    "react": "latest",
+    "react-native": "latest",
+    "react-native-url-polyfill": "latest",
+    "react-native-webview": "^13.16.1"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "eas-cli": "^19.0.8",
+    "supabase": "^2.101.0",
+    "typescript": "latest"
+  }
+}

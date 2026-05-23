@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Palo Pinto County Cowboy Church app icon">
+  <defs>
+    <linearGradient id="sky" x1="96" y1="64" x2="416" y2="448" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f8f0d8"/>
+      <stop offset="1" stop-color="#d99a47"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="#1f513c"/>
+  <rect x="34" y="34" width="444" height="444" rx="74" fill="url(#sky)"/>
+  <path d="M82 316c38-34 82-51 132-51h84c50 0 94 17 132 51-42 18-90 27-144 27h-60c-54 0-102-9-144-27Z" fill="#4a3127"/>
+  <path d="M124 310c24-63 68-95 132-95s108 32 132 95c-33-18-77-27-132-27s-99 9-132 27Z" fill="#5e3c2d"/>
+  <path d="M151 301h210v82H151z" fill="#274f3a"/>
+  <path d="M128 302l128-95 128 95H128Z" fill="#2f6b50"/>
+  <path d="M255 126h33v128h-33z" fill="#fff8e6"/>
+  <path d="M211 173h121v31H211z" fill="#fff8e6"/>
+  <path d="M178 324h156v59H178z" fill="#f9f0d6"/>
+  <path d="M212 383v-51h88v51" fill="#5a3829"/>
+  <path d="M75 397h362v25H75z" fill="#274f3a"/>
+  <text x="256" y="464" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="900" letter-spacing="2" fill="#fff8e6" stroke="#274f3a" stroke-width="5" paint-order="stroke fill">PPCCC</text>
+</svg>

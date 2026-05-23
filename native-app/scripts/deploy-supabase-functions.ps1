@@ -1,0 +1,35 @@
+$ErrorActionPreference = "Stop"
+
+$appRoot = Split-Path -Parent $PSScriptRoot
+$repoRoot = Split-Path -Parent $appRoot
+$node = Join-Path $repoRoot "tools\node-v24.16.0-win-x64\node.exe"
+$supabase = Join-Path $appRoot "node_modules\supabase\dist\supabase.js"
+$localHome = Join-Path $appRoot ".supabase-home"
+
+$env:PATH = (Join-Path $repoRoot "tools\node-v24.16.0-win-x64") + ";" + $env:PATH
+$env:HOME = $localHome
+$env:USERPROFILE = $localHome
+$env:APPDATA = $localHome
+$env:LOCALAPPDATA = $localHome
+$tokenFile = Join-Path $appRoot ".supabase-token"
+if (Test-Path $tokenFile) {
+  $env:SUPABASE_ACCESS_TOKEN = (Get-Content $tokenFile -Raw).Trim()
+}
+New-Item -ItemType Directory -Force $localHome | Out-Null
+
+Set-Location $appRoot
+
+$projectRef = "lwrnoexybfqykfvxgjjs"
+$functions = @(
+  "register-push-token",
+  "send-kids-korral-alert",
+  "send-live-now",
+  "upsert-app-event",
+  "delete-app-event",
+  "upsert-media-item"
+)
+
+foreach ($fn in $functions) {
+  Write-Host "Deploying $fn..."
+  & $node $supabase functions deploy $fn --project-ref $projectRef
+}

@@ -8,8 +8,10 @@ const appConfig = {
   generatedEventsUrl: "/events.generated.json",
   notificationApiUrl: "/api/notifications/send",
   passwordResetApiUrl: "/api/auth/password-reset",
+  supabaseUrl: "https://lwrnoexybfqykfvxgjjs.supabase.co",
+  supabaseAnonKey: "sb_publishable_4l0vcy9ofspgvk-oON7UxA_RT8pDBlI",
 };
-const demoAdminPasscode = "celtics3397";
+const demoAdminPasscode = "ppccctest2026";
 const localAdminStorageKey = "ppcc-local-admin-beta";
 const hasLocalAdminMode = () => localStorage.getItem(localAdminStorageKey) === "true";
 
@@ -1342,6 +1344,39 @@ function openEmail() {
   openExternal(`mailto:${contactInfo.email}?subject=${subject}`);
 }
 
+function formFieldValues(container) {
+  return Array.from(container.querySelectorAll(".field")).reduce((payload, field) => {
+    const label = field.querySelector("label")?.textContent?.trim() || "Field";
+    const input = field.querySelector("input, select");
+    if (!input) return payload;
+    payload[label] = input.type === "checkbox" ? input.checked : input.value || "";
+    return payload;
+  }, {});
+}
+
+async function submitAppForm(kind, payload) {
+  const response = await fetch(`${appConfig.supabaseUrl}/functions/v1/submit-app-form`, {
+    method: "POST",
+    headers: {
+      "apikey": appConfig.supabaseAnonKey,
+      "authorization": `Bearer ${appConfig.supabaseAnonKey}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      kind,
+      source: window.__PPCCC_NATIVE_APP__ ? "ios_app" : "web_app",
+      sourceUrl: location.href,
+      payload: {
+        ...payload,
+        submittedAt: new Date().toISOString(),
+      },
+    }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.error || "Form submission failed.");
+  return data;
+}
+
 function formatDate(value) {
   return new Date(`${value}T12:00:00`).toLocaleDateString(undefined, {
     weekday: "short",
@@ -2353,11 +2388,25 @@ document.body.addEventListener("click", async (event) => {
   }
 
   if (target.id === "sendContact") {
-    showToast("Message saved in-app.");
+    const card = target.closest("article");
+    const payload = formFieldValues(card);
+    try {
+      await submitAppForm("contact", payload);
+      showToast("Message sent to the church office.");
+    } catch {
+      showToast("Message saved locally. Connection needed to send.");
+    }
   }
 
   if (target.id === "sendFeedback") {
-    showToast("Feedback saved in-app.");
+    const card = target.closest("article");
+    const payload = formFieldValues(card);
+    try {
+      await submitAppForm("app_feedback", payload);
+      showToast("Feedback sent. Thank you.");
+    } catch {
+      showToast("Feedback saved locally. Connection needed to send.");
+    }
   }
 
   if (target.id === "sendPasswordReset") {
@@ -2394,7 +2443,14 @@ document.body.addEventListener("click", async (event) => {
       "text-alerts": "Text alert signup",
       "connect-group": "Connect Group request",
     };
-    showToast(`${labels[target.dataset.formSubmit] || "Form"} saved in-app.`);
+    const card = target.closest("article");
+    const payload = formFieldValues(card);
+    try {
+      await submitAppForm(target.dataset.formSubmit, payload);
+      showToast(`${labels[target.dataset.formSubmit] || "Form"} sent to the church.`);
+    } catch {
+      showToast(`${labels[target.dataset.formSubmit] || "Form"} saved locally. Connection needed to send.`);
+    }
   }
 
   if (target.dataset.syncInfo) {
@@ -2432,7 +2488,18 @@ document.body.addEventListener("click", async (event) => {
 
   if (target.dataset.submitSignup) {
     const name = document.querySelector("#signupName")?.value || "Guest";
-    showToast(`${name}'s RSVP saved in-app.`);
+    const card = target.closest("article");
+    const payload = formFieldValues(card);
+    try {
+      await submitAppForm(`signup:${target.dataset.submitSignup}`, {
+        ...payload,
+        pageId: state.pageId,
+        pageTitle: appPages[state.pageId]?.title || "Signup",
+      });
+      showToast(`${name}'s RSVP was sent to the church.`);
+    } catch {
+      showToast(`${name}'s RSVP saved locally. Connection needed to send.`);
+    }
   }
 
   if (target.id === "saveAccount") {

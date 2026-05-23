@@ -24,6 +24,7 @@ $functions = @(
   "register-push-token",
   "send-kids-korral-alert",
   "send-live-now",
+  "submit-app-form",
   "upsert-app-event",
   "delete-app-event",
   "upsert-media-item"

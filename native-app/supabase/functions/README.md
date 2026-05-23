@@ -62,6 +62,34 @@ Payload:
 }
 ```
 
+## `submit-app-form`
+
+Shared app/website endpoint for contact messages, app feedback, prayer requests, text-alert requests, connect-group forms, and event signups.
+
+Security notes:
+
+- Accepts anonymous or authenticated submissions.
+- Validates allowed form kinds.
+- Trims payload fields before saving.
+- Stores submissions in `form_submissions`.
+- Optionally emails the church office when `RESEND_API_KEY` and `FORM_NOTIFICATION_EMAIL` are configured.
+- The website can be tied to the same inbox by posting its forms to this function URL.
+
+Payload:
+
+```json
+{
+  "kind": "contact",
+  "source": "ios_app",
+  "sourceUrl": "ppccc://contact",
+  "payload": {
+    "Name": "Guest",
+    "Email": "guest@example.com",
+    "Message": "I have a question."
+  }
+}
+```
+
 ## `sync-teamup-events`
 
 Scheduled endpoint. Reads Teamup, normalizes events, and upserts into `app_events`.

@@ -13,6 +13,7 @@ const nativePrelude = `<script>
 (function () {
   document.documentElement.dataset.platform = "ios";
   document.documentElement.dataset.preview = "compare";
+  document.documentElement.dataset.nativeApp = "true";
 
   var memoryStore = {};
   try {

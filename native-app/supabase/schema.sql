@@ -103,6 +103,9 @@ create table public.form_submissions (
   id uuid primary key default gen_random_uuid(),
   profile_id uuid references public.profiles(id),
   kind text not null,
+  source text not null default 'app',
+  source_url text,
+  status text not null default 'new',
   payload jsonb not null,
   created_at timestamptz not null default now()
 );
@@ -239,4 +242,6 @@ create index if not exists family_members_profile_idx on public.family_members(p
 create index if not exists family_numbers_number_idx on public.family_numbers(number);
 create index if not exists app_events_starts_at_idx on public.app_events(starts_at);
 create index if not exists media_items_published_at_idx on public.media_items(is_published, published_at desc);
+create index if not exists form_submissions_kind_created_at_idx on public.form_submissions(kind, created_at desc);
+create index if not exists form_submissions_status_created_at_idx on public.form_submissions(status, created_at desc);
 create index if not exists notification_audit_created_at_idx on public.notification_audit(created_at desc);

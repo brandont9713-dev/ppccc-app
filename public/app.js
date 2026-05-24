@@ -356,7 +356,7 @@ const appPages = {
   visitors: {
     title: "Visitors",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/131901764_10218876925614462_4584006058819768448_n_1.jpg",
-    body: "Visitors can find a welcome message, what to expect, and the heart of the church. This page includes 1 Corinthians 9:19-23 and visitor-focused imagery.",
+    body: "We are glad you are here. Come as you are, bring the family, and let us help you feel at home at Palo Pinto County Cowboy Church.",
     actions: [{ label: "Service Times", route: "service-times" }, { label: "Directions", route: "directions" }],
   },
   "service-times": {
@@ -371,7 +371,7 @@ const appPages = {
   },
   about: {
     title: "About Us",
-    body: "Palo Pinto County Cowboy Church is a come-as-you-are church family in Palo Pinto County. Find welcome information, church details, and ministry resources here.",
+    body: "Palo Pinto County Cowboy Church is a come-as-you-are church family in Palo Pinto County. We gather for worship, Bible teaching, ministry, service, and community.",
   },
   mission: {
     title: "Mission Statement",
@@ -391,13 +391,13 @@ const appPages = {
   },
   "prayer-requests": {
     title: "Prayer Requests",
-    body: "Send a prayer request or praise report to the church. Share the request type, description, who it is for, and the best way to contact you.",
+    body: "Share a prayer request or praise report with the church. The prayer team counts it a privilege to pray with you and your family.",
     actions: [{ label: "Open Prayer Form", route: "contact" }],
   },
   testimonies: {
     title: "Testimonies",
     image: "icons/icon.svg",
-    body: "Testimonies\n\nQuotes and stories from the PPCCC church family.",
+    body: "Testimonies\n\nStories of welcome, worship, faith, and family from people who call PPCCC home.",
   },
   "connect-groups": {
     title: "Connect Groups",
@@ -822,7 +822,7 @@ Object.assign(appPages, {
   "prayer-team": {
     title: "Prayer Team",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/prayer.jpg",
-    body: "How can we pray for you today?\n\nSubmit your prayer under resources tab.",
+    body: "How can we pray for you today?\n\nSend a prayer request from Resources.",
     people: [{ name: "Nickey Bunch", role: "817-613-6654", image: "https://faithconnector.s3.amazonaws.com/6267/images/member/359957205_983372079646695_5982784191060705686_n.jpg" }],
     actions: [{ label: "Open Prayer Form", route: "contact" }],
   },
@@ -1070,7 +1070,7 @@ Object.assign(appPages, {
   "prayer-team": {
     title: "Prayer Team",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/prayer.jpg",
-    body: "Prayer Team\n\nHow can we pray for you today?\n\nSubmit your prayer under resources tab at the top of this page.\n\nNickey Bunch 817-613-6654",
+    body: "Prayer Team\n\nHow can we pray for you today?\n\nSend a prayer request from Resources.\n\nNickey Bunch 817-613-6654",
     imageTiles: [
       { image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/20180408_sundayscripture_ps18.jpg" },
       { image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/359957205_983372079646695_5982784191060705686_n_1.jpg", label: "Nickey Bunch 817-613-6654" },
@@ -1285,7 +1285,7 @@ Object.assign(appPages, {
   "privacy-data": {
     title: "Privacy & Data",
     image: "icons/icon.svg",
-    body: "Privacy & Data\n\nPPCCC communication is for church life, not advertising.\n\nNo ads.\nNo ad tracking.\nNo background location tracking.\nNo selling personal data.\nNo hidden background data collection.\n\nChurch content includes events, pages, images, livestream information, notification settings, live service notices, event reminders, and Kids Korral alerts.",
+    body: "Privacy & Data\n\nPPCCC communication is for church life, not advertising.\n\nNo ads.\nNo ad tracking.\nNo background location tracking.\nNo selling personal data.\nNo hidden background data collection.\n\nYour information is used for church communication, event reminders, prayer and contact forms, account settings, and Kids Korral alerts.",
   },
   give: {
     title: "Give",
@@ -1579,7 +1579,7 @@ async function loadMedia() {
 async function enableNotifications() {
   if (sendNativeMessage({ type: "notify", accessToken: authAccessToken() })) {
     state.notifications = true;
-    showToast(isSignedIn() ? "Notifications connected for this device." : "Notifications enabled. Sign in to attach them to your account.");
+    showToast(isSignedIn() ? "Notifications connected." : "Notifications enabled. Sign in to attach them to your account.");
     render();
     return;
   }
@@ -1991,7 +1991,7 @@ function pageThumb(pageId) {
 function cleanSubtitle(item) {
   if (item.subtitle) return item.subtitle;
   if (item.pageId && appPages[item.pageId]?.body) return appPages[item.pageId].body.split("\n").find((line) => line && line !== appPages[item.pageId].title)?.slice(0, 72) || "Learn more";
-  if (item.url?.startsWith("mailto:")) return "Open email app";
+  if (item.url?.startsWith("mailto:")) return "Email the church office";
   if (item.url) return "Open link";
   return "Open";
 }
@@ -2233,6 +2233,8 @@ function renderHome() {
     <section class="action-strip">
       <button class="quick-action wide-action" data-calendar="${events[0].id}"><strong>Add Sunday Worship to Calendar</strong><span>${formatDate(events[0].date)} at ${events[0].time}</span></button>
       <button class="quick-action wide-action" data-page="service-times"><strong>Service Times</strong><span>Sunday worship and Wednesday groups</span></button>
+      <button class="quick-action wide-action" data-go="contact"><strong>Contact the Church</strong><span>Questions, prayer, and office messages</span></button>
+      <button class="quick-action wide-action" data-page="give"><strong>Give</strong><span>Tithes and offerings</span></button>
     </section>
     <section class="panel">
       <h2>Verse of the Day</h2>
@@ -2290,7 +2292,7 @@ function renderHome() {
       <div class="row">
         <div>
           <h3>${isSignedIn() ? `Welcome back, ${safeText(state.currentUser.name)}` : "Welcome"}</h3>
-          <p class="muted">${isSignedIn() ? "Your profile, alerts, and Kids Korral links are in Settings." : "Create an account in Settings to save family and alert preferences on this device."}</p>
+          <p class="muted">${isSignedIn() ? "Your profile, alerts, and Kids Korral links are in Settings." : "Create an account in Settings to save family and alert preferences."}</p>
         </div>
         <span class="pill gold">${safeText(accountLabel)}</span>
       </div>
@@ -2317,7 +2319,10 @@ function eventCard(event) {
           <span class="mini-chip">Add to phone</span>
           <span class="mini-chip">${event.category || "Church"}</span>
         </div>
-        <button class="button secondary full" data-calendar="${event.id}">Add to Calendar</button>
+        <div class="form-actions">
+          <button class="button secondary full" data-calendar="${event.id}">Add to Calendar</button>
+          <button class="button secondary full" data-page="directions">Directions</button>
+        </div>
       </div>
     </article>
   `;
@@ -2369,7 +2374,16 @@ function renderEvents() {
         <h2>Upcoming</h2>
         <span class="muted">${state.eventFilter} - ${monthEvents.length} this month</span>
       </div>
-      ${monthEvents.length ? monthEvents.map(eventCard).join("") : `<article class="panel"><h3>No events in this category</h3><p class="muted">Try another filter or check the full calendar.</p></article>`}
+      ${monthEvents.length ? monthEvents.map(eventCard).join("") : `
+        <article class="panel">
+          <h3>No events here yet</h3>
+          <p class="muted">Try another ministry filter or jump back to the current month.</p>
+          <div class="form-actions">
+            <button class="button secondary full" data-event-filter="All">Show All Events</button>
+            <button class="button secondary full" data-event-month="today">This Month</button>
+          </div>
+        </article>
+      `}
     </section>
   `;
 }
@@ -2419,7 +2433,7 @@ function renderLive() {
         ${linkList([
           { title: "Sermons", pageId: "sermons", subtitle: "Recent Sunday messages" },
           { title: "Bible Study", pageId: "bible-study", subtitle: "Study sessions and archive" },
-          { title: "YouTube", url: "https://www.youtube.com/c/PaloPintoCountyCowboyChurchPPCCC", subtitle: "Open YouTube app" },
+          { title: "YouTube", url: "https://www.youtube.com/c/PaloPintoCountyCowboyChurchPPCCC", subtitle: "PPCCC video channel" },
         ])}
       </article>
     </section>
@@ -2494,7 +2508,7 @@ function renderMore() {
         <img src="https://faithconnector.s3.amazonaws.com/6267/images/marquee/3_1.png" alt="" />
         <div class="card-body">
           <h2>Explore PPCCC</h2>
-          <p>Ministries, resources, staff, care, media, and church info in one place.</p>
+          <p>Ministries, resources, staff, care, media, and church info for the PPCCC family.</p>
         </div>
       </article>
       <article class="card menu-section menu-card">
@@ -2613,7 +2627,7 @@ function renderContact() {
         </div>
         <div class="form-actions">
           <button class="button full" id="sendContact">Send Message</button>
-          <button class="button secondary full" id="emailButton">Open Email App</button>
+          <button class="button secondary full" id="emailButton">Email Church Office</button>
         </div>
       </article>
       <article class="card">
@@ -2624,7 +2638,7 @@ function renderContact() {
           <div class="info-row"><strong>Email</strong><span class="muted">${contactInfo.email}</span></div>
         </div>
         <div class="grid">
-          <button class="button secondary" id="mapsButton">Maps</button>
+          <button class="button secondary" id="mapsButton">Directions</button>
           <button class="button secondary" data-open="tel:${contactInfo.phone}">Call</button>
         </div>
       </article>
@@ -2637,17 +2651,17 @@ function settingsSupportCards() {
     <article class="card settings-card">
       <h3>Support</h3>
       ${linkList([
-        { title: "Forgot Password", route: "forgot-password", subtitle: "Email reset link", icon: "R" },
-        { title: "Feedback", route: "feedback", subtitle: "Bug reports and suggestions", icon: "F" },
-        { title: "Contact Church Office", route: "contact", subtitle: "Message the office", icon: "C" },
-        { title: "Privacy & Safety", route: "security", subtitle: "Account, alerts, and child safety", icon: "S" },
-        { title: "Privacy & Data", pageId: "privacy-data", subtitle: "No ads, no trackers, no background location", icon: "P" },
+        { title: "Forgot Password", route: "forgot-password", subtitle: "Email reset link", icon: "shield" },
+        { title: "Feedback", route: "feedback", subtitle: "Bug reports and suggestions", icon: "message" },
+        { title: "Contact Church Office", route: "contact", subtitle: "Message the office", icon: "mail" },
+        { title: "Privacy & Safety", route: "security", subtitle: "Account, alerts, and child safety", icon: "shield" },
+        { title: "Privacy & Data", pageId: "privacy-data", subtitle: "No ads, no trackers, no background location", icon: "shield" },
       ])}
     </article>
     <article class="card settings-card">
       <h3>Giving</h3>
       ${linkList([
-        { title: "Give Online", pageId: "give", subtitle: "Tithing and secure giving", icon: "$" },
+        { title: "Give Online", pageId: "give", subtitle: "Tithing and secure giving", icon: "heart" },
       ])}
     </article>
     <article class="card settings-card">
@@ -2667,7 +2681,7 @@ function settingsSupportCards() {
         </div>
       </div>
       <div class="grid">
-        <button class="button secondary" id="mapsButton">Maps</button>
+        <button class="button secondary" id="mapsButton">Directions</button>
         <button class="button secondary" data-open="tel:${contactInfo.phone}">Call</button>
         <button class="button secondary" id="emailButton">Email</button>
         <button class="button secondary" data-go="contact">Form</button>
@@ -2679,7 +2693,16 @@ function settingsSupportCards() {
 function renderAppPage() {
   const page = appPages[state.pageId];
   if (!page) {
-    app.innerHTML = `<section class="panel"><h2>Check Back Soon</h2><p class="muted">Church information for this section is coming soon.</p></section>`;
+    app.innerHTML = `
+      <section class="panel">
+        <h2>Need Help?</h2>
+        <p class="muted">The church office can help with this ministry or resource.</p>
+        <div class="form-actions">
+          <button class="button full" data-go="contact">Contact the Office</button>
+          <button class="button secondary full" data-go="more">Back to More</button>
+        </div>
+      </section>
+    `;
     return;
   }
 
@@ -2824,7 +2847,7 @@ function renderAccount() {
           <div class="avatar">P</div>
           <div>
             <h2>Set Up Your Account</h2>
-            <p class="muted">Save your profile, alerts, and Kids Korral links on this device.</p>
+            <p class="muted">Save your profile, alerts, and Kids Korral family links.</p>
             <span class="pill gold">Account Setup</span>
           </div>
         </article>
@@ -2966,23 +2989,23 @@ function renderAccount() {
       <article class="card settings-card">
         <h3>Account Security</h3>
         ${linkList([
-          { title: "Forgot Password", route: "forgot-password", subtitle: "Email reset link", icon: "R" },
-          { title: "Privacy & Safety", route: "security", subtitle: "Account, alerts, and child safety", icon: "S" },
+          { title: "Forgot Password", route: "forgot-password", subtitle: "Email reset link", icon: "shield" },
+          { title: "Privacy & Safety", route: "security", subtitle: "Account, alerts, and child safety", icon: "shield" },
         ])}
       </article>
       <article class="card settings-card">
         <h3>Notifications</h3>
         ${linkList([
-          { title: "Push Notifications", id: "notifyButton", subtitle: state.notifications ? "On" : "Off", icon: "N" },
-          { title: "Text Alerts", pageId: "text-alerts", subtitle: "SMS announcements and updates", icon: "T" },
-          { title: "Kids Korral Alerts", route: "kids", subtitle: "Family number and parent alerts", icon: "K" },
+          { title: "Push Notifications", id: "notifyButton", subtitle: state.notifications ? "On" : "Off", icon: "bell" },
+          { title: "Text Alerts", pageId: "text-alerts", subtitle: "SMS announcements and updates", icon: "bell" },
+          { title: "Kids Korral Alerts", route: "kids", subtitle: "Family number and parent alerts", icon: "bell" },
         ])}
       </article>
       ${state.currentUser.role === "admin" ? `
         <article class="card settings-card">
           <h3>Admin</h3>
           ${linkList([
-            { title: "User Permissions", route: "manage", subtitle: "Manage account roles", icon: "A" },
+            { title: "User Permissions", route: "manage", subtitle: "Manage account roles", icon: "shield" },
           ])}
         </article>
       ` : ""}
@@ -3037,10 +3060,10 @@ function renderForgotPassword() {
       </article>
       <article class="card security-list">
         <h3>Reset Link Rules</h3>
-        <div class="security-row"><strong>Expires quickly</strong><span>Use short-lived, single-use links.</span></div>
+        <div class="security-row"><strong>Expires quickly</strong><span>Reset links are time-sensitive.</span></div>
         <div class="security-row"><strong>No password in email</strong><span>Email only carries the reset link.</span></div>
-        <div class="security-row"><strong>Rate limited</strong><span>Prevent reset spam and account guessing.</span></div>
-        <div class="security-row"><strong>Logged</strong><span>Record request time, IP/device fingerprint, and outcome.</span></div>
+        <div class="security-row"><strong>Private confirmation</strong><span>The same confirmation appears whether an email is found or not.</span></div>
+        <div class="security-row"><strong>Need help?</strong><span>Contact the church office if you cannot access your account.</span></div>
       </article>
     </section>
   `;
@@ -3068,8 +3091,8 @@ function renderSecurity() {
         </div>
       </article>
       <article class="card">
-        <h3>What The App Does</h3>
-        <p class="copy-block">The app keeps church information, events, media, prayer requests, account settings, and Kids Korral alerts in one place while limiting what each user can access.</p>
+        <h3>How Your Info Is Used</h3>
+        <p class="copy-block">Your account helps save alert preferences, Kids Korral family numbers, prayer and contact forms, and church communication settings.</p>
       </article>
       <article class="card security-list">
         <h3>Safety Commitments</h3>
@@ -3238,7 +3261,7 @@ document.body.addEventListener("click", async (event) => {
     localStorage.setItem(localAdminStorageKey, "true");
     state.currentUser.role = "admin";
     if (isSignedIn()) saveAccountState();
-    showToast("Staff tools unlocked on this device.");
+    showToast("Staff tools unlocked.");
     render();
   }
 
@@ -3246,7 +3269,7 @@ document.body.addEventListener("click", async (event) => {
     localStorage.removeItem(localAdminStorageKey);
     state.currentUser.role = "end_user";
     if (isSignedIn()) saveAccountState();
-    showToast("Staff tools locked on this device.");
+    showToast("Staff tools locked.");
     render();
   }
 
@@ -3326,7 +3349,7 @@ document.body.addEventListener("click", async (event) => {
     localStorage.removeItem(localAdminStorageKey);
     resetCurrentUser();
     saveAccountState();
-    showToast("Signed out on this device.");
+    showToast("Signed out.");
     render();
   }
 

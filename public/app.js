@@ -6,6 +6,7 @@ const appConfig = {
   teamupEventsJsonUrl: "https://teamup.com/kse1p8ynvg2fvo2ez6/events",
   calendarFeedUrl: "https://ics.teamup.com/feed/kse1p8ynvg2fvo2ez6/0.ics",
   eventsApiUrl: "/api/app/events",
+  supabaseEventsApiUrl: "https://lwrnoexybfqykfvxgjjs.supabase.co/functions/v1/get-teamup-events",
   generatedEventsUrl: "/events.generated.json",
   mediaApiUrl: "/api/app/media",
   sermonFeedUrl: "https://www.palopintocowboychurch.com/rss_feed.cfm?content=download",
@@ -190,6 +191,7 @@ const state = {
   },
   theme: localStorage.getItem("ppcc-theme") || "light",
   eventFilter: "All",
+  eventMonth: new Date().toLocaleDateString("en-CA").slice(0, 7),
   eventsLoadedAt: "",
   eventsSource: "Static fallback",
   eventsLoading: false,
@@ -1307,22 +1309,34 @@ function isoDateOffset(days) {
 
 function teamupEventsUrl() {
   const params = new URLSearchParams({
-    startDate: isoDateOffset(-30),
-    endDate: isoDateOffset(180),
+    startDate: isoDateOffset(-365),
+    endDate: isoDateOffset(1095),
     tz: "America/Chicago",
   });
   return `${appConfig.teamupEventsJsonUrl}?${params}`;
 }
 
+function eventDateOnly(value) {
+  return String(value || "").slice(0, 10);
+}
+
 function normalizeEvent(item) {
   const start = item.start_dt || item.date || "";
-  const date = item.date || start.slice(0, 10);
-  const time = item.time || (item.all_day ? "All day" : formatTime(start));
+  const end = item.end_dt || item.endDateTime || "";
+  const allDay = Boolean(item.all_day || item.allDay || item.time === "All day");
+  const date = item.date || eventDateOnly(start);
+  const endDate = item.endDate || eventDateOnly(end);
+  const time = item.time || (allDay ? "All day" : formatTime(start));
   return {
     id: String(item.id || item.sourceId || `${item.title}-${date}`).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+    sourceId: String(item.sourceId || item.id || ""),
     title: item.title || "Church Event",
     date,
+    endDate,
     time,
+    startDateTime: item.startDateTime || item.start_dt || "",
+    endDateTime: item.endDateTime || item.end_dt || "",
+    allDay,
     category: item.category || item.categories || item.subcalendar || teamupCalendars[item.subcalendar_id] || "Church Wide",
     location: item.location || "Palo Pinto Cowboy Church",
     description: item.description || item.notes || "",
@@ -1350,13 +1364,13 @@ function icsField(block, name) {
     .trim();
 }
 
-function icsDate(value) {
+function parseIcsDateField(value) {
   const compact = String(value).slice(0, 8);
   if (!/^\d{8}$/.test(compact)) return "";
   return `${compact.slice(0, 4)}-${compact.slice(4, 6)}-${compact.slice(6, 8)}`;
 }
 
-function icsTime(value) {
+function parseIcsTimeField(value) {
   if (!String(value).includes("T")) return "All day";
   const hour = Number(value.slice(9, 11));
   const minute = value.slice(11, 13);
@@ -1376,8 +1390,12 @@ function parseIcsEvents(text) {
         id: uid.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
         sourceId: uid,
         title,
-        date: icsDate(start),
-        time: icsTime(start),
+        date: parseIcsDateField(start),
+        endDate: parseIcsDateField(icsField(block, "DTEND")),
+        time: parseIcsTimeField(start),
+        startDateTime: "",
+        endDateTime: "",
+        allDay: !String(start).includes("T"),
         category: icsField(block, "CATEGORIES") || "Church Wide",
         location: icsField(block, "LOCATION") || "Palo Pinto Cowboy Church",
         description: icsField(block, "DESCRIPTION"),
@@ -1389,7 +1407,12 @@ function parseIcsEvents(text) {
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url, { cache: "no-store" });
+  const headers = {};
+  if (url.startsWith(appConfig.supabaseUrl)) {
+    headers.apikey = appConfig.supabaseAnonKey;
+    headers.authorization = `Bearer ${appConfig.supabaseAnonKey}`;
+  }
+  const response = await fetch(url, { cache: "no-store", headers });
   if (!response.ok) throw new Error(`Unable to load ${url}`);
   return response.json();
 }
@@ -1420,11 +1443,16 @@ async function fetchIcs(url) {
 
 async function loadEvents() {
   state.eventsLoading = true;
-  const sources = [
+  const nativeApp = Boolean(window.__PPCCC_NATIVE_APP__);
+  const browserSources = [
     { url: teamupEventsUrl(), label: "Public Teamup JSON" },
     { url: appConfig.eventsApiUrl, label: "Live Teamup feed" },
-    { url: appConfig.generatedEventsUrl, label: "Generated Teamup cache" },
     { url: appConfig.calendarFeedUrl, label: "Public Teamup iCalendar", type: "ics" },
+  ];
+  const sources = [
+    { url: appConfig.supabaseEventsApiUrl, label: "Live Teamup sync" },
+    ...(nativeApp ? [] : browserSources),
+    { url: appConfig.generatedEventsUrl, label: "Generated Teamup cache" },
   ];
 
   for (const source of sources) {
@@ -1734,6 +1762,13 @@ function formatDate(value) {
   });
 }
 
+function shiftMonth(month, offset) {
+  const base = /^\d{4}-\d{2}$/.test(month) ? `${month}-01T12:00:00` : `${todayIso().slice(0, 7)}-01T12:00:00`;
+  const date = new Date(base);
+  date.setMonth(date.getMonth() + offset);
+  return date.toLocaleDateString("en-CA").slice(0, 7);
+}
+
 function todayLabel() {
   return new Date().toLocaleDateString(undefined, {
     weekday: "long",
@@ -1742,7 +1777,7 @@ function todayLabel() {
   });
 }
 
-function icsDate(date, time) {
+function calendarIcsDateTime(date, time) {
   if (!time || time === "All day") return `${date.replaceAll("-", "")}T090000`;
   const [hourText, minuteText] = time.replace(" AM", "").replace(" PM", "").split(":");
   let hour = Number(hourText);
@@ -1750,6 +1785,24 @@ function icsDate(date, time) {
   if (time.includes("PM") && hour !== 12) hour += 12;
   const compact = date.replaceAll("-", "");
   return `${compact}T${String(hour).padStart(2, "0")}${String(minute).padStart(2, "0")}00`;
+}
+
+function calendarIcsEndDateTime(event) {
+  if (event.endDate && event.endDate > event.date) return `${event.endDate.replaceAll("-", "")}T000000`;
+  if (!event.time || event.time === "All day") return `${event.date.replaceAll("-", "")}T103000`;
+  const match = event.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  const start = new Date(`${event.date}T09:00:00`);
+  if (match) {
+    let hour = Number(match[1]);
+    const minute = Number(match[2]);
+    const meridiem = match[3].toUpperCase();
+    if (meridiem === "PM" && hour !== 12) hour += 12;
+    if (meridiem === "AM" && hour === 12) hour = 0;
+    start.setHours(hour, minute, 0, 0);
+  }
+  start.setMinutes(start.getMinutes() + 90);
+  const compact = start.toISOString().slice(0, 10).replaceAll("-", "");
+  return `${compact}T${String(start.getHours()).padStart(2, "0")}${String(start.getMinutes()).padStart(2, "0")}00`;
 }
 
 function sendNativeMessage(message) {
@@ -1768,7 +1821,8 @@ function addToCalendar(eventId) {
     showToast("Opening device calendar.");
     return;
   }
-  const start = icsDate(event.date, event.time);
+  const start = calendarIcsDateTime(event.date, event.time);
+  const end = calendarIcsEndDateTime(event);
   const ics = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
@@ -1777,6 +1831,7 @@ function addToCalendar(eventId) {
     `UID:${event.id}@palopintocowboychurch.com`,
     `DTSTAMP:${start}`,
     `DTSTART:${start}`,
+    `DTEND:${end}`,
     `SUMMARY:${event.title}`,
     `LOCATION:${event.location || "Palo Pinto Cowboy Church"}`,
     `DESCRIPTION:${event.description || event.category || "Palo Pinto Cowboy Church event"}`,
@@ -2118,8 +2173,9 @@ function eventCard(event) {
 
 function renderEvents() {
   const upcomingEvents = teamupEvents.filter((event) => event.date >= todayIso());
-  const monthEvents = state.eventFilter === "All" ? upcomingEvents : upcomingEvents.filter((event) => event.category === state.eventFilter);
-  const visibleMonth = (monthEvents[0]?.date || todayIso()).slice(0, 7);
+  const filteredEvents = state.eventFilter === "All" ? upcomingEvents : upcomingEvents.filter((event) => event.category === state.eventFilter);
+  const visibleMonth = state.eventMonth || (filteredEvents[0]?.date || todayIso()).slice(0, 7);
+  const monthEvents = filteredEvents.filter((event) => event.date.startsWith(visibleMonth));
   const visibleMonthDate = new Date(`${visibleMonth}-01T12:00:00`);
   const monthLabel = visibleMonthDate.toLocaleDateString(undefined, { month: "long", year: "numeric" });
   const dayCount = new Date(visibleMonthDate.getFullYear(), visibleMonthDate.getMonth() + 1, 0).getDate();
@@ -2133,7 +2189,7 @@ function renderEvents() {
             <h2>Church Calendar</h2>
             <p class="muted">Upcoming events from the church Teamup calendar, ready to add to your phone.</p>
           </div>
-          <span class="pill gold">${monthEvents.length} Events</span>
+          <span class="pill gold">${filteredEvents.length} Loaded</span>
         </div>
         <div class="sync-strip">
           <span>${state.eventsSource}</span>
@@ -2148,13 +2204,18 @@ function renderEvents() {
           <h3>${monthLabel}</h3>
           <span class="muted">${eventDays.size} event days</span>
         </div>
+        <div class="month-controls">
+          <button class="icon-button" data-event-month="-1" aria-label="Previous month">&lt;</button>
+          <button class="button secondary" data-event-month="today">This Month</button>
+          <button class="icon-button" data-event-month="1" aria-label="Next month">&gt;</button>
+        </div>
         <div class="month-grid">
           ${days.map((day) => `<div class="day-cell ${eventDays.has(day) ? "has-event" : ""}">${day}</div>`).join("")}
         </div>
       </article>
       <div class="section-title">
         <h2>Upcoming</h2>
-        <span class="muted">${state.eventFilter}</span>
+        <span class="muted">${state.eventFilter} - ${monthEvents.length} this month</span>
       </div>
       ${monthEvents.length ? monthEvents.map(eventCard).join("") : `<article class="panel"><h3>No events in this category</h3><p class="muted">Try another filter or check the full calendar.</p></article>`}
     </section>
@@ -2910,6 +2971,14 @@ document.body.addEventListener("click", async (event) => {
 
   if (target.dataset.eventFilter) {
     state.eventFilter = target.dataset.eventFilter;
+    renderEvents();
+    restoreScroll(0);
+  }
+
+  if (target.dataset.eventMonth) {
+    state.eventMonth = target.dataset.eventMonth === "today"
+      ? todayIso().slice(0, 7)
+      : shiftMonth(state.eventMonth, Number(target.dataset.eventMonth));
     renderEvents();
     restoreScroll(0);
   }

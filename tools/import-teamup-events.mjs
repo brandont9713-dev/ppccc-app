@@ -2,8 +2,9 @@ import { writeFile } from "node:fs/promises";
 
 const teamupKey = process.env.TEAMUP_KEY || "kse1p8ynvg2fvo2ez6";
 const output = process.argv[2] || "public/events.generated.json";
-const startDate = process.env.START_DATE || new Date().toISOString().slice(0, 10);
-const endDate = process.env.END_DATE || new Date(Date.now() + 120 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+const dayMs = 24 * 60 * 60 * 1000;
+const startDate = process.env.START_DATE || new Date(Date.now() - 365 * dayMs).toISOString().slice(0, 10);
+const endDate = process.env.END_DATE || new Date(Date.now() + 1095 * dayMs).toISOString().slice(0, 10);
 const teamupCalendars = {
   9152325: "Arena Event",
   9242824: "Celebrate Recovery",
@@ -30,7 +31,11 @@ function normalize(event) {
     sourceId: String(event.id),
     title: event.title || "Church Event",
     date: (event.start_dt || "").slice(0, 10),
+    endDate: (event.end_dt || "").slice(0, 10),
     time: formatTime(event.start_dt, event.all_day),
+    startDateTime: event.start_dt || "",
+    endDateTime: event.end_dt || "",
+    allDay: Boolean(event.all_day),
     category: event.subcalendar_name || teamupCalendars[event.subcalendar_id] || "Church Wide",
     location: event.location || "Palo Pinto Cowboy Church",
     description: event.notes || "",
@@ -40,7 +45,7 @@ function normalize(event) {
   };
 }
 
-const url = `https://teamup.com/${teamupKey}/events?startDate=${startDate}&endDate=${endDate}`;
+const url = `https://teamup.com/${teamupKey}/events?startDate=${startDate}&endDate=${endDate}&tz=America%2FChicago`;
 const response = await fetch(url, {
   headers: { Accept: "application/json", "User-Agent": "PPCCC-App-Importer/1.0" },
 });

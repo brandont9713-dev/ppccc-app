@@ -22,6 +22,7 @@ Set-Location $appRoot
 $projectRef = "lwrnoexybfqykfvxgjjs"
 $functions = @(
   "register-push-token",
+  "get-teamup-events",
   "send-kids-korral-alert",
   "send-live-now",
   "submit-app-form",
@@ -33,4 +34,7 @@ $functions = @(
 foreach ($fn in $functions) {
   Write-Host "Deploying $fn..."
   & $node $supabase functions deploy $fn --project-ref $projectRef
+  if ($LASTEXITCODE -ne 0) {
+    throw "Failed to deploy $fn"
+  }
 }

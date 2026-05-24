@@ -35,7 +35,11 @@ function normalizeTeamupEvent(event) {
     sourceId: String(event.id),
     title: event.title || "Church Event",
     date: (event.start_dt || "").slice(0, 10),
+    endDate: (event.end_dt || "").slice(0, 10),
     time: formatTime(event.start_dt, event.all_day),
+    startDateTime: event.start_dt || "",
+    endDateTime: event.end_dt || "",
+    allDay: Boolean(event.all_day),
     category: event.subcalendar_name || teamupCalendars[event.subcalendar_id] || event.category || "Church Wide",
     location: event.location || "Palo Pinto Cowboy Church",
     description: event.notes || "",
@@ -96,8 +100,8 @@ createServer(async (req, res) => {
     const requested = url.pathname;
 
     if (requested === "/api/app/events") {
-      const startDate = url.searchParams.get("startDate") || dateOffset(-7);
-      const endDate = url.searchParams.get("endDate") || dateOffset(120);
+      const startDate = url.searchParams.get("startDate") || dateOffset(-365);
+      const endDate = url.searchParams.get("endDate") || dateOffset(1095);
       const teamupUrl = `https://teamup.com/${teamupKey}/events?startDate=${startDate}&endDate=${endDate}&tz=America%2FChicago`;
       const response = await fetch(teamupUrl, {
         headers: { "Accept": "application/json", "User-Agent": "PPCCC-App-Prototype/1.0" },

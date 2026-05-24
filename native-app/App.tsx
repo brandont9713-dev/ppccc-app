@@ -18,7 +18,11 @@ type CalendarEventPayload = {
   id?: string;
   title?: string;
   date?: string;
+  endDate?: string;
   time?: string;
+  startDateTime?: string;
+  endDateTime?: string;
+  allDay?: boolean;
   location?: string;
   description?: string;
   category?: string;
@@ -89,10 +93,25 @@ export default function App() {
     const date = event.date && /^\d{4}-\d{2}-\d{2}$/.test(event.date) ? event.date : new Date().toISOString().slice(0, 10);
     const time = event.time || "All day";
 
-    if (!time || time === "All day") {
+    if (event.startDateTime && !event.allDay) {
+      const startDate = new Date(event.startDateTime);
+      const endDate = event.endDateTime ? new Date(event.endDateTime) : new Date(startDate);
+      if (!Number.isNaN(startDate.getTime())) {
+        if (Number.isNaN(endDate.getTime()) || endDate <= startDate) {
+          endDate.setMinutes(startDate.getMinutes() + 90);
+        }
+        return { startDate, endDate, allDay: false };
+      }
+    }
+
+    if (!time || time === "All day" || event.allDay) {
       const startDate = new Date(`${date}T00:00:00`);
       const endDate = new Date(startDate);
-      endDate.setDate(startDate.getDate() + 1);
+      if (event.endDate && /^\d{4}-\d{2}-\d{2}$/.test(event.endDate) && event.endDate > date) {
+        endDate.setTime(new Date(`${event.endDate}T00:00:00`).getTime());
+      } else {
+        endDate.setDate(startDate.getDate() + 1);
+      }
       return { startDate, endDate, allDay: true };
     }
 
@@ -112,6 +131,43 @@ export default function App() {
     return { startDate, endDate, allDay: false };
   }
 
+  async function createAppCalendarId(calendars: Awaited<ReturnType<typeof Calendar.getCalendarsAsync>> = []) {
+    const existing = calendars.find((calendar) => calendar.title === "PPCCC" && calendar.allowsModifications);
+    if (existing) return existing.id;
+
+    if (Platform.OS === "ios") {
+      const defaultCalendar = await Calendar.getDefaultCalendarAsync().catch(() => null);
+      const sources = await Calendar.getSourcesAsync().catch(() => []);
+      const source =
+        defaultCalendar?.source ??
+        sources.find((item) => item.type === Calendar.SourceType.LOCAL) ??
+        sources[0];
+
+      return Calendar.createCalendarAsync({
+        title: "PPCCC",
+        color: "#b77a31",
+        entityType: Calendar.EntityTypes.EVENT,
+        sourceId: source?.id,
+        source: source ?? { type: Calendar.SourceType.LOCAL, name: "PPCCC" },
+        name: "PPCCC",
+      });
+    }
+
+    const source =
+      calendars.find((calendar) => calendar.source)?.source ??
+      ({ isLocalAccount: true, name: "PPCCC", type: Calendar.SourceType.LOCAL } as Awaited<ReturnType<typeof Calendar.getCalendarsAsync>>[number]["source"]);
+
+    return Calendar.createCalendarAsync({
+      title: "PPCCC",
+      color: "#b77a31",
+      entityType: Calendar.EntityTypes.EVENT,
+      source,
+      name: "PPCCC",
+      ownerAccount: "PPCCC",
+      accessLevel: Calendar.CalendarAccessLevel.OWNER,
+    });
+  }
+
   async function writableCalendarId() {
     if (Platform.OS === "ios") {
       const defaultCalendar = await Calendar.getDefaultCalendarAsync();
@@ -122,22 +178,7 @@ export default function App() {
     const writable = calendars.find((calendar) => calendar.allowsModifications);
     if (writable) return writable.id;
 
-    if (Platform.OS === "android") {
-      const source =
-        calendars.find((calendar) => calendar.source)?.source ??
-        ({ isLocalAccount: true, name: "PPCCC" } as Calendar.Source);
-      return Calendar.createCalendarAsync({
-        title: "PPCCC",
-        color: "#b77a31",
-        entityType: Calendar.EntityTypes.EVENT,
-        source,
-        name: "PPCCC",
-        ownerAccount: "PPCCC",
-        accessLevel: Calendar.CalendarAccessLevel.OWNER,
-      });
-    }
-
-    throw new Error("No writable calendar was found.");
+    return createAppCalendarId(calendars);
   }
 
   async function addCalendarEvent(event?: CalendarEventPayload) {
@@ -159,6 +200,8 @@ export default function App() {
         allDay,
         location: event.location || "Palo Pinto Cowboy Church",
         notes: event.description || event.category || "Palo Pinto Cowboy Church event",
+        timeZone: "America/Chicago",
+        endTimeZone: "America/Chicago",
       });
       Alert.alert("Added to Calendar", `${event.title || "Event"} was added to this device.`);
     } catch {

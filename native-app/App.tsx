@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import * as Calendar from "expo-calendar";
+import * as Calendar from "expo-calendar/legacy";
 import { useMemo, useRef } from "react";
 import { Alert, Linking, Platform, SafeAreaView, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
@@ -139,69 +139,12 @@ export default function App() {
     return { startDate, endDate, allDay: false };
   }
 
-  async function createAppCalendarId(calendars: Awaited<ReturnType<typeof Calendar.getCalendarsAsync>> = []) {
-    const existing = calendars.find((calendar) => calendar.title === "PPCCC" && calendar.allowsModifications);
-    if (existing) return existing.id;
-
-    if (Platform.OS === "ios") {
-      const defaultCalendar = await Calendar.getDefaultCalendarAsync().catch(() => null);
-      const sources = await Calendar.getSourcesAsync().catch(() => []);
-      const source =
-        defaultCalendar?.source ??
-        sources.find((item) => item.type === Calendar.SourceType.LOCAL) ??
-        sources[0];
-
-      return Calendar.createCalendarAsync({
-        title: "PPCCC",
-        color: "#b77a31",
-        entityType: Calendar.EntityTypes.EVENT,
-        sourceId: source?.id,
-        source: source ?? { type: Calendar.SourceType.LOCAL, name: "PPCCC" },
-        name: "PPCCC",
-      });
-    }
-
-    const source =
-      calendars.find((calendar) => calendar.source)?.source ??
-      ({ isLocalAccount: true, name: "PPCCC", type: Calendar.SourceType.LOCAL } as Awaited<ReturnType<typeof Calendar.getCalendarsAsync>>[number]["source"]);
-
-    return Calendar.createCalendarAsync({
-      title: "PPCCC",
-      color: "#b77a31",
-      entityType: Calendar.EntityTypes.EVENT,
-      source,
-      name: "PPCCC",
-      ownerAccount: "PPCCC",
-      accessLevel: Calendar.CalendarAccessLevel.OWNER,
-    });
-  }
-
-  async function writableCalendarId() {
-    if (Platform.OS === "ios") {
-      const defaultCalendar = await Calendar.getDefaultCalendarAsync();
-      if (defaultCalendar?.allowsModifications) return defaultCalendar.id;
-    }
-
-    const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
-    const writable = calendars.find((calendar) => calendar.allowsModifications);
-    if (writable) return writable.id;
-
-    return createAppCalendarId(calendars);
-  }
-
   async function addCalendarEvent(event?: CalendarEventPayload) {
     if (!event) return;
 
-    const permission = await Calendar.requestCalendarPermissionsAsync();
-    if (permission.status !== "granted") {
-      Alert.alert("Calendar Permission", "Allow calendar access to add church events to this device.");
-      return;
-    }
-
     try {
-      const calendarId = await writableCalendarId();
       const { startDate, endDate, allDay } = calendarDates(event);
-      await Calendar.createEventAsync(calendarId, {
+      const result = await Calendar.createEventInCalendarAsync({
         title: event.title || "Palo Pinto Cowboy Church Event",
         startDate,
         endDate,
@@ -211,9 +154,11 @@ export default function App() {
         timeZone: "America/Chicago",
         endTimeZone: "America/Chicago",
       });
-      Alert.alert("Added to Calendar", `${event.title || "Event"} was added to this device.`);
+      if (result.action === Calendar.CalendarDialogResultActions.saved || result.action === Calendar.CalendarDialogResultActions.done) {
+        Alert.alert("Added to Calendar", `${event.title || "Event"} was added to this device.`);
+      }
     } catch {
-      Alert.alert("Calendar", "This device could not add the event to Calendar.");
+      Alert.alert("Calendar", "This device could not open the calendar event editor.");
     }
   }
 

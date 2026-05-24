@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Palo Pinto Cowboy Church",
+    "name": "Palo Pinto County Cowboy Church",
     "slug": "ppccc",
     "scheme": "ppccc",
     "version": "0.1.0",
@@ -19,6 +19,7 @@
       "bundleIdentifier": "com.ppccc.app",
       "supportsTablet": true,
       "infoPlist": {
+        "CFBundleDisplayName": "PPCCC",
         "ITSAppUsesNonExemptEncryption": false,
         "NSFaceIDUsageDescription": "Use Face ID to protect staff and Kids Korral actions.",
         "NSCalendarsUsageDescription": "Allow Palo Pinto Cowboy Church to add church events to your calendar.",

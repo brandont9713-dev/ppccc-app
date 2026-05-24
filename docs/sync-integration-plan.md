@@ -7,8 +7,8 @@ Goal: keep the app and Palo Pinto County Cowboy Church website aligned, while ke
 Use one shared content source where possible:
 
 - Website pages and images: church CMS/API, scraper cache, or export endpoint.
-- Events: Teamup public calendar/API feed.
-- Livestream/media: website embed, YouTube/live provider API, or media feed.
+- Events: Teamup public calendar/API feed. Public read-only JSON and iCalendar are connected.
+- Livestream/media: FaithConnector downloads RSS is connected for sermon/media listings; YouTube/live provider access is still needed for complete embedded playback and live status.
 - Forms: app backend receives native submissions, then forwards to the church workflow.
 - Kids Korral: app database only, because this feature does not exist on the website.
 - Accounts/roles: app auth database only.
@@ -21,7 +21,8 @@ To make live sync real instead of mocked, collect these from the church admin ac
 - Website CMS access, API access, or an approved read-only export/scraper path.
 - Teamup public calendar key is currently mapped as `kse1p8ynvg2fvo2ez6`.
 - Read-only iCalendar feed currently responds at `https://ics.teamup.com/feed/kse1p8ynvg2fvo2ez6/0.ics`.
-- Teamup JSON event endpoint currently responds at `https://teamup.com/kse1p8ynvg2fvo2ez6/events?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD`.
+- Teamup JSON event endpoint currently responds at `https://teamup.com/kse1p8ynvg2fvo2ez6/events?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD&tz=America%2FChicago`.
+- FaithConnector media RSS currently responds at `https://www.palopintocowboychurch.com/rss_feed.cfm?content=download`.
 - A private Teamup API key is still needed only if richer write/edit/admin behavior is required.
 - Livestream provider details, such as YouTube channel/live embed source.
 - Giving provider URL only; giving should remain outside app account auth.
@@ -29,7 +30,8 @@ To make live sync real instead of mocked, collect these from the church admin ac
 
 ## Real-Time Strategy
 
-- Events can update automatically from Teamup. The current launch path uses a same-origin `/api/app/events` proxy to read the public Teamup events endpoint, plus `public/events.generated.json` as a static fallback. The stronger version uses Teamup API/webhooks where available.
+- Events can update automatically from Teamup. The current launch path uses a same-origin `/api/app/events` proxy to read the public Teamup events endpoint, plus `public/events.generated.json` and the iCalendar feed as fallbacks. The stronger version uses Teamup API/webhooks where available.
+- Sermon/media listings can update automatically from FaithConnector RSS. The current launch path uses a same-origin `/api/app/media` proxy, plus `public/media.generated.json` as a static fallback. RSS entries that do not expose a playable video URL still need YouTube/media IDs mapped before they can embed video in-app.
 - Website page content can update automatically from CMS webhooks if the CMS supports them. If it does not, the backend should poll the known website pages on a schedule, detect changed text/images, and publish the latest normalized app content.
 - The app should fetch cached JSON from the backend on launch, on pull-to-refresh, and at a short background interval where the OS allows it.
 - Push notifications should not be sent for every website change. Use push for live-now alerts, Kids Korral, urgent announcements, and selected event reminders.

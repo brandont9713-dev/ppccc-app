@@ -5,6 +5,7 @@ import { extname, join, normalize } from "node:path";
 const port = Number(process.env.PORT || 4173);
 const root = join(process.cwd(), "public");
 const teamupKey = "kse1p8ynvg2fvo2ez6";
+const mediaRssUrl = "https://www.palopintocowboychurch.com/rss_feed.cfm?content=download";
 const teamupCalendars = {
   9152325: "Arena Event",
   9242824: "Celebrate Recovery",
@@ -44,6 +45,42 @@ function normalizeTeamupEvent(event) {
   };
 }
 
+function xmlValue(block, tag) {
+  const match = block.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i"));
+  return match ? decodeXml(match[1].replace(/^<!\[CDATA\[|\]\]>$/g, "").trim()) : "";
+}
+
+function decodeXml(value) {
+  return String(value || "")
+    .replace(/&amp;/g, "&")
+    .replace(/&apos;/g, "'")
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
+function formatMediaDate(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value || "Website archive";
+  return date.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" });
+}
+
+function parseMediaRss(text) {
+  return text.split(/<item>/i).slice(1).map((block, index) => {
+    const title = xmlValue(block, "title");
+    return {
+      id: xmlValue(block, "guid") || `rss-media-${index}`,
+      title,
+      date: formatMediaDate(xmlValue(block, "pubDate")),
+      category: xmlValue(block, "category") || "Messages",
+      description: xmlValue(block, "description"),
+      sourceUrl: xmlValue(block, "link"),
+      source: "faithconnector-rss",
+    };
+  }).filter((item) => item.title);
+}
+
 const types = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -61,7 +98,7 @@ createServer(async (req, res) => {
     if (requested === "/api/app/events") {
       const startDate = url.searchParams.get("startDate") || dateOffset(-7);
       const endDate = url.searchParams.get("endDate") || dateOffset(120);
-      const teamupUrl = `https://teamup.com/${teamupKey}/events?startDate=${startDate}&endDate=${endDate}`;
+      const teamupUrl = `https://teamup.com/${teamupKey}/events?startDate=${startDate}&endDate=${endDate}&tz=America%2FChicago`;
       const response = await fetch(teamupUrl, {
         headers: { "Accept": "application/json", "User-Agent": "PPCCC-App-Prototype/1.0" },
       });
@@ -81,6 +118,25 @@ createServer(async (req, res) => {
         calendarFeedUrl: `https://ics.teamup.com/feed/${teamupKey}/0.ics`,
         lastSyncedAt: new Date().toISOString(),
         events,
+      }));
+      return;
+    }
+
+    if (requested === "/api/app/media") {
+      const response = await fetch(mediaRssUrl, {
+        headers: { "Accept": "application/rss+xml,application/xml,text/xml,*/*", "User-Agent": "PPCCC-App-Prototype/1.0" },
+      });
+      if (!response.ok) throw new Error(`FaithConnector RSS responded ${response.status}`);
+      const items = parseMediaRss(await response.text());
+      res.writeHead(200, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "public, max-age=600",
+      });
+      res.end(JSON.stringify({
+        source: "faithconnector-rss",
+        feedUrl: mediaRssUrl,
+        lastSyncedAt: new Date().toISOString(),
+        items,
       }));
       return;
     }

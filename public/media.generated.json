@@ -1,0 +1,2581 @@
+{
+  "source": "faithconnector-rss",
+  "feedUrl": "https://www.palopintocowboychurch.com/rss_feed.cfm?content=download",
+  "lastSyncedAt": "2026-05-24T00:03:40.038Z",
+  "items": [
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=385",
+      "title": "The Way Home",
+      "date": "05/10/2026",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=385",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=384",
+      "title": "The Believer's Battle",
+      "date": "04/12/2026",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=384",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=383",
+      "title": "Narrow is the Way",
+      "date": "04/05/2026",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=383",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=382",
+      "title": "Crowd or Follower",
+      "date": "03/29/2026",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=382",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=381",
+      "title": "Green with Envy",
+      "date": "03/22/2026",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=381",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=380",
+      "title": "Thank God for the Cross",
+      "date": "03/15/2026",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=380",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=379",
+      "title": "A Snapshot of America",
+      "date": "03/08/2026",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=379",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=378",
+      "title": "A Necessary Ally",
+      "date": "03/03/2026",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=378",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=377",
+      "title": "Fight for your Family",
+      "date": "02/22/2026",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=377",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=376",
+      "title": "Boaz not a Bozo",
+      "date": "02/15/2026",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=376",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=375",
+      "title": "Think A Whole New Way",
+      "date": "02/08/2026",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=375",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=374",
+      "title": "Hypofineriac Sermon 2/1/26",
+      "date": "02/01/2026",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=374",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=373",
+      "title": "4 lies in Marriage",
+      "date": "02/02/2025",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=373",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=372",
+      "title": "welcome to",
+      "date": "04/23/2024",
+      "category": "website",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=372",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=371",
+      "title": "THE UNFOLDING OF REVELATION",
+      "date": "04/14/2024",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=371",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=365",
+      "title": "HOPE HEALING FREEDOM",
+      "date": "12/29/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=365",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=369",
+      "title": "WHAT'S AMAZING ABOUT CHRISTMAS",
+      "date": "12/25/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=369",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=370",
+      "title": "WISE MEN STILL WORSHIP HIM",
+      "date": "12/18/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=370",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=367",
+      "title": "IN THE LAND OF MISFITS",
+      "date": "12/04/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=367",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=368",
+      "title": "FOR HEAVEN'S SAKE",
+      "date": "11/27/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=368",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=366",
+      "title": "BELIEVER",
+      "date": "11/20/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=366",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=364",
+      "title": "HOLY SPIRIT?",
+      "date": "11/13/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=364",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=363",
+      "title": "GOOD ENOUGH",
+      "date": "10/02/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=363",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=362",
+      "title": "WHAT'S IN A BUCKET?",
+      "date": "09/25/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=362",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=361",
+      "title": "STRESSED OUT",
+      "date": "09/18/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=361",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=360",
+      "title": "PERFECTIONISM",
+      "date": "09/11/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=360",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=359",
+      "title": "DRINKING FROM MY SAUCER",
+      "date": "09/04/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=359",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=358",
+      "title": "THE POWER OF THE TABLE",
+      "date": "08/28/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=358",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=357",
+      "title": "RESTART YOUR RELATIONSHIP",
+      "date": "08/21/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=357",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=356",
+      "title": "GET YOUR KEYS",
+      "date": "08/14/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=356",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=355",
+      "title": "THE DEAD CHURCH",
+      "date": "08/07/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=355",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=354",
+      "title": "RESIST THE ENEMY",
+      "date": "07/31/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=354",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=353",
+      "title": "NO COMPROMISE",
+      "date": "07/24/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=353",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=352",
+      "title": "OUR CHURCH SADDLE",
+      "date": "07/17/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=352",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=351",
+      "title": "GREAT IS THY FAITHFULNESS",
+      "date": "07/10/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=351",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=350",
+      "title": "ONE NATION UNDER GOD",
+      "date": "07/03/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=350",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=349",
+      "title": "IDENTITY",
+      "date": "06/19/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=349",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=348",
+      "title": "BACK TO YOUR FIRST LOVE",
+      "date": "06/12/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=348",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=347",
+      "title": "JUDGEMENT IN THE HOUSE",
+      "date": "06/05/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=347",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=345",
+      "title": "LIFE GIVING FARMERS",
+      "date": "05/29/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=345",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=346",
+      "title": "AUTHENTIC WITNESS",
+      "date": "05/22/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=346",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=344",
+      "title": "Engaging Influencers",
+      "date": "05/15/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=344",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=336",
+      "title": "Session 17 Psalms",
+      "date": "05/11/2022",
+      "category": "Bible Study",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=336",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=343",
+      "title": "REAL FISHERMAN",
+      "date": "05/08/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=343",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=335",
+      "title": "Session 16 Speaking in Tongues",
+      "date": "05/04/2022",
+      "category": "Bible Study",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=335",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=342",
+      "title": "SATISFACTION GUARANTEED",
+      "date": "05/01/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=342",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=334",
+      "title": "Psalm Session 15",
+      "date": "04/27/2022",
+      "category": "Bible Study",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=334",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=341",
+      "title": "THE GREAT BUY BACK",
+      "date": "04/24/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=341",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=340",
+      "title": "GREAT JOY AND GREAT SORROW",
+      "date": "04/17/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=340",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=339",
+      "title": "DIVINE HEALTH",
+      "date": "04/10/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=339",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=333",
+      "title": "Psalm Session 14",
+      "date": "04/06/2022",
+      "category": "Bible Study",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=333",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=338",
+      "title": "FORGIVENESS",
+      "date": "04/03/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=338",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=328",
+      "title": "Psalm Session 13",
+      "date": "03/29/2022",
+      "category": "Bible Study",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=328",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=337",
+      "title": "10 DEADLY SINS",
+      "date": "03/27/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=337",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=325",
+      "title": "Psalm Session 12",
+      "date": "03/22/2022",
+      "category": "Bible Study",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=325",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=332",
+      "title": "WHO'S YOUR DADDY?",
+      "date": "03/20/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=332",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=324",
+      "title": "Psalm Session 11",
+      "date": "03/15/2022",
+      "category": "Bible Study",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=324",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=331",
+      "title": "LORD, ITS HARD TO BE HUMBLE",
+      "date": "03/13/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=331",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=323",
+      "title": "Psalm Session 10",
+      "date": "03/08/2022",
+      "category": "Bible Study",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=323",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=330",
+      "title": "BLESSED CHILDREN",
+      "date": "03/06/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=330",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=329",
+      "title": "FROM BROKEN TO BLESSED",
+      "date": "02/27/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=329",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=322",
+      "title": "Psalm Session 9",
+      "date": "02/22/2022",
+      "category": "Bible Study",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=322",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=327",
+      "title": "A BLESSED MARRIAGE",
+      "date": "02/20/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=327",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=326",
+      "title": "BROKEN PART 2",
+      "date": "02/13/2022",
+      "category": "Messages",
+      "description": "",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=326",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=317",
+      "title": "Psalm Session 8",
+      "date": "02/09/2022",
+      "category": "Bible Study",
+      "description": "<div>Psalm Session 8</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=317",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=321",
+      "title": "Broken",
+      "date": "02/06/2022",
+      "category": "Messages",
+      "description": "<div>Broken</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=321",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=320",
+      "title": "I'll Arrange It",
+      "date": "01/30/2022",
+      "category": "Messages",
+      "description": "<div>I'll Arrange It</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=320",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=319",
+      "title": "Enjoy The Ride",
+      "date": "01/23/2022",
+      "category": "Messages",
+      "description": "<div>Enjoy The Ride</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=319",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=318",
+      "title": "Characteristics of a True Church",
+      "date": "01/16/2022",
+      "category": "Messages",
+      "description": "<div>Characteristics of a True Church</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=318",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=316",
+      "title": "Psalm Session 6",
+      "date": "01/12/2022",
+      "category": "Bible Study",
+      "description": "<div>Psalm Session 6</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=316",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=315",
+      "title": "UPON THIS ROCK",
+      "date": "01/09/2022",
+      "category": "Messages",
+      "description": "<div>UPON THIS ROCK</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=315",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=314",
+      "title": "WHOSE SITTING AT YOUR TABLE?",
+      "date": "01/02/2022",
+      "category": "Messages",
+      "description": "<div>WHOSE SITTING AT YOUR TABLE?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=314",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=313",
+      "title": "HIS PLAN",
+      "date": "12/26/2021",
+      "category": "Messages",
+      "description": "<div>HIS PLAN</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=313",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=306",
+      "title": "HIS CHRISTMAS",
+      "date": "12/19/2021",
+      "category": "Messages",
+      "description": "<div>HIS CHRISTMAS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=306",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=305",
+      "title": "HIS PRESENCE",
+      "date": "12/05/2021",
+      "category": "Messages",
+      "description": "<div>HIS PRESENCE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=305",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=304",
+      "title": "BETTER ROOTS",
+      "date": "11/28/2021",
+      "category": "Messages",
+      "description": "<div>BETTER ROOTS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=304",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=303",
+      "title": "GIVE THANKS",
+      "date": "11/21/2021",
+      "category": "Messages",
+      "description": "<div>GIVE THANKS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=303",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=302",
+      "title": "ROOTS OR FRUITS",
+      "date": "11/07/2021",
+      "category": "Messages",
+      "description": "<div>ROOTS OR FRUITS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=302",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=301",
+      "title": "THAT'S ALL FOLKS",
+      "date": "10/31/2021",
+      "category": "Messages",
+      "description": "<div>THAT'S ALL FOLKS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=301",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=300",
+      "title": "THE JUDGEMENT SEAT",
+      "date": "10/24/2021",
+      "category": "Messages",
+      "description": "<div>THE JUDGEMENT SEAT</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=300",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=299",
+      "title": "THE FORK IN THE TRAIL OF LIFE",
+      "date": "10/17/2021",
+      "category": "Messages",
+      "description": "<div>THE FORK IN THE TRIAL OF LIFE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=299",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=298",
+      "title": "So What, Now What?",
+      "date": "10/10/2021",
+      "category": "Messages",
+      "description": "<div>So What, Now What?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=298",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=295",
+      "title": "ITS BIGGER THAN THAT",
+      "date": "09/26/2021",
+      "category": "Messages",
+      "description": "<div>ITS BIGGER THAN THAT</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=295",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=294",
+      "title": "WHY DO WE DO WHAT WE DO",
+      "date": "09/19/2021",
+      "category": "Messages",
+      "description": "<div>WHY DO WE DO WHAT WE DO</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=294",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=293",
+      "title": "HAPPY DANCE",
+      "date": "09/12/2021",
+      "category": "Messages",
+      "description": "<div>HAPPY DANCE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=293",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=292",
+      "title": "WHAT WILL THEY SAY",
+      "date": "09/05/2021",
+      "category": "Messages",
+      "description": "<div>WHAT WILL THEY SAY</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=292",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=291",
+      "title": "THE PURPOSE TEST",
+      "date": "08/29/2021",
+      "category": "Messages",
+      "description": "<div>THE PURPOSE TEST</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=291",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=290",
+      "title": "THE PARDON TEST",
+      "date": "08/22/2021",
+      "category": "Messages",
+      "description": "<div>THE PARDON TEST</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=290",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=289",
+      "title": "THE PROSPERITY TEST",
+      "date": "08/15/2021",
+      "category": "Messages",
+      "description": "<div>THE PROSPERITY TEST</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=289",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=288",
+      "title": "THE POWER TEST",
+      "date": "08/08/2021",
+      "category": "Messages",
+      "description": "<div>THE POWER TEST</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=288",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=287",
+      "title": "THE PURITY TEST",
+      "date": "08/01/2021",
+      "category": "Messages",
+      "description": "<div>THE PURITY TEST</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=287",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=286",
+      "title": "THE PRISON TEST",
+      "date": "07/25/2021",
+      "category": "Messages",
+      "description": "<div>THE PRISON TEST</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=286",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=285",
+      "title": "THE PALACE PLACE",
+      "date": "07/18/2021",
+      "category": "Messages",
+      "description": "<div>THE PALACE PLACE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=285",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=284",
+      "title": "HOW FAST IS A TWINKLING EYE?",
+      "date": "07/11/2021",
+      "category": "Messages",
+      "description": "<div>HOW FAST IS A TWINKLING EYE?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=284",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=283",
+      "title": "AMERICA",
+      "date": "07/04/2021",
+      "category": "Messages",
+      "description": "<div>AMERICA</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=283",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=281",
+      "title": "THE PIT TEST",
+      "date": "06/27/2021",
+      "category": "Messages",
+      "description": "<div>THE PIT TEST</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=281",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=280",
+      "title": "EMOTION OR DEVOTION",
+      "date": "06/20/2021",
+      "category": "Messages",
+      "description": "<div>EMOTION OR DEVOTION</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=280",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=279",
+      "title": "RIVAL OR REVIVAL",
+      "date": "06/13/2021",
+      "category": "Messages",
+      "description": "<div>RIVAL OR REVIVAL</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=279",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=278",
+      "title": "THE PRIDE TEST",
+      "date": "06/06/2021",
+      "category": "Messages",
+      "description": "<div>THE PRIDE TEST</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=278",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=277",
+      "title": "THE WAY HOME",
+      "date": "05/30/2021",
+      "category": "Messages",
+      "description": "<div>THE WAY HOME</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=277",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=276",
+      "title": "EVERYDAY BATTLE",
+      "date": "05/23/2021",
+      "category": "Messages",
+      "description": "<div>EVERYDAY BATTLE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=276",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=275",
+      "title": "A FATHER'S BATTLE",
+      "date": "05/16/2021",
+      "category": "Messages",
+      "description": "<div>A FATHER'S BATTLE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=275",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=273",
+      "title": "THE BROTHERS BATTLE",
+      "date": "05/09/2021",
+      "category": "Messages",
+      "description": "<div>THE BROTHERS BATTLE&nbsp;</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=273",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=272",
+      "title": "THE TRUMP CARD",
+      "date": "05/02/2021",
+      "category": "Messages",
+      "description": "<div>THE TRUMP CARD</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=272",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=271",
+      "title": "JESUS IS THE ONLY WAY",
+      "date": "04/25/2021",
+      "category": "Messages",
+      "description": "<div>JESUS IS THE ONLY WAY</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=271",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=270",
+      "title": "HOW DO I KNOW?",
+      "date": "04/18/2021",
+      "category": "Messages",
+      "description": "<div>HOW DO I KNOW?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=270",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=269",
+      "title": "HOW DO I KNOW THERE IS A GOD?",
+      "date": "04/11/2021",
+      "category": "Messages",
+      "description": "<div>HOW DO I KNOW THERE IS A GOD?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=269",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=268",
+      "title": "GO...NO GO",
+      "date": "04/04/2021",
+      "category": "Messages",
+      "description": "<div>GO...NO GO</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=268",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=266",
+      "title": "A LOT CAN HAPPEN IN 3 DAYS",
+      "date": "03/28/2021",
+      "category": "Messages",
+      "description": "<div>A LOT CAN HAPPEN IN 3 DAYS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=266",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=267",
+      "title": "GET YOURSELF TO CHURCH",
+      "date": "03/28/2021",
+      "category": "Messages",
+      "description": "<div>GET YOURSELF TO CHURCH</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=267",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=265",
+      "title": "STAY ROOTED IN THE WORD",
+      "date": "03/14/2021",
+      "category": "Messages",
+      "description": "<div>STAY ROOTED IN THE WORD</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=265",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=261",
+      "title": "LIES, DONT BUY INTO THEM",
+      "date": "03/07/2021",
+      "category": "Messages",
+      "description": "<div>LIES, DONT BUY INTO THEM</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=261",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=258",
+      "title": "THE ROOT OF REJECTION",
+      "date": "02/28/2021",
+      "category": "Messages",
+      "description": "<div>THE ROOT OF REJECTION</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=258",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=254",
+      "title": "RAISING YOUR MARRIAGE FROM THE DEAD",
+      "date": "02/07/2021",
+      "category": "Messages",
+      "description": "<div>RAISING YOUR MARRIAGE FROM THE DEAD</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=254",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=252",
+      "title": "GAME CHANGER",
+      "date": "01/31/2021",
+      "category": "Messages",
+      "description": "<div>GAME CHANGER</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=252",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=250",
+      "title": "WHY AM I HERE?",
+      "date": "01/24/2021",
+      "category": "Messages",
+      "description": "<div>WHY AM I HERE?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=250",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=247",
+      "title": "WHATS IN A NAME",
+      "date": "01/17/2021",
+      "category": "Messages",
+      "description": "<div>WHATS IN A NAME</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=247",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=245",
+      "title": "MY COMMITTED CALLING",
+      "date": "01/10/2021",
+      "category": "Messages",
+      "description": "<div>MY COMMITTED CALLING</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=245",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=241",
+      "title": "WHY AM I HERE?",
+      "date": "01/03/2021",
+      "category": "Messages",
+      "description": "<div>WHY AM I HERE?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=241",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=238",
+      "title": "WHAT TEST?",
+      "date": "12/27/2020",
+      "category": "Messages",
+      "description": "<div>WHAT TEST?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=238",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=239",
+      "title": "2020 CANDLELIGHT SERVICE",
+      "date": "12/24/2020",
+      "category": "Messages",
+      "description": "<div>2020 CANDLELIGHT SERVICE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=239",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=237",
+      "title": "GOOD NEWS",
+      "date": "12/20/2020",
+      "category": "Messages",
+      "description": "<div>Good News</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=237",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=234",
+      "title": "THE MOST AMAZING THING ABOUT CHRISTMAS",
+      "date": "12/13/2020",
+      "category": "Messages",
+      "description": "<div>THE MOST AMAZING THING ABOUT CHRISTMAS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=234",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=232",
+      "title": "THE 7 WORDS OF CHRISTMAS",
+      "date": "12/06/2020",
+      "category": "Messages",
+      "description": "<div>THE 7 WORDS OF CHRISTMAS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=232",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=231",
+      "title": "STREETS",
+      "date": "11/29/2020",
+      "category": "Messages",
+      "description": "<div>STREETS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=231",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=230",
+      "title": "STREAM",
+      "date": "11/22/2020",
+      "category": "Messages",
+      "description": "<div>STREAM</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=230",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=226",
+      "title": "FEAR",
+      "date": "11/15/2020",
+      "category": "Messages",
+      "description": "<div>FEAR</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=226",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=222",
+      "title": "STRENGTH IN THE WILDERNESS",
+      "date": "11/08/2020",
+      "category": "Messages",
+      "description": "<div>STRENGTH IN THE WILDERNESS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=222",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=218",
+      "title": "THE PRINCIPLE OF CONTENTMENT",
+      "date": "11/01/2020",
+      "category": "Messages",
+      "description": "<div>THE PRINCIPLE OF CONTENTMENT</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=218",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=217",
+      "title": "All Music Sunday",
+      "date": "10/25/2020",
+      "category": "Messages",
+      "description": "<div>All Music Sunday</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=217",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=216",
+      "title": "THE PRINCIPLE OF HONESTY",
+      "date": "10/18/2020",
+      "category": "Messages",
+      "description": "<div>THE PRINCIPLE OF HONESTY</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=216",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=213",
+      "title": "THE PRINCIPLE OF TRUST",
+      "date": "10/11/2020",
+      "category": "Messages",
+      "description": "<div>THE PRINCIPLE OF TRUST</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=213",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=215",
+      "title": "LET THE WORD BE THE WORD",
+      "date": "10/04/2020",
+      "category": "Messages",
+      "description": "<div>LET THE WORD BE THE WORD</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=215",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=209",
+      "title": "THE VALUE OF LIFE",
+      "date": "09/27/2020",
+      "category": "Messages",
+      "description": "<div>THE VALUE OF LIFE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=209",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=207",
+      "title": "THE PRINCIPLE OF INTIMACY",
+      "date": "09/20/2020",
+      "category": "Messages",
+      "description": "<div>THE PRINCIPLE OF INTIMACY</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=207",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=198",
+      "title": "THE PRINCIPLE OF HONOR",
+      "date": "08/30/2020",
+      "category": "Messages",
+      "description": "<div>THE PRINCIPLE OF HONOR</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=198",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=199",
+      "title": "THE PRINCIPLE OF REST",
+      "date": "08/23/2020",
+      "category": "Messages",
+      "description": "<div>THE PRINCIPLE OF REST</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=199",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=193",
+      "title": "THE PRINCIPLES OF HUMILITY",
+      "date": "08/16/2020",
+      "category": "Messages",
+      "description": "<div>THE PRINCIPLES OF HUMILITY</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=193",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=190",
+      "title": "THE PRINCIPLES OF PURITY",
+      "date": "08/09/2020",
+      "category": "Messages",
+      "description": "<div>THE PRINCIPLES OF PURITY</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=190",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=188",
+      "title": "GET YOUR DUCKS IN A ROW",
+      "date": "08/02/2020",
+      "category": "Messages",
+      "description": "<div>GET YOUR DUCKS IN A ROW</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=188",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=186",
+      "title": "REVELATION SESSION 49",
+      "date": "07/29/2020",
+      "category": "Bible Study",
+      "description": "<div>REVELATION SESSION 49</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=186",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=185",
+      "title": "FACE TO FACE",
+      "date": "07/26/2020",
+      "category": "Messages",
+      "description": "<div>FACE TO FACE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=185",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=181",
+      "title": "A HOUSE DIVIDED",
+      "date": "07/19/2020",
+      "category": "Messages",
+      "description": "<div>A HOUSE DIVIDED</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=181",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=179",
+      "title": "WHAT THE WORLD NEEDS NOW IS LOVE",
+      "date": "07/12/2020",
+      "category": "Messages",
+      "description": "<div>What the World Needs Now is Love</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=179",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=174",
+      "title": "WOUNDED WARRIORS",
+      "date": "06/28/2020",
+      "category": "Messages",
+      "description": "<div>WOUNDED WARRIORS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=174",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=171",
+      "title": "FIGHTING FOR YOUR LIFE",
+      "date": "06/21/2020",
+      "category": "Bible Study",
+      "description": "<div>FIGHTING FOR YOUR LIFE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=171",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=167",
+      "title": "UNDER THE INFLUENCE",
+      "date": "06/07/2020",
+      "category": "Messages",
+      "description": "<div>UNDER THE INFLUENCE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=167",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=165",
+      "title": "LIGHT",
+      "date": "05/31/2020",
+      "category": "Messages",
+      "description": "<div>LIGHT</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=165",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=161",
+      "title": "SIGHT",
+      "date": "05/24/2020",
+      "category": "Messages",
+      "description": "<div>SIGHT</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=161",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=154",
+      "title": "WATER",
+      "date": "05/10/2020",
+      "category": "Messages",
+      "description": "<div>WATER</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=154",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=153",
+      "title": "THE BIBLE- MORE THAN WORDS",
+      "date": "05/03/2020",
+      "category": "Messages",
+      "description": "<div>THE BIBLE-MORE THAN WORDS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=153",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=152",
+      "title": "VINTAGE",
+      "date": "04/26/2020",
+      "category": "Messages",
+      "description": "<div>VINTAGE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=152",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=142",
+      "title": "WHEN TOO MUCH IS NOT ENOUGH",
+      "date": "04/19/2020",
+      "category": "Messages",
+      "description": "<div>WHEN TOO MUCH IS NOT ENOUGH</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=142",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=140",
+      "title": "SCARS TELL A STORY",
+      "date": "04/12/2020",
+      "category": "Messages",
+      "description": "<div>SCARS TELL A STORY</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=140",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=138",
+      "title": "FAITH",
+      "date": "04/05/2020",
+      "category": "Messages",
+      "description": "<div>FAITH</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=138",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=136",
+      "title": "BE STILL",
+      "date": "03/29/2020",
+      "category": "Messages",
+      "description": "<div>BE STILL</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=136",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=134",
+      "title": "EASY QUESTIONS ABOUT HEAVEN",
+      "date": "03/22/2020",
+      "category": "Messages",
+      "description": "<div>EASY QUESTIONS ABOUT HEAVEN</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=134",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=133",
+      "title": "A REALLY TOUGH QUESTION",
+      "date": "03/08/2020",
+      "category": "Messages",
+      "description": "<div>A REALLY TOUGH QUESTION</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=133",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=132",
+      "title": "YOU WERE ALWAYS ON MY MIND",
+      "date": "03/01/2020",
+      "category": "Messages",
+      "description": "<div>YOU WERE ALWAYS ON MY MIND</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=132",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=131",
+      "title": "BLESSED FAMILIES",
+      "date": "02/23/2020",
+      "category": "Messages",
+      "description": "<div>Blessed Families</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=131",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=130",
+      "title": "THE BROKEN FAMILY",
+      "date": "02/16/2020",
+      "category": "Messages",
+      "description": "<div>THE BROKEN FAMILY</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=130",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=129",
+      "title": "CRAZY",
+      "date": "02/09/2020",
+      "category": "Messages",
+      "description": "<div>CRAZY</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=129",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=128",
+      "title": "A BLESSED MARRIAGE",
+      "date": "02/02/2020",
+      "category": "Messages",
+      "description": "<div>A Blessed Marriage</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=128",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=127",
+      "title": "GODS GREATEST DESIRES ARE?",
+      "date": "01/26/2020",
+      "category": "Messages",
+      "description": "<div>God's Greatest Desires are?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=127",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=126",
+      "title": "SATAN'S GREATEST DESIRES",
+      "date": "01/19/2020",
+      "category": "Messages",
+      "description": "<div>Satans greatest desires</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=126",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=125",
+      "title": "WHAT IS CHURCH?",
+      "date": "01/12/2020",
+      "category": "Messages",
+      "description": "<div>WHAT IS CHURCH?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=125",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=124",
+      "title": "The 3 C's",
+      "date": "01/05/2020",
+      "category": "Messages",
+      "description": "<div>The 3 C's</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=124",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=123",
+      "title": "WHAT HAPPENED TO THE GIFT",
+      "date": "12/29/2019",
+      "category": "Messages",
+      "description": "<div>What Happened to the Gift?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=123",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=122",
+      "title": "2019 CANDLELIGHT SERVICE",
+      "date": "12/24/2019",
+      "category": "Messages",
+      "description": "<div>2019 Candlelight Service</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=122",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=121",
+      "title": "IN THE LAND OF MISFITS",
+      "date": "12/22/2019",
+      "category": "Messages",
+      "description": "<div>In the Land of Misfits</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=121",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=120",
+      "title": "COME HOME FOR CHRISTMAS CONCERT",
+      "date": "12/15/2019",
+      "category": "Messages",
+      "description": "<div>COME HOME FOR CHRISTMAS CONCERT</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=120",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=119",
+      "title": "WHATS SO AMAZING ABOUT CHRISTMAS",
+      "date": "12/08/2019",
+      "category": "Messages",
+      "description": "<div>WHATS SO AMAZING ABOUT CHRISTMAS?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=119",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=118",
+      "title": "A GIVING SPIRIT",
+      "date": "12/01/2019",
+      "category": "Messages",
+      "description": "<div>A GIVING SPIRIT</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=118",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=117",
+      "title": "ATTITUDE OF GRATITUDE",
+      "date": "11/24/2019",
+      "category": "Messages",
+      "description": "<div>ATTITUDE OF GRATITUDE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=117",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=116",
+      "title": "BE STILL",
+      "date": "11/03/2019",
+      "category": "Messages",
+      "description": "<div>BE STILL</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=116",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=115",
+      "title": "ANGER",
+      "date": "10/27/2019",
+      "category": "Messages",
+      "description": "<div>ANGER</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=115",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=114",
+      "title": "MONITORING THE TICKER",
+      "date": "10/13/2019",
+      "category": "Messages",
+      "description": "<div>MONITORING THE TICKER</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=114",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=113",
+      "title": "FREEDOM AND SACRIFICE",
+      "date": "10/06/2019",
+      "category": "Messages",
+      "description": "<div>FREEDOM AND SACRIFICE&nbsp; &nbsp; &nbsp; &nbsp;Dr. Gene Howard</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=113",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=112",
+      "title": "AMAZING SALVATION",
+      "date": "09/29/2019",
+      "category": "Messages",
+      "description": "<div>AMAZING SALVATION</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=112",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=111",
+      "title": "THE GRACE ACCOUNT",
+      "date": "09/22/2019",
+      "category": "Messages",
+      "description": "<div>THE GRACE ACCOUNT</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=111",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=109",
+      "title": "MARRIED TO GRACE",
+      "date": "09/08/2019",
+      "category": "Messages",
+      "description": "<div>MARRIED TO GRACE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=109",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=108",
+      "title": "GRACE COVERS A MULTITUDE",
+      "date": "09/01/2019",
+      "category": "Messages",
+      "description": "<div>GRACE COVERS A MULTITUDE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=108",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=107",
+      "title": "BITTER ROOTS",
+      "date": "08/25/2019",
+      "category": "Messages",
+      "description": "<div>BITTER ROOTS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=107",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=106",
+      "title": "GOD BLESS THE BROKEN ROAD",
+      "date": "08/18/2019",
+      "category": "Messages",
+      "description": "<div>GOD BLESS THE BROKEN ROAD</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=106",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=105",
+      "title": "PARDON MY CHAOS",
+      "date": "08/11/2019",
+      "category": "Messages",
+      "description": "<div>PARDON MY CHAOS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=105",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=104",
+      "title": "BROKEN PIECES",
+      "date": "08/04/2019",
+      "category": "Messages",
+      "description": "<div>BROKEN PIECES</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=104",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=103",
+      "title": "BE THE VESSEL",
+      "date": "07/28/2019",
+      "category": "Messages",
+      "description": "<div>BE THE VESSEL</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=103",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=102",
+      "title": "FEAR",
+      "date": "07/21/2019",
+      "category": "Messages",
+      "description": "<div>FEAR</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=102",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=101",
+      "title": "POLITICALLY UNCORRECT",
+      "date": "07/14/2019",
+      "category": "Messages",
+      "description": "<div>POLITICALLY UNCORRECT</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=101",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=100",
+      "title": "YOU CAN RUN BUT YOU CANT HIDE",
+      "date": "07/07/2019",
+      "category": "Messages",
+      "description": "<div>YOU CAN RUN BUT YOU CANT HIDE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=100",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=99",
+      "title": "TRUE PATRIOTISM",
+      "date": "06/30/2019",
+      "category": "Messages",
+      "description": "<div>TRUE PATRIOTISM</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=99",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=98",
+      "title": "RAHAB REHAB",
+      "date": "06/09/2019",
+      "category": "Messages",
+      "description": "<div>RAHAB REHAB</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=98",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=97",
+      "title": "DON'T STOP",
+      "date": "06/02/2019",
+      "category": "Messages",
+      "description": "<div>DON'T STOP</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=97",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=96",
+      "title": "PREPARE FOR THE BATTLE",
+      "date": "05/26/2019",
+      "category": "Messages",
+      "description": "<div>PREPARE FOR THE BATTLE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=96",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=95",
+      "title": "BE CAREFUL WHO YOU PICK A FIGHT WITH",
+      "date": "05/19/2019",
+      "category": "Messages",
+      "description": "<div>Be careful who you pick a fight with</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=95",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=94",
+      "title": "GOING THROUGH THE CHANGES",
+      "date": "05/12/2019",
+      "category": "Messages",
+      "description": "<div>GOING THROUGH THE CHANGES</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=94",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=93",
+      "title": "THE B-I-B-L-E",
+      "date": "05/05/2019",
+      "category": "Messages",
+      "description": "<div>THE B-I-B-L-E</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=93",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=92",
+      "title": "I AM THE VINE",
+      "date": "04/28/2019",
+      "category": "Messages",
+      "description": "<div>I AM THE VINE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=92",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=91",
+      "title": "Last MAN Standing",
+      "date": "04/21/2019",
+      "category": "Messages",
+      "description": "<div>Last MAN Standing</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=91",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=90",
+      "title": "THE DOOR",
+      "date": "04/14/2019",
+      "category": "Messages",
+      "description": "<div>THE DOOR</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=90",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=89",
+      "title": "I AM Part 1",
+      "date": "04/07/2019",
+      "category": "Messages",
+      "description": "<div>I am Part 1</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=89",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=88",
+      "title": "RED LETTER PRAYERS",
+      "date": "03/31/2019",
+      "category": "Messages",
+      "description": "<div>Red Letter Prayers</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=88",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=87",
+      "title": "THE PROVISION OF PRAYER",
+      "date": "03/24/2019",
+      "category": "Messages",
+      "description": "<div>The Provision of Prayer</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=87",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=86",
+      "title": "THE POWER OF PRAYER",
+      "date": "03/17/2019",
+      "category": "Messages",
+      "description": "<div>The power of Prayer</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=86",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=84",
+      "title": "WEDDING CRASHERS",
+      "date": "02/24/2019",
+      "category": "Messages",
+      "description": "<div>WEDDING CRASHERS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=84",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=83",
+      "title": "THE SINGLE PERSON MYTH",
+      "date": "02/17/2019",
+      "category": "Messages",
+      "description": "<div>THE SINGLE PERSON MYTH</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=83",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=82",
+      "title": "WHAT DID YOU EXPECT",
+      "date": "02/10/2019",
+      "category": "Messages",
+      "description": "<div>WHAT DID YOU EXPECT?</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=82",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=81",
+      "title": "STAYING IN GREEN PASTURES",
+      "date": "02/03/2019",
+      "category": "Messages",
+      "description": "<div>Staying in Green Pastures</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=81",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=80",
+      "title": "THE ART OF THE DEAL",
+      "date": "01/27/2019",
+      "category": "Messages",
+      "description": "<div>The Art of the Deal</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=80",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=79",
+      "title": "BE RICH",
+      "date": "01/20/2019",
+      "category": "Messages",
+      "description": "<div>BE RICH</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=79",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=78",
+      "title": "STATE OF THE CHURCH ADDRESS",
+      "date": "01/13/2019",
+      "category": "Messages",
+      "description": "<div>State of the Church Address</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=78",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=77",
+      "title": "OBSTACLES OR OPPORTUNITIES",
+      "date": "01/06/2019",
+      "category": "Messages",
+      "description": "<div>Obstacles or Opportunites</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=77",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=76",
+      "title": "ALL MUSIC SUNDAY",
+      "date": "12/30/2018",
+      "category": "Messages",
+      "description": "<div>All Music Sunday</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=76",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=75",
+      "title": "2018 CANDLELIGHT SERVICE",
+      "date": "12/23/2018",
+      "category": "Messages",
+      "description": "<div>2018 Candlelight Service</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=75",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=74",
+      "title": "IN THE LAND OF MISFITS",
+      "date": "12/23/2018",
+      "category": "Messages",
+      "description": "<div>In the Land of Misfits</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=74",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=73",
+      "title": "PEOPLE HAVE SEEN A GREAT LIGHT",
+      "date": "12/16/2018",
+      "category": "Messages",
+      "description": "<div>People have seen a great light</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=73",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=72",
+      "title": "IT'S A BOY",
+      "date": "12/09/2018",
+      "category": "Messages",
+      "description": "<div>It's a boy</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=72",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=71",
+      "title": "UNTO US",
+      "date": "12/02/2018",
+      "category": "Messages",
+      "description": "<div>Unto Us</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=71",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=70",
+      "title": "IN EVERYTHING",
+      "date": "11/25/2018",
+      "category": "Messages",
+      "description": "<div>In Everything</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=70",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=69",
+      "title": "WILL I KNOW AND BE KNOWN",
+      "date": "11/18/2018",
+      "category": "Messages",
+      "description": "<div>Will I know and be known</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=69",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=68",
+      "title": "MOSQUITO JUSTICE",
+      "date": "11/11/2018",
+      "category": "Messages",
+      "description": "<div>Mosquito Justice</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=68",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=67",
+      "title": "IS YOUR SADDLE SAFE?",
+      "date": "11/04/2018",
+      "category": "Messages",
+      "description": "<div>Is your Saddle Safe? David Wills</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=67",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=66",
+      "title": "THE RHYTHM OF REVIVAL",
+      "date": "10/28/2018",
+      "category": "Messages",
+      "description": "<div>The Rhythm of Revival</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=66",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=65",
+      "title": "FOLLOW REVIVAL",
+      "date": "10/27/2018",
+      "category": "Messages",
+      "description": "<div>FOLLOW REVIVAL</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=65",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=64",
+      "title": "TRUE ELEMENTS OF REVIVAL",
+      "date": "10/21/2018",
+      "category": "Messages",
+      "description": "<div>TRUE ELEMENT OF REVIVAL</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=64",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=63",
+      "title": "DONT MISS YOUR MOMENT",
+      "date": "10/14/2018",
+      "category": "Messages",
+      "description": "<div>Dont Miss Your Moment</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=63",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=62",
+      "title": "3 SADDLES",
+      "date": "09/30/2018",
+      "category": "Messages",
+      "description": "<div>3 SADDLES</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=62",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=61",
+      "title": "THE LION AND THE LAMB",
+      "date": "09/23/2018",
+      "category": "Messages",
+      "description": "<div>The Lion and The Lamb</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=61",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=60",
+      "title": "DR. JAMES BRANDON",
+      "date": "09/16/2018",
+      "category": "Messages",
+      "description": "<div>Dr. James Brandon</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=60",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=58",
+      "title": "AN INVITATION TO WORSHIP PART 1",
+      "date": "09/02/2018",
+      "category": "Messages",
+      "description": "<div>AN INVITATION TO WORSHIP PART 1</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=58",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=57",
+      "title": "REAL PEACE WITHIN YOURSELF",
+      "date": "08/26/2018",
+      "category": "Messages",
+      "description": "<div>REAL PEACE WITHIN YOURSELF</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=57",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=56",
+      "title": "FOMO",
+      "date": "08/19/2018",
+      "category": "Messages",
+      "description": "<div>FOMO</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=56",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=55",
+      "title": "THE PRISON OF MY OFFENSE",
+      "date": "08/12/2018",
+      "category": "Messages",
+      "description": "<div>THE PRISON OF MY OFFENSE</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=55",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=54",
+      "title": "BREAK THROUGH",
+      "date": "08/05/2018",
+      "category": "Messages",
+      "description": "<div>Break Through</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=54",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=53",
+      "title": "BROKEN PIECES",
+      "date": "07/29/2018",
+      "category": "Messages",
+      "description": "<div>Broken Pieces</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=53",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=52",
+      "title": "THE PRINCIPLE AND THE PROMISE",
+      "date": "07/22/2018",
+      "category": "Messages",
+      "description": "<div>The Principle and the Promise</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=52",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=51",
+      "title": "DONT BLOW IT",
+      "date": "07/15/2018",
+      "category": "Messages",
+      "description": "<div>Dont Blow It</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=51",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=50",
+      "title": "RADICAL WORSHIP",
+      "date": "07/08/2018",
+      "category": "Messages",
+      "description": "<div>Radical Worship</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=50",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=49",
+      "title": "RADICAL NATION",
+      "date": "07/01/2018",
+      "category": "Messages",
+      "description": "<div>Radical Nation and Tribute to our veterans</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=49",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=48",
+      "title": "RADICAL CHURCH",
+      "date": "06/24/2018",
+      "category": "Messages",
+      "description": "<div>Radical Church June 24, 2018</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=48",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=47",
+      "title": "YOUTH SUNDAY",
+      "date": "06/17/2018",
+      "category": "Messages",
+      "description": "<div>YOUTH SUNDAY-- YOUTH TALK ABOUT THEIR WEEK AT CAMP REFUGE SUMMER CAMP</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=47",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=46",
+      "title": "UNCOMFORTABLE GOD, UNCOMFORTABLE YOU",
+      "date": "06/10/2018",
+      "category": "Messages",
+      "description": "<div>Uncomfortable God, Uncomfortable You</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=46",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=45",
+      "title": "RADICAL",
+      "date": "06/03/2018",
+      "category": "Messages",
+      "description": "<div>RADICAL</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=45",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=44",
+      "title": "AGAINST THE CURRENT",
+      "date": "05/27/2018",
+      "category": "Messages",
+      "description": "<div>Against the Current</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=44",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=43",
+      "title": "KNOTS IN MY ROPE",
+      "date": "05/20/2018",
+      "category": "Messages",
+      "description": "<div>Knots in my Rope by Dr. Alan Fires</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=43",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=42",
+      "title": "CAPACITY CHALLENGE",
+      "date": "05/06/2018",
+      "category": "Messages",
+      "description": "<div>Capacity Challenge</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=42",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=41",
+      "title": "MARKED FOR EXCELLENCE PART 2",
+      "date": "04/29/2018",
+      "category": "Messages",
+      "description": "<div>Marked for Excellence Part 2</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=41",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=40",
+      "title": "MARKED FOR EXCELLENCE PART 1",
+      "date": "04/22/2018",
+      "category": "Messages",
+      "description": "<div>Marked for Excellence Part 1</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=40",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=39",
+      "title": "NEVER NOT ENOUGH",
+      "date": "04/15/2018",
+      "category": "Messages",
+      "description": "<div>Never Not Enough</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=39",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=38",
+      "title": "FOCUSED EXCELLENCE",
+      "date": "04/08/2018",
+      "category": "Messages",
+      "description": "<div>Focused Excellence</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=38",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=37",
+      "title": "WHO'S THE FOOL NOW",
+      "date": "04/01/2018",
+      "category": "Messages",
+      "description": "<div>Who's The Fool Now? Easter Sunday Message</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=37",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=36",
+      "title": "GO BIG OR BE SMALL",
+      "date": "03/25/2018",
+      "category": "Messages",
+      "description": "<div>GO BIG OR BE SMALL</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=36",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=35",
+      "title": "10TH ANNIVERSARY CELEBRATION",
+      "date": "03/18/2018",
+      "category": "Messages",
+      "description": "<div>10th&#160;Anniversary Celebration&#160;</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=35",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=33",
+      "title": "THE CENTER",
+      "date": "03/04/2018",
+      "category": "Messages",
+      "description": "<div>The Center</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=33",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=32",
+      "title": "SOMETIMES YOU HAVE TO THROW THINGS",
+      "date": "02/25/2018",
+      "category": "Messages",
+      "description": "<div>Sometimes you have to throw things February 25, 2018</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=32",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=30",
+      "title": "CELEBRATING SINGLES",
+      "date": "02/18/2018",
+      "category": "Messages",
+      "description": "<div>Celebrating Singles February 18, 2018</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=30",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=31",
+      "title": "IF IT AINT BROKE DONT FIX IT PART 2",
+      "date": "02/11/2018",
+      "category": "Messages",
+      "description": "<div>If it aint&#160;broke dont fix it part 2 February 11, 2018</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=31",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=29",
+      "title": "IF IT AINT BROKE, DONT FIX IT",
+      "date": "02/04/2018",
+      "category": "Messages",
+      "description": "<div>If it aint broke, dont fix it! February 4, 2018</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=29",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=28",
+      "title": "DO YOU KNOW YOUR BLIND SPOTS?",
+      "date": "01/28/2018",
+      "category": "Messages",
+      "description": "<div>Do you know your blind spots? January 28, 2018</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=28",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=27",
+      "title": "CINCH UP",
+      "date": "01/21/2018",
+      "category": "Messages",
+      "description": "<div>Cinch Up January 21, 2018</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=27",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=26",
+      "title": "STATE OF THE CHURCH ADDRESS",
+      "date": "01/14/2018",
+      "category": "Messages",
+      "description": "<div>STATE OF THE CHURCH ADDRESS</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=26",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=25",
+      "title": "WHAT'S NEXT?",
+      "date": "01/07/2018",
+      "category": "Messages",
+      "description": "<div>What's Next? January 7, 2018</div>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=25",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=24",
+      "title": "CANDLELIGHT SERVICE",
+      "date": "12/24/2017",
+      "category": "Messages",
+      "description": "CANDLELIGHT SERVICE",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=24",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=23",
+      "title": "IN THE LAND OF MISFITS",
+      "date": "12/17/2017",
+      "category": "Messages",
+      "description": "IN THE LAND OF MISFITS",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=23",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=21",
+      "title": "PERFECTION IN THE MIDDLE OF IMPERFECTION",
+      "date": "12/10/2017",
+      "category": "Messages",
+      "description": "<h1>&#160;Perfection In The Middle Of Imperfection</h1>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=21",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=22",
+      "title": "RANDOM LIFE, RANDOM CHRISTMAS",
+      "date": "12/03/2017",
+      "category": "Messages",
+      "description": "RANDOM LIFE, RANDOM CHRISTMAS DECEMBER 3, 2017",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=22",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=20",
+      "title": "IN ALL THINGS GIVE THANKS",
+      "date": "11/26/2017",
+      "category": "Messages",
+      "description": "In all things give thanks November 26, 2017",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=20",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=19",
+      "title": "MINIMIZING DISTRACTIONS",
+      "date": "11/19/2017",
+      "category": "Messages",
+      "description": "Minimizing Distractions November 19, 2017",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=19",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=18",
+      "title": "VALUE IS DETERMINED BY SACRIFICE",
+      "date": "11/12/2017",
+      "category": "Messages",
+      "description": "Value is determined by sacrifice",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=18",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=17",
+      "title": "WAKE UP",
+      "date": "11/05/2017",
+      "category": "Messages",
+      "description": "WAKE UP",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=17",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=16",
+      "title": "ALL MUSIC SUNDAY",
+      "date": "10/29/2017",
+      "category": "Messages",
+      "description": "ALL MUSIC SUNDAY&#160;",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=16",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=15",
+      "title": "TIME CHANGES EVERYTHING",
+      "date": "10/22/2017",
+      "category": "Messages",
+      "description": "Time Changes Everything October 22, 2017",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=15",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=14",
+      "title": "IT'S ALL CONNECTED",
+      "date": "10/15/2017",
+      "category": "Messages",
+      "description": "It's All Connected October 15, 2017 Series: Collateral Beauty",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=14",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=13",
+      "title": "THE INTENT OF THE HEART",
+      "date": "10/08/2017",
+      "category": "Messages",
+      "description": "The Intent of the Heart October 8, 2017",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=13",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=12",
+      "title": "CITIZENSHIP AND BIBLE VETTING",
+      "date": "10/01/2017",
+      "category": "Messages",
+      "description": "<br />",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=12",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=11",
+      "title": "YOUR YES BE YES AND YOUR NO BE NO",
+      "date": "09/24/2017",
+      "category": "Messages",
+      "description": "<br />",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=11",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=10",
+      "title": "PERMISSION TO CHANGE",
+      "date": "09/19/2017",
+      "category": "Messages",
+      "description": "Permission To Change September 17, 2017",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=10",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=9",
+      "title": "FREEDOM",
+      "date": "09/10/2017",
+      "category": "Messages",
+      "description": "Celebrate Recovery Series: Freedom September 10, 2017",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=9",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=8",
+      "title": "GRACE THAT SAVES",
+      "date": "09/03/2017",
+      "category": "Messages",
+      "description": "<h1>Celebrate Recovery Series: Grace That Saves September 3, 2017</h1>",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=8",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=7",
+      "title": "DENIAL",
+      "date": "08/27/2017",
+      "category": "Messages",
+      "description": "Celebrate Recovery Series: Denial August 27, 2017",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=7",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=6",
+      "title": "BROKEN",
+      "date": "08/20/2017",
+      "category": "Messages",
+      "description": "Celebrate Recovery Series: Broken August 20, 2017",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=6",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=5",
+      "title": "THE PLACE OF REVIVAL",
+      "date": "08/13/2017",
+      "category": "Messages",
+      "description": "&#160;The Place Of Revival August 13, 2017&#160;",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=5",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=4",
+      "title": "POUR IT OUT- THE COST OF REVIVAL",
+      "date": "08/06/2017",
+      "category": "Messages",
+      "description": "Pour It Out The Cost of Revival Aug 6, 2017",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=4",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=1",
+      "title": "THE PROCESS OF REVIVAL",
+      "date": "07/30/2017",
+      "category": "Messages",
+      "description": "The Process Of Revival July 30,2017&#160;",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=1",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=2",
+      "title": "SOMETIMES ITS THROUGH THE PROCESS",
+      "date": "07/23/2017",
+      "category": "Messages",
+      "description": "Sometimes Its Through The Process",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=2",
+      "source": "faithconnector-rss"
+    },
+    {
+      "id": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=3",
+      "title": "DIFFERENT CULTURE DIFFERENT RHYTHM",
+      "date": "07/16/2017",
+      "category": "Messages",
+      "description": "Different Culture Different Rhythm",
+      "sourceUrl": "https://www.palopintocowboychurch.com/content.cfm?page_content=downloads_include.cfm&download_id=3",
+      "source": "faithconnector-rss"
+    }
+  ]
+}

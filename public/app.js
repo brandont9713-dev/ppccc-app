@@ -3,9 +3,13 @@ const platformPreview = urlParams.get("platform");
 const appConfig = {
   teamupKey: "kse1p8ynvg2fvo2ez6",
   calendarUrl: "https://teamup.com/kse1p8ynvg2fvo2ez6",
+  teamupEventsJsonUrl: "https://teamup.com/kse1p8ynvg2fvo2ez6/events",
   calendarFeedUrl: "https://ics.teamup.com/feed/kse1p8ynvg2fvo2ez6/0.ics",
   eventsApiUrl: "/api/app/events",
   generatedEventsUrl: "/events.generated.json",
+  mediaApiUrl: "/api/app/media",
+  sermonFeedUrl: "https://www.palopintocowboychurch.com/rss_feed.cfm?content=download",
+  generatedMediaUrl: "/media.generated.json",
   notificationApiUrl: "/api/notifications/send",
   passwordResetApiUrl: "/api/auth/password-reset",
   supabaseUrl: "https://lwrnoexybfqykfvxgjjs.supabase.co",
@@ -189,6 +193,9 @@ const state = {
   eventsLoadedAt: "",
   eventsSource: "Static fallback",
   eventsLoading: false,
+  mediaLoadedAt: "",
+  mediaSource: "Static fallback",
+  mediaLoading: false,
   pendingUsers: [
     { name: "Pastor Account", email: "pastor@example.com", role: "end_user" },
     { name: "Church Member", email: "member@example.com", role: "end_user" },
@@ -295,10 +302,10 @@ const teamupCalendars = {
 
 const syncSources = [
   { key: "home", label: "Home Marquee + Featured Items", source: "Website homepage images/content", strategy: "CMS/API or scraper cache", status: "Ready for connector" },
-  { key: "events", label: "Events Calendar", source: "Teamup public calendar", strategy: "Same-origin API/proxy, generated JSON fallback, then static fallback", status: "Connected to PPCCC Teamup" },
+  { key: "events", label: "Events Calendar", source: "Teamup public JSON + iCalendar", strategy: "Direct public JSON, same-origin proxy, generated cache, iCalendar fallback", status: "Connected to PPCCC Teamup public feed" },
   { key: "live", label: "Live Service", source: "Website livestream embed / YouTube channel", strategy: "In-app player fed by livestream status endpoint", status: "Player shell ready" },
   { key: "more", label: "More Sections", source: "Website pages under Welcome, Teams, Resources", strategy: "Page registry maps each URL to native app templates", status: "Mapped" },
-  { key: "media", label: "Sermons + Bible Study", source: "Website media pages", strategy: "Media API/feed into in-app media rows", status: "Native list ready" },
+  { key: "media", label: "Sermons + Bible Study", source: "FaithConnector downloads RSS", strategy: "Public RSS feed, same-origin proxy, generated cache, static video fallbacks", status: "Connected to PPCCC media RSS" },
   { key: "forms", label: "Website Forms", source: "Prayer, Text Alerts, Connect Groups, RSVP pages", strategy: "Submit to app backend, then forward/sync to church workflow", status: "Native forms ready" },
   { key: "kids", label: "Kids Korral Alerts", source: "App-only database", strategy: "Role-gated push notifications; not synced to website", status: "App-only by design" },
   { key: "auth", label: "Accounts + Roles", source: "App auth database", strategy: "Admin-managed permissions", status: "Prototype ready" },
@@ -1292,6 +1299,21 @@ function todayIso() {
   return new Date().toLocaleDateString("en-CA");
 }
 
+function isoDateOffset(days) {
+  const date = new Date();
+  date.setDate(date.getDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+function teamupEventsUrl() {
+  const params = new URLSearchParams({
+    startDate: isoDateOffset(-30),
+    endDate: isoDateOffset(180),
+    tz: "America/Chicago",
+  });
+  return `${appConfig.teamupEventsJsonUrl}?${params}`;
+}
+
 function normalizeEvent(item) {
   const start = item.start_dt || item.date || "";
   const date = item.date || start.slice(0, 10);
@@ -1399,9 +1421,10 @@ async function fetchIcs(url) {
 async function loadEvents() {
   state.eventsLoading = true;
   const sources = [
+    { url: teamupEventsUrl(), label: "Public Teamup JSON" },
     { url: appConfig.eventsApiUrl, label: "Live Teamup feed" },
-    { url: appConfig.calendarFeedUrl, label: "Public Teamup iCalendar", type: "ics" },
     { url: appConfig.generatedEventsUrl, label: "Generated Teamup cache" },
+    { url: appConfig.calendarFeedUrl, label: "Public Teamup iCalendar", type: "ics" },
   ];
 
   for (const source of sources) {
@@ -1423,6 +1446,102 @@ async function loadEvents() {
   state.eventsLoadedAt = "";
   state.eventsSource = "Static fallback";
   state.eventsLoading = false;
+  return false;
+}
+
+function mediaKey(value) {
+  return String(value || "").toLowerCase().replace(/&apos;|&#39;/g, "'").replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function formatMediaDate(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value || "Website archive";
+  return date.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" });
+}
+
+function staticMediaByTitle() {
+  return [...(appPages.sermons.mediaItems || []), ...(appPages["bible-study"].mediaItems || [])].reduce((map, item) => {
+    map.set(mediaKey(item.title), item);
+    return map;
+  }, new Map());
+}
+
+function normalizeMediaItem(item, fallbackMap = staticMediaByTitle()) {
+  const title = item.title || "Church Media";
+  const fallback = fallbackMap.get(mediaKey(title)) || {};
+  return {
+    id: item.id || fallback.id || mediaKey(title).replace(/\s+/g, "-"),
+    title,
+    date: item.date || formatMediaDate(item.pubDate),
+    category: item.category || fallback.category || "Messages",
+    speaker: item.speaker || fallback.speaker || "",
+    description: item.description || fallback.description || "",
+    image: item.image || fallback.image || "",
+    youtubeVideoId: item.youtubeVideoId || fallback.youtubeVideoId || "",
+    videoUrl: item.videoUrl || fallback.videoUrl || "",
+    sourceUrl: item.sourceUrl || fallback.sourceUrl || "",
+    source: item.source || "faithconnector-rss",
+  };
+}
+
+function parseMediaRss(text) {
+  const doc = new DOMParser().parseFromString(text, "application/xml");
+  const fallbackMap = staticMediaByTitle();
+  return Array.from(doc.querySelectorAll("item")).map((item, index) => {
+    const read = (selector) => item.querySelector(selector)?.textContent?.trim() || "";
+    return normalizeMediaItem({
+      id: read("guid") || `rss-media-${index}`,
+      title: read("title"),
+      sourceUrl: read("link"),
+      description: read("description"),
+      pubDate: read("pubDate"),
+      category: read("category") || "Messages",
+      source: "faithconnector-rss",
+    }, fallbackMap);
+  }).filter((item) => item.title);
+}
+
+async function fetchMediaRss(url) {
+  const response = await fetch(url, { cache: "no-store", headers: { accept: "application/rss+xml,application/xml,text/xml,*/*" } });
+  if (!response.ok) throw new Error(`Unable to load ${url}`);
+  return parseMediaRss(await response.text());
+}
+
+function applyMediaItems(items, sourceLabel, loadedAt = new Date().toISOString()) {
+  const normalized = items.map((item) => normalizeMediaItem(item)).filter((item) => item.title);
+  const messages = normalized.filter((item) => mediaKey(item.category).includes("message"));
+  const bibleStudy = normalized.filter((item) => mediaKey(item.category).includes("bible study"));
+  if (messages.length) appPages.sermons.mediaItems = messages.slice(0, 12);
+  if (bibleStudy.length) appPages["bible-study"].mediaItems = bibleStudy.slice(0, 12);
+  state.mediaLoadedAt = loadedAt;
+  state.mediaSource = sourceLabel;
+  state.mediaLoading = false;
+  return Boolean(messages.length || bibleStudy.length);
+}
+
+async function loadMedia() {
+  state.mediaLoading = true;
+  const sources = [
+    { url: appConfig.mediaApiUrl, label: "Live FaithConnector RSS" },
+    { url: appConfig.sermonFeedUrl, label: "Public FaithConnector RSS", type: "rss" },
+    { url: appConfig.generatedMediaUrl, label: "Generated media cache" },
+  ];
+
+  for (const source of sources) {
+    try {
+      const payload = source.type === "rss" ? await fetchMediaRss(source.url) : await fetchJson(source.url);
+      const items = Array.isArray(payload) ? payload : payload.items;
+      if (Array.isArray(items) && items.length && applyMediaItems(items, source.label, payload.lastSyncedAt)) {
+        return true;
+      }
+    } catch {
+      // Fall through to the next launch-safe media source.
+    }
+  }
+
+  state.mediaLoadedAt = "";
+  state.mediaSource = "Static fallback";
+  state.mediaLoading = false;
   return false;
 }
 
@@ -2360,6 +2479,10 @@ function renderAppPage() {
       ` : ""}
       ${page.mediaItems ? `
         <article class="stack">
+          <div class="source-strip">
+            <span>${state.mediaSource}</span>
+            <span>${state.mediaLoadedAt ? `Updated ${new Date(state.mediaLoadedAt).toLocaleString()}` : "Ready for media feed"}</span>
+          </div>
           ${page.mediaItems.map((item) => `
             <article class="card media-embed-card">
               <div class="media-embed-frame">
@@ -3045,6 +3168,9 @@ if ("serviceWorker" in navigator) {
 render();
 loadEvents().then((loaded) => {
   if (loaded && (state.route === "events" || state.route === "home")) render();
+});
+loadMedia().then((loaded) => {
+  if (loaded && state.route === "page" && ["sermons", "bible-study"].includes(state.pageId)) render();
 });
 loadVerseOfDay().then((loaded) => {
   if (loaded && state.route === "home") render();

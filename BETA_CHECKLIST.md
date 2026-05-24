@@ -4,6 +4,8 @@
 - [ ] Ask the church website owner for FaithConnector admin login access.
 - [ ] Ask FaithConnector support if the site has API, webhook, RSS, XML, JSON export, or custom form action support.
 - [ ] Ask whether public page polling into an app cache is allowed if no API/webhook exists.
+- [x] Connect Teamup public read-only JSON/iCalendar source for Events display.
+- [x] Connect FaithConnector public RSS source for Sermons/media display.
 - [ ] Ask Teamup calendar admin for a write-capable API key and subcalendar IDs.
 - [ ] Ask YouTube/media admin for the channel ID, uploads playlist ID, and live stream source.
 - [ ] Ask what giving provider/link should be used for tithing.

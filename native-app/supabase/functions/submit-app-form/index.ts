@@ -44,6 +44,12 @@ Deno.serve(async (req) => {
 
   const { data: userData } = await userClient.auth.getUser();
   const profileId = userData.user?.id ?? null;
+  const sourceIpHash = await requestIpHash(req);
+  const userAgent = (req.headers.get("user-agent") ?? "").slice(0, 240);
+  const rateLimit = await checkRateLimit(admin, { profileId, sourceIpHash });
+  if (!rateLimit.ok) {
+    return json({ error: "Too many submissions. Please wait a few minutes and try again." }, 429);
+  }
 
   const cleanPayload = sanitizePayload(formPayload as Record<string, unknown>);
   const { data, error } = await admin
@@ -53,6 +59,8 @@ Deno.serve(async (req) => {
       kind,
       source,
       source_url: sourceUrl || null,
+      source_ip_hash: sourceIpHash,
+      user_agent: userAgent || null,
       payload: cleanPayload,
     })
     .select("id")
@@ -96,6 +104,41 @@ async function maybeSendEmail(kind: string, payload: Record<string, unknown>, id
       text: [`Submission ID: ${id}`, `Kind: ${kind}`, "", ...lines].join("\n"),
     }),
   }).catch(() => {});
+}
+
+async function checkRateLimit(admin: ReturnType<typeof createClient>, options: { profileId: string | null; sourceIpHash: string | null }) {
+  const since = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+  const perIpLimit = 5;
+  const perUserLimit = 10;
+
+  if (options.sourceIpHash) {
+    const { count } = await admin
+      .from("form_submissions")
+      .select("id", { count: "exact", head: true })
+      .eq("source_ip_hash", options.sourceIpHash)
+      .gte("created_at", since);
+    if ((count ?? 0) >= perIpLimit) return { ok: false };
+  }
+
+  if (options.profileId) {
+    const { count } = await admin
+      .from("form_submissions")
+      .select("id", { count: "exact", head: true })
+      .eq("profile_id", options.profileId)
+      .gte("created_at", since);
+    if ((count ?? 0) >= perUserLimit) return { ok: false };
+  }
+
+  return { ok: true };
+}
+
+async function requestIpHash(req: Request) {
+  const forwarded = req.headers.get("x-forwarded-for") ?? "";
+  const ip = forwarded.split(",")[0]?.trim() || req.headers.get("cf-connecting-ip") || "";
+  if (!ip) return null;
+  const bytes = new TextEncoder().encode(`${ip}:${Deno.env.get("FORM_RATE_LIMIT_SALT") ?? "ppccc"}`);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
 function json(body: unknown, status = 200) {

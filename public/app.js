@@ -22,12 +22,11 @@ const appConfig = {
   youtubeChannelUrl: "https://www.youtube.com/@palopintocountycowboychurc3584",
   verseApiUrl: "/api/app/daily-verse?version=CSB",
 };
-const demoAdminPasscode = "ppccctest2026";
-const localAdminStorageKey = "ppcc-local-admin-beta";
 const localAccountStorageKey = "ppcc-local-account-beta";
 const supabaseSessionStorageKey = "ppcc-supabase-session-beta";
 const betaUsernameDomain = "palopintocowboychurch.com";
-const hasLocalAdminMode = () => localStorage.getItem(localAdminStorageKey) === "true";
+const eventHistoryDays = 45;
+const eventFutureMonths = 18;
 
 function loadLocalAccount() {
   try {
@@ -200,7 +199,7 @@ const state = {
     name: localAccount.isSignedIn ? localAccount.name || "Church Family" : "Guest",
     email: localAccount.isSignedIn ? localAccount.email || "" : "",
     phone: localAccount.phone || "",
-    role: hasLocalAdminMode() ? "admin" : localAccount.role || "end_user",
+    role: localAccount.role || "end_user",
     supabaseUserId: localAccount.supabaseUserId || supabaseSession?.user?.id || "",
   },
   theme: localStorage.getItem("ppcc-theme") || "light",
@@ -1191,7 +1190,7 @@ Object.assign(appPages, {
       fields: [
         { label: "Request Type", type: "select", options: ["Prayer Request", "Praise Report"] },
         { label: "Description", placeholder: "How can we pray or celebrate with you?" },
-        { label: "Intended For", placeholder: "Name or family this is for" },
+        { label: "Intended For", placeholder: "Name or family to pray for" },
         { label: "Prayer Group", type: "select", options: ["Appropriate Prayer Group", "Everyone"] },
         { label: "Your Name", placeholder: "Name" },
         { label: "Phone or Email", placeholder: "Optional contact info" },
@@ -1310,10 +1309,25 @@ function isoDateOffset(days) {
   return date.toISOString().slice(0, 10);
 }
 
+function addMonthsIso(isoDate, months) {
+  const date = new Date(`${isoDate.slice(0, 7)}-01T12:00:00`);
+  date.setMonth(date.getMonth() + months);
+  const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  const originalDay = Number(isoDate.slice(-2)) || 1;
+  date.setDate(Math.min(originalDay, lastDay));
+  return date.toLocaleDateString("en-CA");
+}
+
+function filterDisplayEvents(items) {
+  const start = isoDateOffset(-eventHistoryDays);
+  const end = addMonthsIso(todayIso(), eventFutureMonths);
+  return items.filter((event) => event.date >= start && event.date <= end);
+}
+
 function teamupEventsUrl() {
   const params = new URLSearchParams({
-    startDate: isoDateOffset(-365),
-    endDate: isoDateOffset(1095),
+    startDate: isoDateOffset(-eventHistoryDays),
+    endDate: addMonthsIso(todayIso(), eventFutureMonths),
     tz: "America/Chicago",
   });
   return `${appConfig.teamupEventsJsonUrl}?${params}`;
@@ -1432,7 +1446,7 @@ async function loadVerseOfDay() {
       return true;
     }
   } catch {
-    // A licensed CSB verse feed can be connected here for production.
+    // A licensed CSB verse feed can be connected here.
   }
   verseOfDay = dailyVerseFallback();
   return false;
@@ -1463,7 +1477,7 @@ async function loadEvents() {
       const payload = source.type === "ics" ? await fetchIcs(source.url) : await fetchJson(source.url);
       const items = Array.isArray(payload) ? payload : payload.events;
       if (Array.isArray(items) && items.length) {
-        teamupEvents = items.map(normalizeEvent).filter((event) => event.date).sort((a, b) => a.date.localeCompare(b.date));
+        teamupEvents = filterDisplayEvents(items.map(normalizeEvent).filter((event) => event.date)).sort((a, b) => a.date.localeCompare(b.date));
         state.eventsLoadedAt = payload.lastSyncedAt || new Date().toISOString();
         state.eventsSource = source.label;
         state.eventsLoading = false;
@@ -1726,8 +1740,12 @@ async function invokeAppFunction(name, body = {}) {
   return data;
 }
 
-function isLocalAdminMode() {
-  return state.currentUser.role === "admin" && hasLocalAdminMode();
+function isAdminMode() {
+  return state.currentUser.role === "admin" && Boolean(authAccessToken());
+}
+
+function canUseStaffTools() {
+  return Boolean(authAccessToken()) && ["admin", "kids_korral"].includes(state.currentUser.role);
 }
 
 function isSignedIn() {
@@ -1754,7 +1772,7 @@ function saveAccountState() {
     email: state.currentUser.email,
     phone: state.currentUser.phone || "",
     parentName: state.parentName,
-    role: state.currentUser.role === "admin" && hasLocalAdminMode() ? "end_user" : state.currentUser.role,
+    role: state.currentUser.role,
     linkedFamilies: state.linkedFamilies,
     supabaseUserId: state.currentUser.supabaseUserId || "",
   }));
@@ -1784,7 +1802,7 @@ function setLocalAccount({ name, email, phone = "", parentName = "", linkedFamil
     name,
     email,
     phone,
-    role: hasLocalAdminMode() ? "admin" : role,
+    role,
     supabaseUserId,
   };
   saveAccountState();
@@ -1820,7 +1838,7 @@ function openMaps() {
 }
 
 function openEmail() {
-  const subject = encodeURIComponent("Palo Pinto Cowboy Church App Contact");
+  const subject = encodeURIComponent("Palo Pinto Cowboy Church Contact");
   openExternal(`mailto:${contactInfo.email}?subject=${subject}`);
 }
 
@@ -1838,7 +1856,7 @@ function mediaEmbed(item) {
     return `
       <div class="media-placeholder" ${item.image ? `style="--media-image: url('${item.image}')"` : ""}>
         <button class="play-button" aria-label="Video pending">▶</button>
-        <span>Video coming soon</span>
+        <span>Video unavailable</span>
       </div>
     `;
   }
@@ -1953,7 +1971,7 @@ function addToCalendar(eventId) {
     return;
   }
   if (sendNativeMessage({ type: "calendar", event })) {
-    showToast("Opening device calendar.");
+    showToast("Opening calendar.");
     return;
   }
   const start = calendarIcsDateTime(event.date, event.time);
@@ -2398,9 +2416,14 @@ function renderLive() {
           <p>Watch Sunday service live or catch the latest message.</p>
         </div>
       </article>
-      <article class="status-row">
-        <span class="status-dot"></span>
-        <span><strong>Next live service</strong><span class="muted">Sunday Worship at 10:30 AM</span></span>
+      <article class="live-status-card">
+        <div class="status-copy">
+          <span class="status-dot"></span>
+          <div>
+            <strong>Next live service</strong>
+            <span class="muted">Sunday Worship at 10:30 AM</span>
+          </div>
+        </div>
         <span class="pill">Ready</span>
       </article>
       <article class="card video-card">
@@ -2416,7 +2439,7 @@ function renderLive() {
           </div>
         </div>
       </article>
-      ${state.currentUser.role === "admin" ? `
+      ${isAdminMode() ? `
       <article class="card settings-group">
         <div class="row">
           <div>
@@ -2431,9 +2454,9 @@ function renderLive() {
       <article class="card settings-group">
         <h3>Media Library</h3>
         ${linkList([
-          { title: "Sermons", pageId: "sermons", subtitle: "Recent Sunday messages" },
-          { title: "Bible Study", pageId: "bible-study", subtitle: "Study sessions and archive" },
-          { title: "YouTube", url: "https://www.youtube.com/c/PaloPintoCountyCowboyChurchPPCCC", subtitle: "PPCCC video channel" },
+          { title: "Sermons", pageId: "sermons", subtitle: "Recent Sunday messages", icon: "video" },
+          { title: "Bible Study", pageId: "bible-study", subtitle: "Study sessions and archive", icon: "book" },
+          { title: "YouTube", url: "https://www.youtube.com/c/PaloPintoCountyCowboyChurchPPCCC", subtitle: "PPCCC video channel", brand: "youtube" },
         ])}
       </article>
     </section>
@@ -2441,7 +2464,7 @@ function renderLive() {
 }
 
 function renderKids() {
-  const canAlert = state.currentUser.role === "kids_korral" || state.currentUser.role === "admin";
+  const canAlert = canUseStaffTools();
   const linkedNumbers = familyNumbers();
   const alertNumber = firstLinkedFamilyNumber();
   app.innerHTML = `
@@ -2460,6 +2483,10 @@ function renderKids() {
         </div>
         <span class="pill gold">${linkedNumbers.length ? `${linkedNumbers.length} Linked` : "Add One"}</span>
       </article>
+      <div class="korral-actions">
+        <button class="quick-action" data-go="account"><strong>Family Links</strong><span>Add or update Kids Korral numbers</span></button>
+        <button class="quick-action" data-page="kids-ministry"><strong>Ministry Info</strong><span>Schedule, photos, and details</span></button>
+      </div>
       <article class="card settings-group">
         <h3>My Linked Families</h3>
         ${linkedFamilyCards({ removable: true })}
@@ -2475,7 +2502,6 @@ function renderKids() {
           <div class="info-row"><strong>Sundays</strong><span class="muted">10:30 AM</span></div>
           <div class="info-row"><strong>Wednesdays</strong><span class="muted">6:30 PM</span></div>
         </div>
-        <button class="button secondary full" data-page="kids-ministry">Kids Korral Ministry Info</button>
       </article>
       <article class="card settings-group ${canAlert ? "" : "locked"}">
         <div class="row">
@@ -2508,7 +2534,7 @@ function renderMore() {
         <img src="https://faithconnector.s3.amazonaws.com/6267/images/marquee/3_1.png" alt="" />
         <div class="card-body">
           <h2>Explore PPCCC</h2>
-          <p>Ministries, resources, staff, care, media, and church info for the PPCCC family.</p>
+          <p>Ministries, resources, staff, care, media, and church info in one place.</p>
         </div>
       </article>
       <article class="card menu-section menu-card">
@@ -2549,7 +2575,7 @@ function renderMore() {
 }
 
 function renderManage() {
-  if (state.currentUser.role !== "admin") {
+  if (!isAdminMode()) {
     app.innerHTML = `<section class="panel"><h2>Account Required</h2><p class="muted">This area is only available to approved admin accounts.</p></section>`;
     return;
   }
@@ -2593,7 +2619,7 @@ function renderStaff() {
       <section class="staff-grid">
         ${staffMembers.map((member) => `
           <article class="staff-card card">
-            ${member.image ? `<img src="${member.image}" alt="${member.name}" />` : `<div class="staff-placeholder">Unknown</div>`}
+            ${member.image ? `<img src="${member.image}" alt="${member.name}" />` : `<div class="staff-placeholder">No photo</div>`}
             <div class="card-body">
               <h3>${member.name}</h3>
               <p class="muted">${member.role}</p>
@@ -2817,7 +2843,7 @@ function renderAppPage() {
           <div class="staff-grid">
             ${page.people.map((person) => `
               <article class="card staff-card">
-                ${person.image ? `<img src="${person.image}" alt="${person.name}" />` : `<div class="staff-placeholder">Photo</div>`}
+                ${person.image ? `<img src="${person.image}" alt="${person.name}" />` : `<div class="staff-placeholder">No photo</div>`}
                 <div class="card-body">
                   <h3>${person.name}</h3>
                   <p class="muted">${person.role}</p>
@@ -2861,7 +2887,7 @@ function renderAccount() {
           ${state.accountMode === "sign-in" ? `
             <div class="field">
               <label for="signinEmail">Email or Username</label>
-              <input id="signinEmail" inputmode="email" autocomplete="username" placeholder="you@example.com or celtics3397" />
+              <input id="signinEmail" inputmode="email" autocomplete="username" placeholder="you@example.com" />
             </div>
             <div class="field">
               <label for="signinPassword">Password</label>
@@ -2899,20 +2925,11 @@ function renderAccount() {
         </article>
         <article class="card settings-card beta-admin-card">
           <h3>Staff Access</h3>
-          <p class="muted">Approved staff can unlock admin and ministry tools here.</p>
+          <p class="muted">Approved staff accounts receive ministry tools after their role is confirmed.</p>
           <div class="admin-status-row">
-            <strong>Admin Mode</strong>
-            <span class="pill ${isLocalAdminMode() ? "gold" : ""}">${isLocalAdminMode() ? "Unlocked" : "Locked"}</span>
+            <strong>Staff Tools</strong>
+            <span class="pill ${canUseStaffTools() ? "gold" : ""}">${canUseStaffTools() ? "Available" : "Role Required"}</span>
           </div>
-          ${isLocalAdminMode() ? `
-            <button class="button secondary full" id="demoAdminSignOut">Lock Staff Tools</button>
-          ` : `
-            <div class="field">
-              <label for="demoAdminPasscode">Passcode</label>
-              <input id="demoAdminPasscode" type="password" inputmode="text" autocomplete="off" placeholder="Enter staff passcode" />
-            </div>
-            <button class="button full" id="demoAdminSignIn">Unlock Staff Tools</button>
-          `}
           <p class="muted small-note">Staff tools are limited to approved church roles.</p>
         </article>
         ${settingsSupportCards()}
@@ -2928,7 +2945,7 @@ function renderAccount() {
         <div>
           <h2>${safeText(state.currentUser.name)}</h2>
           <p class="muted">${safeText(state.currentUser.email)}</p>
-          <span class="pill gold">${isLocalAdminMode() ? "Admin" : roles[state.currentUser.role].label}</span>
+          <span class="pill gold">${roles[state.currentUser.role].label}</span>
         </div>
       </article>
       <article class="card settings-card account-access-card">
@@ -2942,20 +2959,11 @@ function renderAccount() {
       </article>
       <article class="card settings-card beta-admin-card">
         <h3>Staff Access</h3>
-        <p class="muted">Approved staff can unlock admin and ministry tools here.</p>
+        <p class="muted">Approved staff accounts receive ministry tools after their role is confirmed.</p>
         <div class="admin-status-row">
-          <strong>Admin Mode</strong>
-          <span class="pill ${isLocalAdminMode() ? "gold" : ""}">${isLocalAdminMode() ? "Unlocked" : "Locked"}</span>
+          <strong>Staff Tools</strong>
+          <span class="pill ${canUseStaffTools() ? "gold" : ""}">${canUseStaffTools() ? "Available" : "Role Required"}</span>
         </div>
-        ${isLocalAdminMode() ? `
-          <button class="button secondary full" id="demoAdminSignOut">Lock Staff Tools</button>
-        ` : `
-          <div class="field">
-            <label for="demoAdminPasscode">Passcode</label>
-            <input id="demoAdminPasscode" type="password" inputmode="text" autocomplete="off" placeholder="Enter staff passcode" />
-          </div>
-          <button class="button full" id="demoAdminSignIn">Unlock Staff Tools</button>
-        `}
         <p class="muted small-note">Staff tools are limited to approved church roles.</p>
       </article>
       <article class="card settings-card">
@@ -3001,7 +3009,7 @@ function renderAccount() {
           { title: "Kids Korral Alerts", route: "kids", subtitle: "Family number and parent alerts", icon: "bell" },
         ])}
       </article>
-      ${state.currentUser.role === "admin" ? `
+      ${isAdminMode() ? `
         <article class="card settings-card">
           <h3>Admin</h3>
           ${linkList([
@@ -3019,14 +3027,14 @@ function renderFeedback() {
     <section class="stack">
       <article class="panel">
         <h2>Bug Report / App Suggestions</h2>
-        <p class="muted">Share a bug report or suggestion with the church app team.</p>
+        <p class="muted">Share a bug report or suggestion with the church office.</p>
       </article>
       <article class="card">
         <div class="field">
           <label for="feedbackType">Type</label>
           <select id="feedbackType">
             <option>Bug Report</option>
-            <option>App Suggestion</option>
+            <option>Suggestion</option>
             <option>Content Correction</option>
           </select>
         </div>
@@ -3056,7 +3064,7 @@ function renderForgotPassword() {
           <input id="resetEmail" value="${safeText(state.currentUser.email)}" placeholder="you@example.com" inputmode="email" autocomplete="email" />
         </div>
         <button class="button full" id="sendPasswordReset">Send Reset Link</button>
-        <p class="muted small-note">For your privacy, the app shows the same confirmation either way and sends reset links only through the secure account system.</p>
+        <p class="muted small-note">For your privacy, you will see the same confirmation either way and reset links are sent only through the secure account system.</p>
       </article>
       <article class="card security-list">
         <h3>Reset Link Rules</h3>
@@ -3071,13 +3079,13 @@ function renderForgotPassword() {
 
 function renderSecurity() {
   const securityItems = [
-    ["Private by default", "The app is built for church communication, not ads, tracking, or selling personal data."],
+    ["Private by default", "Church communication is kept separate from ads, tracking, and selling personal data."],
     ["Kids Korral care", "Family numbers are used only to help route parent alerts to the right people."],
     ["Staff-only tools", "Admin and Kids Korral tools stay available only to approved church roles."],
-    ["Targeted alerts", "Kids Korral messages are meant for linked family devices, not public announcements."],
+    ["Targeted alerts", "Kids Korral messages are meant for linked families, not public announcements."],
     ["Account recovery", "Forgot-password links are sent by email and expire quickly."],
     ["Secure giving", "Tithes and offerings use the church-approved giving provider."],
-    ["Device security", "Staff tools can be protected with Face ID, Touch ID, or Android fingerprint on supported devices."],
+    ["Screen lock", "Staff tools can be protected with Face ID, Touch ID, or Android fingerprint when available."],
     ["Contact control", "Prayer requests, contact forms, and signups go to the approved church workflow."],
   ];
 
@@ -3191,11 +3199,11 @@ document.body.addEventListener("click", async (event) => {
   }
 
   if (target.id === "giveButton") {
-    showToast("Giving link can be added after the provider is chosen.");
+    showToast("Giving opens through the church-approved provider.");
   }
 
   if (target.id === "liveAlert") {
-    if (state.currentUser.role !== "admin") {
+    if (!isAdminMode()) {
       showToast("Live notifications require admin access.");
       return;
     }
@@ -3206,14 +3214,14 @@ document.body.addEventListener("click", async (event) => {
       });
       showToast("Live now push sent.");
     } catch {
-      showToast("Live push needs admin sign-in and registered devices.");
+      showToast("Live notifications need admin sign-in and notification access.");
     }
     sendLocalNotification("Live Now", "Palo Pinto Cowboy Church service is live.");
   }
 
   if (target.id === "watchLive") {
     navigate("page", { pageId: "sermons" });
-    showToast("Live stream embeds here once the live video ID is available.");
+    showToast("Live messages appear in the sermon library.");
   }
 
   if (target.id === "sendContact") {
@@ -3250,27 +3258,6 @@ document.body.addEventListener("click", async (event) => {
       // Keep the message neutral so account existence cannot be guessed.
     }
     showToast("If that account exists, a reset link will be sent.");
-  }
-
-  if (target.id === "demoAdminSignIn") {
-    const passcode = document.querySelector("#demoAdminPasscode")?.value?.trim();
-    if (passcode !== demoAdminPasscode) {
-      showToast("Passcode did not match.");
-      return;
-    }
-    localStorage.setItem(localAdminStorageKey, "true");
-    state.currentUser.role = "admin";
-    if (isSignedIn()) saveAccountState();
-    showToast("Staff tools unlocked.");
-    render();
-  }
-
-  if (target.id === "demoAdminSignOut") {
-    localStorage.removeItem(localAdminStorageKey);
-    state.currentUser.role = "end_user";
-    if (isSignedIn()) saveAccountState();
-    showToast("Staff tools locked.");
-    render();
   }
 
   if (target.dataset.formSubmit) {
@@ -3346,7 +3333,6 @@ document.body.addEventListener("click", async (event) => {
   }
 
   if (target.id === "signOutAccount") {
-    localStorage.removeItem(localAdminStorageKey);
     resetCurrentUser();
     saveAccountState();
     showToast("Signed out.");
@@ -3382,7 +3368,7 @@ document.body.addEventListener("click", async (event) => {
   }
 
   if (target.id === "sendKidsAlert") {
-    if (state.currentUser.role !== "kids_korral" && state.currentUser.role !== "admin") {
+    if (!canUseStaffTools()) {
       showToast("Kids Korral alerts require staff access.");
       return;
     }
@@ -3396,7 +3382,7 @@ document.body.addEventListener("click", async (event) => {
       await invokeAppFunction("send-kids-korral-alert", { familyNumber: number, message });
       showToast(`Push sent to family linked to #${number}.`);
     } catch {
-      showToast("Kids Korral push needs staff sign-in and linked family devices.");
+      showToast("Kids Korral alerts need staff sign-in and linked families.");
     }
     sendLocalNotification("Kids Korral Alert", `Family #${number}, please check in with Kids Korral.`);
   }

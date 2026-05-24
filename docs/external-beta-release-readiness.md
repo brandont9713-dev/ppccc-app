@@ -54,6 +54,79 @@ This file is the short, practical checklist for getting PPCCC from the current T
    - Notifications permission.
    - iPhone and iPad layout.
 
+## App Store Metadata Checklist
+
+Use this section as the working list for App Store Connect and Google Play Console. Keep the public listing plain and church-focused; do not mention backend setup, webhooks, internal tools, or development status.
+
+### Identity
+
+- App name: `Palo Pinto County Cowboy Church`
+- Short display name: `PPCCC`
+- Subtitle: `Worship, events, and church updates`
+- Category: `Lifestyle`
+- Secondary category: `Reference` or `Social Networking`
+- Age rating target: `4+`, assuming no unrestricted web browsing, objectionable content, user-to-user public chat, or in-app purchases are added.
+
+### Public Description Draft
+
+`Stay connected with Palo Pinto County Cowboy Church. Watch services and sermons, view upcoming events, add church events to your calendar, explore ministries, send prayer requests, contact the church office, and receive timely church notifications including Live Now and Kids Korral alerts.`
+
+### Keywords
+
+`church,worship,sermons,events,prayer,cowboy church,Palo Pinto,Santo,Texas,Kids Korral,ministries`
+
+### URLs
+
+- Privacy policy URL: `TBD`
+- Support URL: `TBD`
+- Marketing URL: `https://www.palopintocowboychurch.com/`
+- Copyright: `Palo Pinto County Cowboy Church`
+
+### Contact Information
+
+- Public support email: `TBD`
+- App review contact name: `TBD`
+- App review phone: `TBD`
+- App review email: `TBD`
+
+### TestFlight Notes
+
+- Beta description: `Help us test the PPCCC app before public launch. Please check events, add-to-calendar, sermons, ministry pages, prayer/contact forms, account creation, notifications, and iPhone/iPad layout.`
+- Feedback email: `TBD`
+- Review notes: `This beta is for church communication, events, sermons, prayer/contact forms, and notification testing. Giving opens only through a trusted external provider and the app does not collect payment details.`
+- Review login: provide an admin-safe test account only if Apple needs access to protected screens.
+- Test account email: `TBD`
+- Test account password: `TBD`
+
+### Screenshots Needed
+
+- iPhone 6.7 inch: Home, Events, Sermons/Live, More/Ministries, Settings
+- iPhone 5.5 inch or current required fallback: Home and Events
+- iPad: Home, More/Ministries, Events
+- Android phone: Home, Events, More/Ministries, Settings
+- Avoid screenshots that show private Kids Korral numbers, personal email addresses, private prayer requests, admin-only tools, or unfinished placeholders.
+
+### Privacy And Data Safety
+
+- Data collected: account name, email, optional phone, push notification token, form submissions, prayer/contact requests, event RSVP/sign-up details, optional Kids Korral family number, app feedback.
+- Sensitive child data: do not collect birthdates, school, address, medical notes, custody details, photos, or private child profile details for v1.
+- Tracking: no third-party advertising tracking.
+- Ads: none.
+- Purchases: none in-app.
+- Location: no background location tracking.
+- Calendar access: only when a user chooses to add a church event to their device calendar.
+- Notifications: only after user permission; used for church updates, Live Now, event reminders, and Kids Korral alerts.
+- Payment data: not collected by the app; giving should open a trusted external giving provider.
+
+### Final Store Review Items
+
+- Confirm the privacy policy covers accounts, push tokens, form submissions, Kids Korral numbers, notifications, and deletion/contact instructions.
+- Confirm support URL and support email are monitored.
+- Confirm all screenshots show production-ready content.
+- Confirm the app icon and splash screen are church-approved.
+- Confirm external links are limited to trusted church/social/maps/email/giving destinations.
+- Confirm admin/staff-only actions require signed-in role checks on the backend before public launch.
+
 ## Before Each TestFlight Build
 
 - Rebuild `native-app/src/webAppHtml.ts` after any web UI change.
@@ -65,7 +138,7 @@ This file is the short, practical checklist for getting PPCCC from the current T
 ## Important Release Risks
 
 - The app currently bundles the web UI into the native build. A TestFlight user will not see local UI changes until a new native build is created and submitted, unless a later Expo Updates setup is added and approved.
-- Supabase function deployment uses `--no-verify-jwt`, so every privileged function must keep doing its own auth and role checks. The current notification functions do check user roles, but this should be smoke-tested with `general`, `kids_korral`, and `admin` accounts before external testers use staff features.
+- Supabase function deployment now keeps JWT verification on for privileged functions. Public read/submit functions are the only ones deployed without JWT verification, and privileged functions still need smoke tests with `general`, `kids_korral`, and `admin` accounts before external testers use staff features.
 - Public form submission is intentionally allowed, but should have rate limiting, spam protection, and a clear office workflow before public launch.
 - The app still needs final App Store privacy policy/support URLs in App Store Connect before public release.
 - The giving flow should stay as an external trusted provider link and should not collect payment details in the app.

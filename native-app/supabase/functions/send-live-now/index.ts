@@ -32,6 +32,16 @@ Deno.serve(async (req) => {
     return json({ error: "Forbidden" }, 403);
   }
 
+  const cooldown = await notificationCooldown(admin, {
+    kind: "live_now",
+    sentBy: userData.user.id,
+    windowMinutes: 10,
+    maxSends: 1,
+  });
+  if (!cooldown.ok) {
+    return json({ error: "Live notifications were sent recently. Please wait before sending again." }, 429);
+  }
+
   const payload = await readJson(req);
   if (!payload) {
     return json({ error: "Invalid JSON payload" }, 400);
@@ -116,4 +126,18 @@ async function sendExpoMessages(messages: Array<Record<string, unknown>>) {
     chunks,
     error: errors.length ? errors.join("\n").slice(0, 4000) : null,
   };
+}
+
+async function notificationCooldown(
+  admin: ReturnType<typeof createClient>,
+  options: { kind: string; sentBy: string; windowMinutes: number; maxSends: number },
+) {
+  const since = new Date(Date.now() - options.windowMinutes * 60 * 1000).toISOString();
+  const { count } = await admin
+    .from("notification_audit")
+    .select("id", { count: "exact", head: true })
+    .eq("kind", options.kind)
+    .eq("sent_by", options.sentBy)
+    .gte("created_at", since);
+  return { ok: (count ?? 0) < options.maxSends };
 }

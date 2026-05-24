@@ -2,6 +2,12 @@
   "expo": {
     "name": "Palo Pinto County Cowboy Church",
     "slug": "ppccc",
+    "description": "The official Palo Pinto County Cowboy Church app for worship services, events, sermons, ministries, prayer, Kids Korral alerts, and church updates.",
+    "primaryColor": "#2d2118",
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "scheme": "ppccc",
     "version": "0.1.0",
     "orientation": "portrait",

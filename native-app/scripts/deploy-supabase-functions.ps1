@@ -20,21 +20,32 @@ New-Item -ItemType Directory -Force $localHome | Out-Null
 Set-Location $appRoot
 
 $projectRef = "lwrnoexybfqykfvxgjjs"
-$functions = @(
-  "register-push-token",
+$publicFunctions = @(
   "get-teamup-events",
+  "submit-app-form"
+)
+
+$authenticatedFunctions = @(
+  "register-push-token",
   "send-kids-korral-alert",
   "send-live-now",
-  "submit-app-form",
   "link-family-number",
   "upsert-app-event",
   "delete-app-event",
   "upsert-media-item"
 )
 
-foreach ($fn in $functions) {
-  Write-Host "Deploying $fn..."
+foreach ($fn in $publicFunctions) {
+  Write-Host "Deploying public function $fn..."
   & $node $supabase functions deploy $fn --project-ref $projectRef --no-verify-jwt
+  if ($LASTEXITCODE -ne 0) {
+    throw "Failed to deploy $fn"
+  }
+}
+
+foreach ($fn in $authenticatedFunctions) {
+  Write-Host "Deploying authenticated function $fn..."
+  & $node $supabase functions deploy $fn --project-ref $projectRef
   if ($LASTEXITCODE -ne 0) {
     throw "Failed to deploy $fn"
   }

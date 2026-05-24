@@ -57,13 +57,6 @@ const nativeBridge = `
       }
     }, true);
 
-    document.addEventListener("click", function (event) {
-      var target = event.target && event.target.closest ? event.target.closest("#notifyButton") : null;
-      if (!target) return;
-      event.preventDefault();
-      send({ type: "notify" });
-    }, true);
-
     var viewport = document.querySelector('meta[name="viewport"]');
     if (viewport) {
       viewport.setAttribute("content", "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover");

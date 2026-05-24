@@ -31,6 +31,7 @@ type CalendarEventPayload = {
 const nativeBridge = `
   (function () {
     window.__PPCCC_NATIVE_APP__ = true;
+    window.__PPCCC_PLATFORM__ = "${Platform.OS}";
     document.documentElement.dataset.nativeApp = "true";
     document.documentElement.dataset.platform = "${Platform.OS}";
 

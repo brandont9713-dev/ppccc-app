@@ -15,6 +15,10 @@ const appConfig = {
   passwordResetApiUrl: "/api/auth/password-reset",
   supabaseUrl: "https://lwrnoexybfqykfvxgjjs.supabase.co",
   supabaseAnonKey: "sb_publishable_4l0vcy9ofspgvk-oON7UxA_RT8pDBlI",
+  contentSyncApiUrl: "",
+  formForwardingWebhookUrl: "",
+  liveStatusApiUrl: "",
+  pushSendFunctionUrl: "",
   youtubeChannelUrl: "https://www.youtube.com/@palopintocountycowboychurc3584",
   verseApiUrl: "/api/app/daily-verse?version=CSB",
 };
@@ -219,7 +223,7 @@ const titles = {
   staff: "Staff",
   contact: "Contact Us",
   feedback: "Feedback",
-  security: "Security",
+  security: "Privacy & Safety",
   "forgot-password": "Reset Password",
 };
 
@@ -307,14 +311,14 @@ const teamupCalendars = {
 };
 
 const syncSources = [
-  { key: "home", label: "Home Marquee + Featured Items", source: "Website homepage images/content", strategy: "CMS/API or scraper cache", status: "Ready for connector" },
+  { key: "home", label: "Home Marquee + Featured Items", source: "Website homepage images/content", strategy: "CMS/API or approved page feed", status: "Awaiting approved content source" },
   { key: "events", label: "Events Calendar", source: "Teamup public JSON + iCalendar", strategy: "Direct public JSON, same-origin proxy, generated cache, iCalendar fallback", status: "Connected to PPCCC Teamup public feed" },
   { key: "live", label: "Live Service", source: "Website livestream embed / YouTube channel", strategy: "In-app player fed by livestream status endpoint", status: "Player shell ready" },
   { key: "more", label: "More Sections", source: "Website pages under Welcome, Teams, Resources", strategy: "Page registry maps each URL to native app templates", status: "Mapped" },
   { key: "media", label: "Sermons + Bible Study", source: "FaithConnector downloads RSS", strategy: "Public RSS feed, same-origin proxy, generated cache, static video fallbacks", status: "Connected to PPCCC media RSS" },
   { key: "forms", label: "Website Forms", source: "Prayer, Text Alerts, Connect Groups, RSVP pages", strategy: "Submit to app backend, then forward/sync to church workflow", status: "Native forms ready" },
   { key: "kids", label: "Kids Korral Alerts", source: "App-only database", strategy: "Role-gated push notifications; not synced to website", status: "App-only by design" },
-  { key: "auth", label: "Accounts + Roles", source: "App auth database", strategy: "Admin-managed permissions", status: "Prototype ready" },
+  { key: "auth", label: "Accounts + Roles", source: "App auth database", strategy: "Admin-managed permissions", status: "Ready for Supabase Auth" },
 ];
 
 const pageSourceUrls = {
@@ -372,7 +376,7 @@ const appPages = {
   },
   about: {
     title: "About Us",
-    body: "Palo Pinto County Cowboy Church is represented in the app as a native church information page. This page will sync the full website content once the importer/API is connected.",
+    body: "Palo Pinto County Cowboy Church is a come-as-you-are church family in Palo Pinto County. This section keeps welcome information, church details, and ministry resources easy to find in the app.",
   },
   mission: {
     title: "Mission Statement",
@@ -472,7 +476,7 @@ const appPages = {
     body: "Harvest Team is listed on the website as a ministry team. This native page can show outreach details and serving opportunities.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/ca82561b_66cd_4220_a5be_aa033c42b115.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/wheat_harvest_fields_ripe_wheat_agrarian_industry_wheat_harvest_fields_ripe_wheat_agrarian_industry_173008882.jpg"],
   },
-  "iron-horse": { title: "Iron Horse Ministry", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/ironhorse_website_1.png", body: "Iron Horse Ministry is listed on the website. The app can show ministry updates, contacts, and events here." },
+  "iron-horse": { title: "Iron Horse Ministry", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/ironhorse_website_1.png", body: "Iron Horse Ministry gathers riders and motorcycle families for fellowship, ministry, and outreach." },
   "kids-ministry": { title: "Kids Korral", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/kids_korral_may_square_2.png", body: "Kids Korral has a public ministry page and a parent-alert feature in the app. Parents can attach their Kids Korral number in the app account." },
   "media-team": {
     title: "Media Team",
@@ -480,7 +484,7 @@ const appPages = {
     body: "Media Team supports church media, livestream, and production. This native page can show serving details, livestream support info, and team contact.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/wantto_create_bboxv0rveog_unsplash.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/359932929_575064288161572_4061951424346166033_n_1.jpg"],
   },
-  men: { title: "Men's Ministry", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/men_s_breakfast_500_x_300_px_handout.png", body: "Men's Ministry is listed on the website and can include breakfasts, gatherings, and announcements." },
+  men: { title: "Men's Ministry", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/men_s_breakfast_500_x_300_px_handout.png", body: "Men's Ministry creates opportunities for men to gather, grow, serve, and encourage one another." },
   park: {
     title: "MW State Park Ministry",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/lmwsp_overlook_0369.jpg",
@@ -491,7 +495,7 @@ const appPages = {
       "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/248534057_427018112320965_6130763414557701777_n_1.jpg",
     ],
   },
-  "new-believers": { title: "New Believer's Class", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/new_believers_website_2.png", body: "New Believer's Class is listed on the website and can include class dates, signup, and resources." },
+  "new-believers": { title: "New Believer's Class", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/new_believers_website_2.png", body: "Every Sunday Morning at 9:00am." },
   "prayer-team": {
     title: "Prayer Team",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/prayer.jpg",
@@ -513,8 +517,8 @@ const appPages = {
   women: { title: "Women's Ministry", body: "PPCCC Cowgirls create opportunities for women to gather, grow, and give together.", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/gals_who_gather_website_1.png" },
   "young-adults": { title: "Young Adults Group", image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/young_adults_website.png", body: "Every Wednesday at 6:30 PM for ages 18-29. Chris Pruitt 940-452-0026. Lay Pastor John Knight 940-452-2961." },
   youth: { title: "Youth Ministry", image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/palo_pinto_county_cowboy.jpg", body: "A group for 7th-12th grade students. Every Wednesday dinner at 6:15 PM and study at 6:30 PM in the barn. Bryce Harrington 940-452-4910." },
-  "laughter-lemonade": { title: "Laughter & Lemonade RSVP", image: "https://faithconnector.s3.amazonaws.com/6267/images/page/specific/laughter_lemonade.jpg", body: "Women's Laughter & Lemonade RSVP is listed on the website. This app version keeps signup in-app.", signup: "laughter" },
-  "dutch-oven": { title: "Dutch Oven Class RSVP", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/2026_dutch_oven_class_500_x_300_px.png", body: "Dutch Oven Class RSVP is listed on the website. This app version keeps signup in-app.", signup: "dutch" },
+  "laughter-lemonade": { title: "Laughter & Lemonade RSVP", image: "https://faithconnector.s3.amazonaws.com/6267/images/page/specific/laughter_lemonade.jpg", body: "RSVP for Laughter & Lemonade and let the team know who is coming.", signup: "laughter" },
+  "dutch-oven": { title: "Dutch Oven Class RSVP", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/2026_dutch_oven_class_500_x_300_px.png", body: "Sign up for the Dutch Oven Class and share how many people will attend.", signup: "dutch" },
 };
 
 Object.assign(appPages, {
@@ -1286,12 +1290,12 @@ Object.assign(appPages, {
   "privacy-data": {
     title: "Privacy & Data",
     image: "icons/icon.svg",
-    body: "Privacy & Data\n\nThis app is designed for church communication, not advertising.\n\nNo ads.\nNo ad tracking.\nNo background location tracking.\nNo selling personal data.\nNo hidden background data collection.\n\nThe app only loads church content such as events, pages, images, livestream information, and notification settings. Event/content refresh happens when the app opens, when you refresh, or when the operating system allows a lightweight app refresh. Push notifications require permission and are intended only for church alerts, live service notices, event reminders, and Kids Korral alerts.\n\nKids Korral numbers, accounts, roles, and push tokens must be stored in a secure backend before production launch.",
+    body: "Privacy & Data\n\nThis app is designed for church communication, not advertising.\n\nNo ads.\nNo ad tracking.\nNo background location tracking.\nNo selling personal data.\nNo hidden background data collection.\n\nThe app only loads church content such as events, pages, images, livestream information, and notification settings. Push notifications require permission and are intended only for church alerts, live service notices, event reminders, and Kids Korral alerts.",
   },
   give: {
     title: "Give",
     image: "icons/icon.svg",
-    body: "Tithing is part of worship\n\n\"Honour the LORD with thy substance, and with the firstfruits of all thine increase.\" - Proverbs 3:9 (KJV)\n\nGiving will stay separate from the app account system for security. When the church giving provider is chosen, this screen can hand off clearly to that trusted tithing page.",
+    body: "Tithing is part of worship\n\n\"Honor the LORD with your possessions and with the first produce of your entire harvest.\" - Proverbs 3:9 (CSB)\n\nGiving stays separate from app accounts for security. Use only the church-approved secure giving page for tithes and offerings.",
   },
 });
 
@@ -1736,6 +1740,7 @@ function formFieldValues(container) {
 }
 
 async function submitAppForm(kind, payload) {
+  const nativePlatform = window.__PPCCC_PLATFORM__ || document.documentElement.dataset.platform || "native";
   const response = await fetch(`${appConfig.supabaseUrl}/functions/v1/submit-app-form`, {
     method: "POST",
     headers: {
@@ -1745,7 +1750,8 @@ async function submitAppForm(kind, payload) {
     },
     body: JSON.stringify({
       kind,
-      source: window.__PPCCC_NATIVE_APP__ ? "ios_app" : "web_app",
+      source: window.__PPCCC_NATIVE_APP__ ? `${nativePlatform}_app` : "web_app",
+      forwardingWebhookUrl: appConfig.formForwardingWebhookUrl || undefined,
       sourceUrl: location.href,
       payload: {
         ...payload,
@@ -2084,7 +2090,7 @@ function renderHome() {
     </section>
     <section class="action-strip">
       <button class="quick-action wide-action" data-calendar="${events[0].id}"><strong>Add Sunday Worship to Calendar</strong><span>${formatDate(events[0].date)} at ${events[0].time}</span></button>
-      <button class="quick-action wide-action" data-page="service-times"><strong>Service Times</strong><span>Sunday, Wednesday, and Celebrate Recovery</span></button>
+      <button class="quick-action wide-action" data-page="service-times"><strong>Service Times</strong><span>Sunday worship and Wednesday groups</span></button>
     </section>
     <section class="panel">
       <h2>Verse of the Day</h2>
@@ -2484,6 +2490,51 @@ function renderContact() {
   `;
 }
 
+function settingsSupportCards() {
+  return `
+    <article class="card settings-card">
+      <h3>Support</h3>
+      ${linkList([
+        { title: "Forgot Password", route: "forgot-password", subtitle: "Email reset link", icon: "R" },
+        { title: "Send App Feedback", route: "feedback", subtitle: "Bug reports and suggestions", icon: "F" },
+        { title: "Contact Church Office", route: "contact", subtitle: "Send an in-app message", icon: "C" },
+        { title: "Privacy & Safety", route: "security", subtitle: "Account, alerts, and child safety", icon: "S" },
+        { title: "Privacy & Data", pageId: "privacy-data", subtitle: "No ads, no trackers, no background location", icon: "P" },
+      ])}
+    </article>
+    <article class="card settings-card">
+      <h3>Giving</h3>
+      ${linkList([
+        { title: "Give Online", pageId: "give", subtitle: "Tithing and secure giving", icon: "$" },
+      ])}
+    </article>
+    <article class="card settings-card">
+      <h3>Church Contact</h3>
+      <div class="info-list">
+        <div class="info-row">
+          <strong>Address</strong>
+          <span class="muted">${contactInfo.address}</span>
+        </div>
+        <div class="info-row">
+          <strong>Phone</strong>
+          <span class="muted">${contactInfo.phone}</span>
+        </div>
+        <div class="info-row">
+          <strong>Email</strong>
+          <span class="muted">${contactInfo.email}</span>
+        </div>
+      </div>
+      <div class="grid">
+        <button class="button secondary" id="mapsButton">Maps</button>
+        <button class="button secondary" data-open="tel:${contactInfo.phone}">Call</button>
+        <button class="button secondary" id="emailButton">Email</button>
+        <button class="button secondary" data-go="contact">Form</button>
+      </div>
+    </article>
+    ${state.currentUser.role === "admin" ? syncStatusCard() : ""}
+  `;
+}
+
 function renderAppPage() {
   const page = appPages[state.pageId];
   if (!page) {
@@ -2642,7 +2693,7 @@ function renderAccount() {
             <button class="filter-chip ${state.accountMode === "create" ? "active" : ""}" data-account-mode="create">Create Account</button>
             <button class="filter-chip ${state.accountMode === "sign-in" ? "active" : ""}" data-account-mode="sign-in">Sign In</button>
           </div>
-          <p class="muted account-note">For beta testing, this saves only on this device. Secure sign-in will be connected before public launch.</p>
+          <p class="muted account-note">Create a profile, save family info, and manage church alerts.</p>
           ${state.accountMode === "sign-in" ? `
             <div class="field">
               <label for="signinEmail">Email Address</label>
@@ -2653,6 +2704,7 @@ function renderAccount() {
               <input id="signinName" autocomplete="name" placeholder="Your name" />
             </div>
             <button class="button full" id="signInAccount">Continue</button>
+            <button class="button secondary full" data-go="forgot-password">Forgot Password</button>
           ` : `
             <div class="field">
               <label for="createName">Name</label>
@@ -2678,8 +2730,8 @@ function renderAccount() {
           `}
         </article>
         <article class="card settings-card beta-admin-card">
-          <h3>TestFlight Admin Beta</h3>
-          <p class="muted">Local demo only. Enter the shared passcode to preview staff controls until real account permissions are connected.</p>
+          <h3>Staff Access</h3>
+          <p class="muted">Approved staff can unlock admin and ministry tools here.</p>
           <div class="admin-status-row">
             <strong>Admin Mode</strong>
             <span class="pill ${isLocalAdminMode() ? "gold" : ""}">${isLocalAdminMode() ? "On locally" : "Off"}</span>
@@ -2689,12 +2741,13 @@ function renderAccount() {
           ` : `
             <div class="field">
               <label for="demoAdminPasscode">Passcode</label>
-              <input id="demoAdminPasscode" type="password" inputmode="text" autocomplete="off" placeholder="Enter TestFlight passcode" />
+              <input id="demoAdminPasscode" type="password" inputmode="text" autocomplete="off" placeholder="Enter staff passcode" />
             </div>
-            <button class="button full" id="demoAdminSignIn">Unlock Admin Preview</button>
+            <button class="button full" id="demoAdminSignIn">Unlock Staff Tools</button>
           `}
-          <p class="muted small-note">For TestFlight preview only. Public launch will use secure server permissions.</p>
+          <p class="muted small-note">Staff tools are limited to approved church roles.</p>
         </article>
+        ${settingsSupportCards()}
       </section>
     `;
     return;
@@ -2707,7 +2760,7 @@ function renderAccount() {
         <div>
           <h2>${safeText(state.currentUser.name)}</h2>
           <p class="muted">${safeText(state.currentUser.email)}</p>
-          <span class="pill gold">${isLocalAdminMode() ? "Beta Local Admin" : roles[state.currentUser.role].label}</span>
+          <span class="pill gold">${isLocalAdminMode() ? "Admin" : roles[state.currentUser.role].label}</span>
         </div>
       </article>
       <article class="card settings-card account-access-card">
@@ -2716,12 +2769,12 @@ function renderAccount() {
           <strong>Account Preview</strong>
           <span class="pill gold">Saved on this device</span>
         </div>
-        <p class="muted">This account setup is for beta testing only. Public launch will use secure sign-in and account permissions.</p>
+        <p class="muted">Manage your profile, alert preferences, and Kids Korral links.</p>
         <button class="button secondary full" id="signOutAccount">Sign Out on This Device</button>
       </article>
       <article class="card settings-card beta-admin-card">
-        <h3>TestFlight Admin Beta</h3>
-        <p class="muted">Local demo only. Enter the shared passcode to preview staff controls until real account permissions are connected.</p>
+        <h3>Staff Access</h3>
+        <p class="muted">Approved staff can unlock admin and ministry tools here.</p>
         <div class="admin-status-row">
           <strong>Admin Mode</strong>
           <span class="pill ${isLocalAdminMode() ? "gold" : ""}">${isLocalAdminMode() ? "On locally" : "Off"}</span>
@@ -2731,11 +2784,11 @@ function renderAccount() {
         ` : `
           <div class="field">
             <label for="demoAdminPasscode">Passcode</label>
-            <input id="demoAdminPasscode" type="password" inputmode="text" autocomplete="off" placeholder="Enter TestFlight passcode" />
+            <input id="demoAdminPasscode" type="password" inputmode="text" autocomplete="off" placeholder="Enter staff passcode" />
           </div>
-          <button class="button full" id="demoAdminSignIn">Unlock Admin Preview</button>
+          <button class="button full" id="demoAdminSignIn">Unlock Staff Tools</button>
         `}
-        <p class="muted small-note">For TestFlight preview only. Public launch will use secure server permissions.</p>
+        <p class="muted small-note">Staff tools are limited to approved church roles.</p>
       </article>
       <article class="card settings-card">
         <h3>Profile</h3>
@@ -2769,7 +2822,7 @@ function renderAccount() {
         <h3>Account Security</h3>
         ${linkList([
           { title: "Forgot Password", route: "forgot-password", subtitle: "Email reset link", icon: "R" },
-          { title: "Security Center", route: "security", subtitle: "Password, roles, child safety, audit logs", icon: "S" },
+          { title: "Privacy & Safety", route: "security", subtitle: "Account, alerts, and child safety", icon: "S" },
         ])}
       </article>
       <article class="card settings-card">
@@ -2788,44 +2841,7 @@ function renderAccount() {
           ])}
         </article>
       ` : ""}
-      <article class="card settings-card">
-        <h3>Support</h3>
-        ${linkList([
-          { title: "Send App Feedback", route: "feedback", subtitle: "Bug reports and suggestions", icon: "F" },
-          { title: "Contact Church Office", route: "contact", subtitle: "Send an in-app message", icon: "C" },
-          { title: "Privacy & Data", pageId: "privacy-data", subtitle: "No ads, no trackers, no background location", icon: "P" },
-        ])}
-      </article>
-      <article class="card settings-card">
-        <h3>Giving</h3>
-        ${linkList([
-          { title: "Give Online", pageId: "give", subtitle: "Tithing and secure giving", icon: "$" },
-        ])}
-      </article>
-      <article class="card settings-card">
-        <h3>Church Contact</h3>
-        <div class="info-list">
-          <div class="info-row">
-            <strong>Address</strong>
-            <span class="muted">${contactInfo.address}</span>
-          </div>
-          <div class="info-row">
-            <strong>Phone</strong>
-            <span class="muted">${contactInfo.phone}</span>
-          </div>
-          <div class="info-row">
-            <strong>Email</strong>
-            <span class="muted">${contactInfo.email}</span>
-          </div>
-        </div>
-        <div class="grid">
-          <button class="button secondary" id="mapsButton">Maps</button>
-          <button class="button secondary" data-open="tel:${contactInfo.phone}">Call</button>
-          <button class="button secondary" id="emailButton">Email</button>
-          <button class="button secondary" data-go="contact">Form</button>
-        </div>
-      </article>
-      ${state.currentUser.role === "admin" ? syncStatusCard() : ""}
+      ${settingsSupportCards()}
     </section>
   `;
 }
@@ -2887,39 +2903,32 @@ function renderForgotPassword() {
 
 function renderSecurity() {
   const securityItems = [
-    ["Backend-only roles", "Admin and Kids Korral permissions must be enforced by the server, not only hidden in the app."],
-    ["Least data for kids", "Store Kids Korral numbers and family links only. Avoid birthdates, medical notes, addresses, school info, and custody details unless leadership formally approves."],
-    ["Targeted push only", "Kids Korral alerts go only to devices linked to that family number, never to public topics."],
-    ["Audit logs", "Log role changes, Kids Korral alerts, login events, password resets, and failed admin attempts."],
-    ["Rate limits", "Limit login, reset email, forms, notification sends, and calendar/API requests."],
-    ["MFA for staff", "Require multi-factor authentication for admins and Kids Korral staff."],
-    ["Biometric unlock", "Use Face ID, Touch ID, or Android fingerprint in the native app before opening admin tools or sending alerts."],
-    ["Encrypted transport", "All production traffic must use HTTPS. No secrets or API keys in the mobile bundle."],
-    ["Data isolation", "Users can read/update only their own profile, notification preferences, and family number."],
-    ["DDoS protection", "Use Cloudflare/Vercel/managed hosting protection, caching, WAF rules, bot limits, and backend request quotas."],
-    ["Incident controls", "Admin revoke access, disable push sending, rotate keys, and export audit logs quickly."],
+    ["Private by default", "The app is built for church communication, not ads, tracking, or selling personal data."],
+    ["Kids Korral care", "Family numbers are used only to help route parent alerts to the right people."],
+    ["Staff-only tools", "Admin and Kids Korral tools stay available only to approved church roles."],
+    ["Targeted alerts", "Kids Korral messages are meant for linked family devices, not public announcements."],
+    ["Account recovery", "Forgot-password links are sent by email and should expire quickly."],
+    ["Secure giving", "Tithes and offerings should always use the church-approved giving provider."],
+    ["Device security", "Staff tools can be protected with Face ID, Touch ID, or Android fingerprint in the native app."],
+    ["Contact control", "Prayer requests, contact forms, and signups should go only to the approved church workflow."],
   ];
 
   app.innerHTML = `
     <section class="stack">
       <article class="screen-hero security-hero">
-        <span class="pill gold">Security Center</span>
+        <span class="pill gold">Privacy & Safety</span>
         <div>
           <h2>Protect Families First</h2>
-          <p>Security must live in the backend, with the app showing only the safe controls each user is allowed to use.</p>
+          <p>Clear account controls, limited data, and staff-only alerts help keep church communication trustworthy.</p>
         </div>
       </article>
       <article class="card">
-        <h3>Production Security Standard</h3>
-        <p class="copy-block">This design minimizes exposed data, keeps secrets off phones, rate-limits abuse, logs sensitive actions, and requires server-side role checks before anything involving accounts, admins, Kids Korral, or push notifications.</p>
+        <h3>What The App Does</h3>
+        <p class="copy-block">The app keeps church information, events, media, prayer requests, account settings, and Kids Korral alerts in one place while limiting what each user can access.</p>
       </article>
       <article class="card security-list">
-        <h3>Required Controls</h3>
+        <h3>Safety Commitments</h3>
         ${securityItems.map(([title, body]) => `<div class="security-row"><strong>${title}</strong><span>${body}</span></div>`).join("")}
-      </article>
-      <article class="card warning-card">
-        <h3>Do Not Ship Without</h3>
-        <p>Real auth provider, server-side role checks, secure database rules, push-token registration, audit logs, rate limits, privacy policy, admin MFA, and a Kids Korral operating policy.</p>
       </article>
     </section>
   `;
@@ -3071,7 +3080,7 @@ document.body.addEventListener("click", async (event) => {
     localStorage.setItem(localAdminStorageKey, "true");
     state.currentUser.role = "admin";
     if (isSignedIn()) saveAccountState();
-    showToast("Local beta admin mode enabled.");
+    showToast("Staff tools unlocked on this device.");
     render();
   }
 
@@ -3079,7 +3088,7 @@ document.body.addEventListener("click", async (event) => {
     localStorage.removeItem(localAdminStorageKey);
     state.currentUser.role = "end_user";
     if (isSignedIn()) saveAccountState();
-    showToast("Local beta admin mode turned off.");
+    showToast("Staff tools locked on this device.");
     render();
   }
 

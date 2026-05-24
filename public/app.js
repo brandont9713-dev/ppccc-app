@@ -119,17 +119,17 @@ let teamupEvents = [
 const homeSlides = [
   {
     title: "Welcome to Palo Pinto County Cowboy Church",
-    caption: "The app home can pull the same marquee image from the website.",
+    caption: "Come as you are and worship with the PPCCC church family.",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/hotels_business_website.png",
   },
   {
     title: "Sundays",
-    caption: "Service details can stay connected to the website source.",
+    caption: "Worship service begins every Sunday at 10:30 AM.",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/2_1.png",
   },
   {
     title: "Radio Update",
-    caption: "Announcements can appear in the app as soon as the website changes.",
+    caption: "Listen for PPCCC updates on Mineral Wells, Stephenville, Granbury, Eastland, and Ranger radio.",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/3_1.png",
   },
 ];
@@ -207,10 +207,10 @@ const state = {
   eventFilter: "All",
   eventMonth: new Date().toLocaleDateString("en-CA").slice(0, 7),
   eventsLoadedAt: "",
-  eventsSource: "Static fallback",
+  eventsSource: "Church calendar",
   eventsLoading: false,
   mediaLoadedAt: "",
-  mediaSource: "Static fallback",
+  mediaSource: "Message library",
   mediaLoading: false,
   pendingUsers: [
     { name: "Pastor Account", email: "pastor@example.com", role: "end_user" },
@@ -316,17 +316,6 @@ const teamupCalendars = {
   9242777: "Young Adults Group",
 };
 
-const syncSources = [
-  { key: "home", label: "Home Marquee + Featured Items", source: "Website homepage images/content", strategy: "CMS/API or approved page feed", status: "Awaiting approved content source" },
-  { key: "events", label: "Events Calendar", source: "Teamup public JSON + iCalendar", strategy: "Direct public JSON, same-origin proxy, generated cache, iCalendar fallback", status: "Connected to PPCCC Teamup public feed" },
-  { key: "live", label: "Live Service", source: "Website livestream embed / YouTube channel", strategy: "In-app player fed by livestream status endpoint", status: "Player shell ready" },
-  { key: "more", label: "More Sections", source: "Website pages under Welcome, Teams, Resources", strategy: "Page registry maps each URL to native app templates", status: "Mapped" },
-  { key: "media", label: "Sermons + Bible Study", source: "FaithConnector downloads RSS", strategy: "Public RSS feed, same-origin proxy, generated cache, static video fallbacks", status: "Connected to PPCCC media RSS" },
-  { key: "forms", label: "Website Forms", source: "Prayer, Text Alerts, Connect Groups, RSVP pages", strategy: "Submit to app backend, then forward/sync to church workflow", status: "Native forms ready" },
-  { key: "kids", label: "Kids Korral Alerts", source: "App-only database", strategy: "Role-gated push notifications; not synced to website", status: "App-only by design" },
-  { key: "auth", label: "Accounts + Roles", source: "App auth database", strategy: "Admin-managed permissions", status: "Ready for Supabase Auth" },
-];
-
 const pageSourceUrls = {
   visitors: "https://www.palopintocowboychurch.com/visitors",
   "service-times": "https://www.palopintocowboychurch.com/service-times",
@@ -367,7 +356,7 @@ const appPages = {
   visitors: {
     title: "Visitors",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/131901764_10218876925614462_4584006058819768448_n_1.jpg",
-    body: "Visitors can find a welcome message, what to expect, and the heart of the church. The website includes 1 Corinthians 9:19-23 and visitor-focused imagery.",
+    body: "Visitors can find a welcome message, what to expect, and the heart of the church. This page includes 1 Corinthians 9:19-23 and visitor-focused imagery.",
     actions: [{ label: "Service Times", route: "service-times" }, { label: "Directions", route: "directions" }],
   },
   "service-times": {
@@ -377,12 +366,12 @@ const appPages = {
   },
   directions: {
     title: "Get Directions",
-    body: `${contactInfo.address}. The app opens the user's native maps app instead of sending them to the website.`,
+    body: `${contactInfo.address}. Open maps for turn-by-turn directions to the church.`,
     actions: [{ label: "Open in Maps", maps: true }],
   },
   about: {
     title: "About Us",
-    body: "Palo Pinto County Cowboy Church is a come-as-you-are church family in Palo Pinto County. This section keeps welcome information, church details, and ministry resources easy to find in the app.",
+    body: "Palo Pinto County Cowboy Church is a come-as-you-are church family in Palo Pinto County. Find welcome information, church details, and ministry resources here.",
   },
   mission: {
     title: "Mission Statement",
@@ -390,11 +379,11 @@ const appPages = {
   },
   elders: {
     title: "Elders and Lay Pastors",
-    body: "The website lists elders and lay pastors including Don Berry, John Martin, John Welborn, John Abraham, Danny Gerald, Billy James, Rocky Mahan, Jim Mann, David Crawford, Alan Fires, James Johnson, Gary Bowling, JJ Jernigan, Brian Jordan, Bill Kiker, Tony Leach, Phil Lockwood, Mike Morris, and Todd Smith.",
+    body: "Elders and lay pastors include Don Berry, John Martin, John Welborn, John Abraham, Danny Gerald, Billy James, Rocky Mahan, Jim Mann, David Crawford, Alan Fires, James Johnson, Gary Bowling, JJ Jernigan, Brian Jordan, Bill Kiker, Tony Leach, Phil Lockwood, Mike Morris, and Todd Smith.",
   },
   "team-leaders": {
     title: "Team Leaders",
-    body: "Team leaders listed on the website include leaders for building maintenance, Iron Horse, decorating, audit, college and career, chow hall, concessions, connect groups, Celebrate Recovery, buildings and grounds, and more. In production these become searchable people/team cards.",
+    body: "Team leaders serve across building maintenance, Iron Horse, decorating, audit, college and career, chow hall, concessions, connect groups, Celebrate Recovery, buildings and grounds, and more.",
   },
   teams: {
     title: "Teams",
@@ -402,13 +391,13 @@ const appPages = {
   },
   "prayer-requests": {
     title: "Prayer Requests",
-    body: "The website has a Prayer/Praise Report form. The app should keep this in-app with fields for request type, description, intended prayer group, and contact details.",
+    body: "Send a prayer request or praise report to the church. Share the request type, description, who it is for, and the best way to contact you.",
     actions: [{ label: "Open Prayer Form", route: "contact" }],
   },
   testimonies: {
     title: "Testimonies",
     image: "icons/icon.svg",
-    body: "Testimonies\n\nQuotes and stories from the website.",
+    body: "Testimonies\n\nQuotes and stories from the PPCCC church family.",
   },
   "connect-groups": {
     title: "Connect Groups",
@@ -416,15 +405,15 @@ const appPages = {
   },
   "text-alerts": {
     title: "Text Alerts",
-    body: "The website has a text alerts signup. In the app, this should become notification preferences and optional SMS signup, all kept inside the account area.",
+    body: "Sign up for church text alerts and announcements. Message and data rates may apply.",
   },
   sermons: {
     title: "Sermons",
-    body: "The website lists recent sermon media. In production, this should become an in-app media library with sermon artwork, audio/video playback, notes, and saved messages.",
+    body: "Recent Sunday messages and replays from Palo Pinto County Cowboy Church.",
   },
   "bible-study": {
     title: "Bible Study",
-    body: "The website lists Bible Study media. In production, this should become an in-app media library with study recordings, resources, and saved sessions.",
+    body: "Bible study recordings, resources, and sessions from PPCCC.",
   },
   arena: {
     title: "Arena Team",
@@ -446,7 +435,7 @@ const appPages = {
       "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/359729918_1657580051414485_6748833929548026709_n_1.jpg",
     ],
   },
-  "card-ministry": { title: "Card Ministry", body: "Card Ministry is listed on the website as a church team. This native page will hold ministry description, leader contact, and serving opportunities once synced." },
+  "card-ministry": { title: "Card Ministry", body: "Card Ministry supports and encourages the church family through cards for birthdays, anniversaries, weddings, baptisms, births, hospitalizations, loss, and difficult seasons." },
   "celebrate-recovery": {
     title: "Celebrate Recovery",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/cr_website_3.png",
@@ -455,31 +444,31 @@ const appPages = {
   chuckwagon: {
     title: "Chuckwagon Team",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/chuck1.jpg",
-    body: "Chuckwagon Team supports church meals and events. This native page can show serving needs, event support, and team contact details.",
+    body: "Chuckwagon Team supports church meals, gatherings, and event hospitality.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/marquee/chuck2.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/marquee/chuck3.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/8f6043a2_a35e_4516_80ed_421ed305c4ae.jpg"],
   },
   concessions: {
     title: "Concessions",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/concessions1.jpg",
-    body: "Concessions is a serving team for church and arena events. This native page can show schedules, serving needs, and team contact info.",
+    body: "The Concession Team serves food and drinks during arena events and represents PPCCC hospitality.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/0a266feb_8f60_4915_9fe7_bd1b649ef655.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/242593264_577908139918830_3877664977060728858_n_1.jpg"],
   },
   greeters: {
     title: "Door Greeters",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/greeters.jpg",
-    body: "Door Greeters help welcome people into church. This native page can show team details and ways to serve.",
+    body: "Door Greeters welcome people into church and help guests feel at home from the moment they arrive.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/f951fde5_4fb7_4276_9369_a774ffdeedeb.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/church1_1.jpg"],
   },
   "general-store": {
     title: "General Store",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/general_store.jpg",
-    body: "General Store is listed on the website as a church team. This native page can show store info, hours, and team contact details.",
+    body: "The General Store serves the church family with PPCCC goods, resources, and friendly help.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/242847316_396236698739749_8171333804767005852_n_1.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/242636446_595635228456931_1284282420251819865_n_1.jpg"],
   },
   harvest: {
     title: "Harvest Team",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/harvest.jpg",
-    body: "Harvest Team is listed on the website as a ministry team. This native page can show outreach details and serving opportunities.",
+    body: "Harvest Team serves through outreach, care, and ministry opportunities in the church and community.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/ca82561b_66cd_4220_a5be_aa033c42b115.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/wheat_harvest_fields_ripe_wheat_agrarian_industry_wheat_harvest_fields_ripe_wheat_agrarian_industry_173008882.jpg"],
   },
   "iron-horse": { title: "Iron Horse Ministry", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/ironhorse_website_1.png", body: "Iron Horse Ministry gathers riders and motorcycle families for fellowship, ministry, and outreach." },
@@ -487,7 +476,7 @@ const appPages = {
   "media-team": {
     title: "Media Team",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/media.jpg",
-    body: "Media Team supports church media, livestream, and production. This native page can show serving details, livestream support info, and team contact.",
+    body: "Media Team supports slides, livestream, filming, photos, and production for Sunday services and church events.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/wantto_create_bboxv0rveog_unsplash.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/359932929_575064288161572_4061951424346166033_n_1.jpg"],
   },
   men: { title: "Men's Ministry", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/men_s_breakfast_500_x_300_px_handout.png", body: "Men's Ministry creates opportunities for men to gather, grow, serve, and encourage one another." },
@@ -505,19 +494,19 @@ const appPages = {
   "prayer-team": {
     title: "Prayer Team",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/prayer.jpg",
-    body: "Prayer Team is listed on the website. This native page connects naturally to in-app prayer request workflows.",
+    body: "How can we pray for you today? Share a request or praise report with the church prayer team.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/20180408_sundayscripture_ps18.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/11125_bst_prayer_verses_slide6.jpg"],
   },
   "sound-team": {
     title: "Sound Team",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/sound.jpg",
-    body: "Sound Team is listed on the website as a serving team. This native page can hold team details and serving opportunities.",
+    body: "Sound Team serves Sunday worship and church events through audio support and production care.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/359819797_1765753837228452_5419681350569170164_n_1.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/isaiah491_1.jpg"],
   },
   "worship-team": {
     title: "Worship Team",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/band.jpg",
-    body: "Worship Team is listed on the website. This native page can hold worship team details and serving opportunities.",
+    body: "Worship Team leads music and helps the church family worship together.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/244890953_307057087484704_6986061951613743040_n_1_1.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/243568686_588048309279382_1113807042124914206_n_1_1.jpg"],
   },
   women: { title: "Women's Ministry", body: "PPCCC Cowgirls create opportunities for women to gather, grow, and give together.", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/gals_who_gather_website_1.png" },
@@ -561,26 +550,26 @@ Object.assign(appPages, {
   "card-ministry": {
     title: "Card Ministry",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/publication6.jpg",
-    body: "Card Ministry is a serving ministry listed on the website. This app page gives the ministry a native home for details, leader information, photos, and ways to serve.",
+    body: "Card Ministry provides support and communication to church members through card mailing for birthdays, anniversaries, weddings, baptisms, births, hospitalizations, loss, and encouragement during difficult times.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/360048597_3461852037406412_3927946777074442229_n_1.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/info_1.jpg"],
   },
   "iron-horse": {
     title: "Iron Horse Ministry",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/ih1.jpg",
-    body: "Iron Horse Ministry is listed on the website as one of the church ministries. This native page can include ministry updates, ride/event information, leader contact, and photos.",
+    body: "Iron Horse Ministry gathers motorcycle riders and families for fellowship, rides, outreach, and ministry.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/marquee/ih3.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/marquee/ih5.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/ih2_1.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/130231231_100188271966705_3557301890575191403_n_1.jpg"],
   },
   "kids-ministry": {
     title: "Kids Korral",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/kk1.jpg",
-    body: "Kids Korral is the children's ministry page from the website and also connects to the app's parent alert feature. Parents can attach their Kids Korral number in the app, and approved staff can send parent notifications when needed.",
+    body: "Kids Korral is the children's ministry at PPCCC. Parents can attach their Kids Korral number to receive parent notifications when needed.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/marquee/kk5.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/marquee/kk2.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/marquee/kk3.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/marquee/kk6.jpg"],
     actions: [{ label: "Open Kids Korral Alerts", route: "kids" }],
   },
   men: {
     title: "Men's Ministry",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/publication1.jpg",
-    body: "Men's Ministry includes men's gatherings, breakfasts, fellowship, and Bible study opportunities. This native app page can hold current events and ministry updates.",
+    body: "Men's Ministry includes men's gatherings, breakfasts, fellowship, Bible study opportunities, and encouragement for men to grow and serve.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/marquee/fireside_website_4.png", "https://faithconnector.s3.amazonaws.com/6267/images/marquee/untitled_design_6_1.png", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/img_3618_800x533_crop.jpg"],
   },
   women: {
@@ -592,7 +581,7 @@ Object.assign(appPages, {
   "young-adults": {
     title: "Young Adults Group",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/young_adults_website.png",
-    body: "Young Adults Group meets every Wednesday at 6:30 PM for ages 18-29. It is a time of fellowship. Contacts listed on the website include Chris Pruitt at 940-452-0026 and Lay Pastor John Knight at 940-452-2961.",
+    body: "Young Adults Group meets every Wednesday at 6:30 PM for ages 18-29. It is a time of fellowship. Contacts include Chris Pruitt at 940-452-0026 and Lay Pastor John Knight at 940-452-2961.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/364215539_679625227539196_6475605505459150032_n_1.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/e7a6e2a24d78ef43341080e15acf01f8_1.jpg"],
   },
   youth: {
@@ -633,7 +622,7 @@ Object.assign(appPages, {
   elders: {
     title: "Elders & Lay Pastors",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/member/359685916_676167124556074_9092077316176717027_n.jpg",
-    body: "Elders and Lay Pastors listed on the website.",
+    body: "Elders and Lay Pastors serving the PPCCC church family.",
     people: [
       { name: "Don Berry", role: "Elder", image: "https://faithconnector.s3.amazonaws.com/6267/images/member/359685916_676167124556074_9092077316176717027_n.jpg" },
       { name: "John Martin", role: "Elder", image: "https://faithconnector.s3.amazonaws.com/6267/images/member/449949132_1000112208378342_6996346522036791670_n.jpg" },
@@ -659,7 +648,7 @@ Object.assign(appPages, {
   "team-leaders": {
     title: "Team Leaders",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/member/359957205_983372079646695_5982784191060705686_n.jpg",
-    body: "Team leaders listed on the website.",
+    body: "Team leaders serving across PPCCC ministries and church teams.",
     people: [
       { name: "Nickey Bunch", role: "Prayer Team Lead", image: "https://faithconnector.s3.amazonaws.com/6267/images/member/359957205_983372079646695_5982784191060705686_n.jpg" },
       { name: "Barbara Johnson", role: "Card Ministry Team Lead", image: "https://faithconnector.s3.amazonaws.com/6267/images/member/360048597_3461852037406412_3927946777074442229_n.jpg" },
@@ -688,7 +677,7 @@ Object.assign(appPages, {
   arena: {
     title: "Arena Team",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/arena_facebook.jpg",
-    body: "Arena Team\n\nArena team host events weekly and monthly. Days of the week vary. The website lists events such as barrel races, playdays, team roping, and open arena days. Like the Arena page on Facebook for updates.",
+    body: "Arena Team\n\nArena team hosts events weekly and monthly. Days of the week vary. Events include barrel races, playdays, team roping, and open arena days. Like the Arena page on Facebook for updates.",
     people: [{ name: "Robert Ward", role: "940-745-9343", image: placeholderPersonImage }],
   },
   "building-grounds": {
@@ -1061,7 +1050,7 @@ Object.assign(appPages, {
   "media-team": {
     title: "Media Team",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/media.jpg",
-    body: "Media Team\n\nThe Media Team is responsible for putting up slides on Sunday morning, live streaming the services and filming. We are also going to be at future events for the church to take pictures and video for the website. Media Team members will be trained and comfortable with either the filming, computer, or both. Once a month rotation for volunteers.\n\nAdam Wroblski 682-429-5598",
+    body: "Media Team\n\nThe Media Team is responsible for Sunday slides, livestreaming services, filming, and capturing photos and video at church events. Media Team members are trained for filming, computer support, or both. Once a month rotation for volunteers.\n\nAdam Wroblski 682-429-5598",
     imageTiles: [
       { image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/wantto_create_bboxv0rveog_unsplash.jpg" },
       { image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/359932929_575064288161572_4061951424346166033_n_1.jpg", label: "Adam Wroblski 682-429-5598" },
@@ -1194,7 +1183,7 @@ Object.assign(appPages, {
   "prayer-requests": {
     title: "Prayer Requests",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/prayer.jpg",
-    body: "Prayer Request / Praise Report\n\nShare a prayer request or praise report with the appropriate prayer group. This keeps the website form inside the app experience.",
+    body: "Prayer Request / Praise Report\n\nShare a prayer request or praise report with the appropriate prayer group.",
     form: {
       kind: "prayer",
       title: "Submit Prayer or Praise",
@@ -1228,20 +1217,20 @@ Object.assign(appPages, {
   sermons: {
     title: "Sermons",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/band.jpg",
-    body: "Sermons\n\nRecent messages from the website, presented as an in-app media library. Videos play inside the app when a YouTube video ID is available from the website sync or media admin entry.",
+    body: "Sermons\n\nRecent Sunday messages from PPCCC. Videos play right here when a replay is available.",
     mediaItems: [
       { title: "The Way Home", date: "05/10/2026", speaker: "Roger Keck", youtubeVideoId: "zIZoHHk_vug", image: "https://faithconnector.s3.amazonaws.com/6267/images/thumbs/downloads/the_way_home_square.png" },
       { title: "The Believer's Battle", date: "04/12/2026", speaker: "Roger Keck", youtubeVideoId: "ARI_IobhLWU", image: "https://faithconnector.s3.amazonaws.com/6267/images/thumbs/downloads/a_believer_s_facebook_post.png" },
       { title: "Narrow is the Way", date: "04/05/2026", speaker: "Roger Keck", youtubeVideoId: "UwuLNdZEfGI", image: "https://faithconnector.s3.amazonaws.com/6267/images/thumbs/downloads/narrow_is_the_way_square_940_x_788_px.png" },
-      { title: "Crowd or Follower", date: "Website Sermon Archive", speaker: "Roger Keck", youtubeVideoId: "Sk_YnPGa8hg", image: "https://faithconnector.s3.amazonaws.com/6267/images/thumbs/downloads/crowd_or_follower_sermon_slides_facebook_post.png" },
-      { title: "Green with Envy", date: "Website Sermon Archive", speaker: "Roger Keck", youtubeVideoId: "8v9EcuqKlcY", image: "https://faithconnector.s3.amazonaws.com/6267/images/thumbs/downloads/green_with_envy_square.png" },
+      { title: "Crowd or Follower", date: "Sermon Archive", speaker: "Roger Keck", youtubeVideoId: "Sk_YnPGa8hg", image: "https://faithconnector.s3.amazonaws.com/6267/images/thumbs/downloads/crowd_or_follower_sermon_slides_facebook_post.png" },
+      { title: "Green with Envy", date: "Sermon Archive", speaker: "Roger Keck", youtubeVideoId: "8v9EcuqKlcY", image: "https://faithconnector.s3.amazonaws.com/6267/images/thumbs/downloads/green_with_envy_square.png" },
     ],
     actions: [{ label: "YouTube Channel", url: "youtube" }],
   },
   "bible-study": {
     title: "Bible Study",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/20180408_sundayscripture_ps18.jpg",
-    body: "Bible Study\n\nStudy sessions from the website archive. Recordings stay in-app when the source provides an embeddable YouTube video ID.",
+    body: "Bible Study\n\nStudy sessions, messages, and resources from PPCCC.",
     mediaItems: [
       { title: "Session 17 Psalms", date: "05/11/2022", videoUrl: "" },
       { title: "Session 16 Speaking in Tongues", date: "05/04/2022", videoUrl: "" },
@@ -1255,7 +1244,7 @@ Object.assign(appPages, {
   testimonies: {
     title: "Testimonies",
     image: "icons/icon.svg",
-    body: "Testimonies\n\nQuotes copied from the website into an app-friendly reading view.",
+    body: "Testimonies\n\nQuotes and stories from the PPCCC church family.",
     testimonials: [
       {
         title: "Dear Cowboy Church",
@@ -1296,12 +1285,12 @@ Object.assign(appPages, {
   "privacy-data": {
     title: "Privacy & Data",
     image: "icons/icon.svg",
-    body: "Privacy & Data\n\nThis app is designed for church communication, not advertising.\n\nNo ads.\nNo ad tracking.\nNo background location tracking.\nNo selling personal data.\nNo hidden background data collection.\n\nThe app only loads church content such as events, pages, images, livestream information, and notification settings. Push notifications require permission and are intended only for church alerts, live service notices, event reminders, and Kids Korral alerts.",
+    body: "Privacy & Data\n\nPPCCC communication is for church life, not advertising.\n\nNo ads.\nNo ad tracking.\nNo background location tracking.\nNo selling personal data.\nNo hidden background data collection.\n\nChurch content includes events, pages, images, livestream information, notification settings, live service notices, event reminders, and Kids Korral alerts.",
   },
   give: {
     title: "Give",
     image: "icons/icon.svg",
-    body: "Tithing is part of worship\n\n\"Honor the LORD with your possessions and with the first produce of your entire harvest.\" - Proverbs 3:9 (CSB)\n\nGiving stays separate from app accounts for security. Use only the church-approved secure giving page for tithes and offerings.",
+    body: "Tithing is part of worship\n\n\"Honor the LORD with your possessions and with the first produce of your entire harvest.\" - Proverbs 3:9 (CSB)\n\nUse only the church-approved secure giving page for tithes and offerings.",
   },
 });
 
@@ -1459,12 +1448,12 @@ async function loadEvents() {
   state.eventsLoading = true;
   const nativeApp = Boolean(window.__PPCCC_NATIVE_APP__);
   const browserSources = [
-    { url: teamupEventsUrl(), label: "Public Teamup JSON" },
-    { url: appConfig.eventsApiUrl, label: "Live Teamup feed" },
-    { url: appConfig.calendarFeedUrl, label: "Public Teamup iCalendar", type: "ics" },
+    { url: teamupEventsUrl(), label: "Church calendar" },
+    { url: appConfig.eventsApiUrl, label: "Church calendar" },
+    { url: appConfig.calendarFeedUrl, label: "Church calendar", type: "ics" },
   ];
   const sources = [
-    { url: appConfig.supabaseEventsApiUrl, label: "Live Teamup sync" },
+    { url: appConfig.supabaseEventsApiUrl, label: "Church calendar" },
     ...(nativeApp ? [] : browserSources),
     { url: appConfig.generatedEventsUrl, label: "Generated Teamup cache" },
   ];
@@ -1486,7 +1475,7 @@ async function loadEvents() {
   }
 
   state.eventsLoadedAt = "";
-  state.eventsSource = "Static fallback";
+  state.eventsSource = "Church calendar";
   state.eventsLoading = false;
   return false;
 }
@@ -1497,7 +1486,7 @@ function mediaKey(value) {
 
 function formatMediaDate(value) {
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value || "Website archive";
+  if (Number.isNaN(date.getTime())) return value || "Message archive";
   return date.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" });
 }
 
@@ -1564,8 +1553,8 @@ function applyMediaItems(items, sourceLabel, loadedAt = new Date().toISOString()
 async function loadMedia() {
   state.mediaLoading = true;
   const sources = [
-    { url: appConfig.mediaApiUrl, label: "Live FaithConnector RSS" },
-    { url: appConfig.sermonFeedUrl, label: "Public FaithConnector RSS", type: "rss" },
+    { url: appConfig.mediaApiUrl, label: "Message library" },
+    { url: appConfig.sermonFeedUrl, label: "Message library", type: "rss" },
     { url: appConfig.generatedMediaUrl, label: "Generated media cache" },
   ];
 
@@ -1582,7 +1571,7 @@ async function loadMedia() {
   }
 
   state.mediaLoadedAt = "";
-  state.mediaSource = "Static fallback";
+  state.mediaSource = "Message library";
   state.mediaLoading = false;
   return false;
 }
@@ -1596,7 +1585,7 @@ async function enableNotifications() {
   }
 
   if (!("Notification" in window)) {
-    showToast("Notifications need the native build or a supported browser.");
+    showToast("Notifications are available after installing the mobile app.");
     return;
   }
 
@@ -1849,7 +1838,7 @@ function mediaEmbed(item) {
     return `
       <div class="media-placeholder" ${item.image ? `style="--media-image: url('${item.image}')"` : ""}>
         <button class="play-button" aria-label="Video pending">▶</button>
-        <span>Video embed ready</span>
+        <span>Video coming soon</span>
       </div>
     `;
   }
@@ -2001,10 +1990,32 @@ function pageThumb(pageId) {
 
 function cleanSubtitle(item) {
   if (item.subtitle) return item.subtitle;
-  if (item.pageId && appPages[item.pageId]?.body) return appPages[item.pageId].body.split("\n").find((line) => line && line !== appPages[item.pageId].title)?.slice(0, 72) || "Open in app";
+  if (item.pageId && appPages[item.pageId]?.body) return appPages[item.pageId].body.split("\n").find((line) => line && line !== appPages[item.pageId].title)?.slice(0, 72) || "Learn more";
   if (item.url?.startsWith("mailto:")) return "Open email app";
-  if (item.url) return "External handoff";
+  if (item.url) return "Open link";
   return "Open";
+}
+
+function iconForItem(item) {
+  if (item.icon && brandIcon(item.icon)) return item.icon;
+  const key = item.brand || item.pageId || item.route || item.title;
+  const text = String(key || "").toLowerCase();
+  if (text.includes("sermon") || text.includes("youtube") || text.includes("media")) return "video";
+  if (text.includes("bible") || text.includes("study") || text.includes("new-believer")) return "book";
+  if (text.includes("prayer")) return "prayer";
+  if (text.includes("testimon")) return "quote";
+  if (text.includes("connect") || text.includes("group")) return "people";
+  if (text.includes("text") || text.includes("alert") || text.includes("notification")) return "bell";
+  if (text.includes("give") || text.includes("tith")) return "heart";
+  if (text.includes("password") || text.includes("privacy") || text.includes("security") || text.includes("safety")) return "shield";
+  if (text.includes("feedback") || text.includes("bug") || text.includes("suggestion")) return "message";
+  if (text.includes("contact") || text.includes("email") || text.includes("mail")) return "mail";
+  if (text.includes("calendar") || text.includes("event")) return "calendar";
+  if (text.includes("direction") || text.includes("map")) return "map";
+  if (text.includes("staff") || text.includes("leader") || text.includes("elder")) return "staff";
+  if (text.includes("time") || text.includes("service")) return "clock";
+  if (text.includes("visitor") || text.includes("mission") || text.includes("team")) return "people";
+  return "document";
 }
 
 function brandIcon(type) {
@@ -2020,6 +2031,13 @@ function brandIcon(type) {
     prayer: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.4 2.8c.8-.5 1.8-.2 2.2.6l1.4 2.5 1.4-2.5c.4-.8 1.4-1.1 2.2-.6.8.4 1.1 1.4.6 2.2l-2.4 4.2 1.8 3.2 2.2-3.8c.5-.8 1.5-1 2.2-.6.8.5 1 1.5.6 2.2l-4.5 7.8A6 6 0 0 1 5.8 18L1.3 10.2C.9 9.4 1.1 8.4 1.9 8c.8-.4 1.8-.2 2.2.6l2.2 3.8 1.8-3.2L5.7 5c-.4-.8-.1-1.8.7-2.2Z"/></svg>`,
     people: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7Zm8.5-.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm0 1.5a6 6 0 0 1 5.8 6H18a8.9 8.9 0 0 0-2.1-5.7c.5-.2 1-.3 1.6-.3Z"/></svg>`,
     document: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm8 2v5h4l-4-5ZM7 13h10v-2H7v2Zm0 4h10v-2H7v2Z"/></svg>`,
+    video: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h11a3 3 0 0 1 3 3v1.1l4-2.3v10.4l-4-2.3V16a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3Zm4.3 3.2v7.6l6-3.8-6-3.8Z"/></svg>`,
+    book: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h12a3 3 0 0 1 3 3v15H7a4 4 0 0 1-4-4V5a2 2 0 0 1 2-2Zm2 14h11V6a1 1 0 0 0-1-1H6v11.1c.3-.1.7-.1 1-.1Zm0 2a2 2 0 0 1 0-4h1v4H7Z"/></svg>`,
+    quote: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 5C4.9 5 3 7.1 3 10v7h7v-7H6.2c.2-1.3 1-2.2 2.4-2.7L7.5 5Zm10 0C14.9 5 13 7.1 13 10v7h7v-7h-3.8c.2-1.3 1-2.2 2.4-2.7L17.5 5Z"/></svg>`,
+    bell: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22Zm8-6-2-2.1V10a6 6 0 1 0-12 0v3.9L4 16v2h16v-2Z"/></svg>`,
+    heart: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-4.9-10.2-10A5.5 5.5 0 0 1 12 6.1 5.5 5.5 0 0 1 22.2 11C20 16.1 12 21 12 21Z"/></svg>`,
+    shield: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5.1 3.3 9.8 8 11 4.7-1.2 8-5.9 8-11V5l-8-3Zm-1 13.6-3.2-3.2 1.4-1.4 1.8 1.8 4.4-4.4 1.4 1.4-5.8 5.8Z"/></svg>`,
+    message: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H8l-6 4V6a2 2 0 0 1 2-2Zm3 5h10V7H7v2Zm0 4h7v-2H7v2Z"/></svg>`,
   };
   return icons[type] || "";
 }
@@ -2028,11 +2046,11 @@ function linkList(items) {
   return `<div class="native-list">${items.map((item) => {
     const action = item.id ? `id="${item.id}"` : item.pageId ? `data-page="${item.pageId}"` : item.route ? `data-go="${item.route}"` : `data-open="${item.url}"`;
     const thumb = item.image || (item.pageId ? pageThumb(item.pageId) : "");
-    const icon = item.icon || item.title.slice(0, 1);
+    const icon = iconForItem(item);
     const iconSvg = brandIcon(icon);
     const iconMarkup = item.brand
       ? `<span class="row-icon brand-icon brand-${item.brand}">${brandIcon(item.brand)}</span>`
-      : `<span class="row-icon ${iconSvg ? "brand-icon" : ""}">${iconSvg || safeText(icon)}</span>`;
+      : `<span class="row-icon ${iconSvg ? "brand-icon" : ""}">${iconSvg}</span>`;
     return `
       <button class="native-row" ${action}>
         ${thumb ? `<img src="${thumb}" alt="" />` : iconMarkup}
@@ -2110,52 +2128,40 @@ function readFamilyForm(prefix) {
   };
 }
 
+const ministrySummaries = {
+  arena: "Arena events, roping, barrels, playdays",
+  "building-grounds": "Church property and building care",
+  "card-ministry": "Cards, care, and encouragement",
+  "celebrate-recovery": "Thursday recovery ministry",
+  chuckwagon: "Meals, fellowship, and hospitality",
+  concessions: "Food service for church events",
+  greeters: "Sunday welcome team",
+  "general-store": "PPCCC goods and resources",
+  harvest: "Outreach and community care",
+  "iron-horse": "Motorcycle fellowship and outreach",
+  "kids-ministry": "Children's ministry and parent alerts",
+  "media-team": "Slides, livestream, and video",
+  men: "Men's gatherings and Bible study",
+  park: "Sunday park ministry",
+  "new-believers": "Sunday class at 9:00 AM",
+  "prayer-team": "Prayer requests and care",
+  "sound-team": "Audio support for worship",
+  "worship-team": "Music and worship leadership",
+  women: "Gather, grow, and give",
+  "young-adults": "Wednesdays for ages 18-29",
+  youth: "7th-12th grade students",
+};
+
 function categoryTiles(items) {
   return `<div class="category-grid">${items.map((item) => `
     <button class="category-tile" data-page="${item.pageId}">
-      <img src="${pageThumb(item.pageId)}" alt="" />
+      ${pageThumb(item.pageId)
+        ? `<img src="${pageThumb(item.pageId)}" alt="" />`
+        : `<span class="category-icon brand-icon">${brandIcon(iconForItem(item))}</span>`}
       <strong>${item.title}</strong>
-      <span>${cleanSubtitle(item)}</span>
+      <span>${item.subtitle || ministrySummaries[item.pageId] || cleanSubtitle(item)}</span>
     </button>
   `).join("")}</div>`;
-}
-
-function syncStatusCard() {
-  return `
-    <article class="card settings-card">
-      <h3>Website Updates</h3>
-      <div class="native-list">
-        <button class="native-row" data-sync-info="overview">
-          <span class="row-icon">Sync</span>
-          <span><strong>Content Sources</strong><span class="muted">Church website, calendar, livestream, and media sources</span></span>
-          <span class="chevron">&gt;</span>
-        </button>
-      </div>
-    </article>
-  `;
-}
-
-function fullSyncStatusCard() {
-  return `
-    <article class="card settings-card">
-      <div class="row">
-        <div>
-          <h3>Website Content</h3>
-          <p class="muted">Church website content, calendar updates, livestream details, and media can be connected here as those sources are approved.</p>
-        </div>
-        <span class="pill gold">${syncSources.length} Sources</span>
-      </div>
-      <div class="native-list">
-        ${syncSources.map((item) => `
-          <button class="native-row" data-sync-info="${item.key}">
-            <span class="row-icon">Sync</span>
-            <span><strong>${item.label}</strong><span class="muted">${item.status}</span></span>
-            <span class="chevron">&gt;</span>
-          </button>
-        `).join("")}
-      </div>
-    </article>
-  `;
 }
 
 function currentScroll() {
@@ -2195,7 +2201,7 @@ function renderHome() {
       <span class="pill gold">Sunday 10:30 AM</span>
       <div>
         <h2>Palo Pinto County Cowboy Church</h2>
-        <p>Come as you are. Worship, community, ministries, events, and care in one app.</p>
+        <p>Come as you are. Worship, community, ministries, events, and care for the PPCCC family.</p>
       </div>
       <div class="hero-actions">
         <button class="button" data-page="visitors">Plan a Visit</button>
@@ -2206,12 +2212,12 @@ function renderHome() {
       <button class="dashboard-card" data-go="live">
         <span class="mini-chip">Live</span>
         <strong>Watch Service</strong>
-        <span class="muted">In-app livestream and replays</span>
+        <span class="muted">Livestream and replays</span>
       </button>
       <button class="dashboard-card" data-page="prayer-requests">
         <span class="mini-chip">Care</span>
         <strong>Prayer Request</strong>
-        <span class="muted">Send it without leaving the app</span>
+        <span class="muted">Prayer and praise reports</span>
       </button>
       <button class="dashboard-card" data-go="kids">
         <span class="mini-chip">Korral</span>
@@ -2265,7 +2271,7 @@ function renderHome() {
     </article>
     <div class="section-title">
       <h2>Featured</h2>
-      <span class="muted">From the website</span>
+      <span class="muted">Thursday nights</span>
     </div>
     <section class="stack">
       ${homeHighlights.map((item) => `
@@ -2333,13 +2339,13 @@ function renderEvents() {
         <div class="row">
           <div>
             <h2>Church Calendar</h2>
-            <p class="muted">Upcoming events from the church Teamup calendar, ready to add to your phone.</p>
+            <p class="muted">Upcoming church events with quick add-to-calendar.</p>
           </div>
           <span class="pill gold">${filteredEvents.length} Loaded</span>
         </div>
         <div class="sync-strip">
           <span>${state.eventsSource}</span>
-          <span>${state.eventsLoadedAt ? `Updated ${new Date(state.eventsLoadedAt).toLocaleString()}` : "Ready for live feed"}</span>
+          <span>${state.eventsLoadedAt ? `Updated ${new Date(state.eventsLoadedAt).toLocaleString()}` : "Calendar current"}</span>
         </div>
       </article>
       <div class="event-toolbar">
@@ -2389,7 +2395,7 @@ function renderLive() {
         </div>
         <div class="card-body">
           <h3>Sunday Worship</h3>
-          <p class="muted">The livestream will play here when service is live.</p>
+          <p class="muted">The livestream appears here when service is live.</p>
           <div class="split-actions">
             <button class="button full" id="watchLive">Watch Live</button>
             <button class="button secondary full" data-page="sermons">Messages</button>
@@ -2514,7 +2520,7 @@ function renderMore() {
           { title: "Sermons", pageId: "sermons", subtitle: "Messages and replays" },
           { title: "Bible Study", pageId: "bible-study", subtitle: "Session archive" },
           { title: "Prayer Requests", pageId: "prayer-requests", subtitle: "Prayer or praise report form", icon: "prayer" },
-          { title: "Testimonies", pageId: "testimonies", subtitle: "Quotes from the website" },
+          { title: "Testimonies", pageId: "testimonies", subtitle: "Stories from the church family" },
           { title: "Connect Groups", pageId: "connect-groups", subtitle: "Request help finding a group" },
           { title: "Text Alerts", pageId: "text-alerts", subtitle: "SMS announcements and updates" },
           { title: "Give", pageId: "give", subtitle: "Tithing and secure giving" },
@@ -2568,7 +2574,7 @@ function renderStaff() {
     <section class="stack">
       <article class="panel">
         <h2>Meet the Staff</h2>
-        <p class="muted">Staff information is pulled from the website. If a photo is missing later, the app will show an easy-to-replace placeholder.</p>
+        <p class="muted">Pastors, staff, ministry leaders, and church office contacts.</p>
       </article>
       <section class="staff-grid">
         ${staffMembers.map((member) => `
@@ -2590,7 +2596,7 @@ function renderContact() {
     <section class="stack">
       <article class="panel">
         <h2>Contact Us</h2>
-        <p class="muted">Send a message without leaving the app.</p>
+        <p class="muted">Send a message to the church office.</p>
       </article>
       <article class="card">
         <div class="field">
@@ -2632,8 +2638,8 @@ function settingsSupportCards() {
       <h3>Support</h3>
       ${linkList([
         { title: "Forgot Password", route: "forgot-password", subtitle: "Email reset link", icon: "R" },
-        { title: "Send App Feedback", route: "feedback", subtitle: "Bug reports and suggestions", icon: "F" },
-        { title: "Contact Church Office", route: "contact", subtitle: "Send an in-app message", icon: "C" },
+        { title: "Feedback", route: "feedback", subtitle: "Bug reports and suggestions", icon: "F" },
+        { title: "Contact Church Office", route: "contact", subtitle: "Message the office", icon: "C" },
         { title: "Privacy & Safety", route: "security", subtitle: "Account, alerts, and child safety", icon: "S" },
         { title: "Privacy & Data", pageId: "privacy-data", subtitle: "No ads, no trackers, no background location", icon: "P" },
       ])}
@@ -2667,14 +2673,13 @@ function settingsSupportCards() {
         <button class="button secondary" data-go="contact">Form</button>
       </div>
     </article>
-    ${state.currentUser.role === "admin" ? syncStatusCard() : ""}
   `;
 }
 
 function renderAppPage() {
   const page = appPages[state.pageId];
   if (!page) {
-    app.innerHTML = `<section class="panel"><h2>Not Available Yet</h2><p class="muted">This section is ready for church content.</p></section>`;
+    app.innerHTML = `<section class="panel"><h2>Check Back Soon</h2><p class="muted">Church information for this section is coming soon.</p></section>`;
     return;
   }
 
@@ -2733,7 +2738,7 @@ function renderAppPage() {
         <article class="stack">
           <div class="source-strip">
             <span>${state.mediaSource}</span>
-            <span>${state.mediaLoadedAt ? `Updated ${new Date(state.mediaLoadedAt).toLocaleString()}` : "Ready for media feed"}</span>
+            <span>${state.mediaLoadedAt ? `Updated ${new Date(state.mediaLoadedAt).toLocaleString()}` : "Messages current"}</span>
           </div>
           ${page.mediaItems.map((item) => `
             <article class="card media-embed-card">
@@ -2743,7 +2748,7 @@ function renderAppPage() {
               <div class="media-embed-body">
                 <h3>${item.title}</h3>
                 <p class="muted">${item.date}${item.speaker ? ` • ${item.speaker}` : ""}</p>
-                ${extractYouTubeVideoId(item) ? `<span class="pill gold">In-app video</span>` : `<span class="pill">Waiting on video ID</span>`}
+                ${extractYouTubeVideoId(item) ? `<span class="pill gold">Watch</span>` : `<span class="pill">Video unavailable</span>`}
               </div>
             </article>
           `).join("")}
@@ -2820,7 +2825,7 @@ function renderAccount() {
           <div>
             <h2>Set Up Your Account</h2>
             <p class="muted">Save your profile, alerts, and Kids Korral links on this device.</p>
-            <span class="pill gold">Account Preview</span>
+            <span class="pill gold">Account Setup</span>
           </div>
         </article>
         <article class="card settings-card account-access-card">
@@ -2874,10 +2879,10 @@ function renderAccount() {
           <p class="muted">Approved staff can unlock admin and ministry tools here.</p>
           <div class="admin-status-row">
             <strong>Admin Mode</strong>
-            <span class="pill ${isLocalAdminMode() ? "gold" : ""}">${isLocalAdminMode() ? "On locally" : "Off"}</span>
+            <span class="pill ${isLocalAdminMode() ? "gold" : ""}">${isLocalAdminMode() ? "Unlocked" : "Locked"}</span>
           </div>
           ${isLocalAdminMode() ? `
-            <button class="button secondary full" id="demoAdminSignOut">Turn Off Local Admin</button>
+            <button class="button secondary full" id="demoAdminSignOut">Lock Staff Tools</button>
           ` : `
             <div class="field">
               <label for="demoAdminPasscode">Passcode</label>
@@ -2906,21 +2911,21 @@ function renderAccount() {
       <article class="card settings-card account-access-card">
         <h3>Account</h3>
         <div class="admin-status-row">
-          <strong>Account Preview</strong>
-          <span class="pill gold">Saved on this device</span>
+          <strong>Account Details</strong>
+          <span class="pill gold">Signed In</span>
         </div>
         <p class="muted">Manage your profile, alert preferences, and Kids Korral links.</p>
-        <button class="button secondary full" id="signOutAccount">Sign Out on This Device</button>
+        <button class="button secondary full" id="signOutAccount">Sign Out</button>
       </article>
       <article class="card settings-card beta-admin-card">
         <h3>Staff Access</h3>
         <p class="muted">Approved staff can unlock admin and ministry tools here.</p>
         <div class="admin-status-row">
           <strong>Admin Mode</strong>
-          <span class="pill ${isLocalAdminMode() ? "gold" : ""}">${isLocalAdminMode() ? "On locally" : "Off"}</span>
+          <span class="pill ${isLocalAdminMode() ? "gold" : ""}">${isLocalAdminMode() ? "Unlocked" : "Locked"}</span>
         </div>
         ${isLocalAdminMode() ? `
-          <button class="button secondary full" id="demoAdminSignOut">Turn Off Local Admin</button>
+          <button class="button secondary full" id="demoAdminSignOut">Lock Staff Tools</button>
         ` : `
           <div class="field">
             <label for="demoAdminPasscode">Passcode</label>
@@ -2991,7 +2996,7 @@ function renderFeedback() {
     <section class="stack">
       <article class="panel">
         <h2>Bug Report / App Suggestions</h2>
-        <p class="muted">Keep app feedback inside the app so issues are easier to track.</p>
+        <p class="muted">Share a bug report or suggestion with the church app team.</p>
       </article>
       <article class="card">
         <div class="field">
@@ -3047,10 +3052,10 @@ function renderSecurity() {
     ["Kids Korral care", "Family numbers are used only to help route parent alerts to the right people."],
     ["Staff-only tools", "Admin and Kids Korral tools stay available only to approved church roles."],
     ["Targeted alerts", "Kids Korral messages are meant for linked family devices, not public announcements."],
-    ["Account recovery", "Forgot-password links are sent by email and should expire quickly."],
-    ["Secure giving", "Tithes and offerings should always use the church-approved giving provider."],
-    ["Device security", "Staff tools can be protected with Face ID, Touch ID, or Android fingerprint in the native app."],
-    ["Contact control", "Prayer requests, contact forms, and signups should go only to the approved church workflow."],
+    ["Account recovery", "Forgot-password links are sent by email and expire quickly."],
+    ["Secure giving", "Tithes and offerings use the church-approved giving provider."],
+    ["Device security", "Staff tools can be protected with Face ID, Touch ID, or Android fingerprint on supported devices."],
+    ["Contact control", "Prayer requests, contact forms, and signups go to the approved church workflow."],
   ];
 
   app.innerHTML = `
@@ -3195,7 +3200,7 @@ document.body.addEventListener("click", async (event) => {
       await submitAppForm("contact", payload);
       showToast("Message sent to the church office.");
     } catch {
-      showToast("Message saved locally. Connection needed to send.");
+      showToast("Could not send right now. Check your connection and try again.");
     }
   }
 
@@ -3206,7 +3211,7 @@ document.body.addEventListener("click", async (event) => {
       await submitAppForm("app_feedback", payload);
       showToast("Feedback sent. Thank you.");
     } catch {
-      showToast("Feedback saved locally. Connection needed to send.");
+      showToast("Could not send right now. Check your connection and try again.");
     }
   }
 
@@ -3257,17 +3262,8 @@ document.body.addEventListener("click", async (event) => {
       await submitAppForm(target.dataset.formSubmit, payload);
       showToast(`${labels[target.dataset.formSubmit] || "Form"} sent to the church.`);
     } catch {
-      showToast(`${labels[target.dataset.formSubmit] || "Form"} saved locally. Connection needed to send.`);
+      showToast(`Could not send ${labels[target.dataset.formSubmit] || "form"} right now. Check your connection and try again.`);
     }
-  }
-
-  if (target.dataset.syncInfo) {
-    if (target.dataset.syncInfo === "overview") {
-      showToast("Church content sources are mapped for future automatic updates.");
-      return;
-    }
-    const item = syncSources.find((source) => source.key === target.dataset.syncInfo);
-    if (item) showToast(`${item.label}: ${item.strategy}.`);
   }
 
   if (target.id === "createAccount") {
@@ -3298,7 +3294,7 @@ document.body.addEventListener("click", async (event) => {
       showToast(authAccessToken() ? "Account created and signed in." : "Account created. Check email if confirmation is required.");
     } catch {
       setLocalAccount({ name, email, phone, parentName, linkedFamilies });
-      showToast("Account saved on this device. Connection needed for cloud sign-in.");
+      showToast("Account saved. Check your connection to finish sign-in.");
     }
     for (const family of linkedFamilies) {
       if (authAccessToken()) {
@@ -3402,7 +3398,7 @@ document.body.addEventListener("click", async (event) => {
       });
       showToast(`${name}'s RSVP was sent to the church.`);
     } catch {
-      showToast(`${name}'s RSVP saved locally. Connection needed to send.`);
+      showToast(`Could not send ${name}'s RSVP right now. Check your connection and try again.`);
     }
   }
 

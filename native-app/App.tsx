@@ -10,7 +10,7 @@ import { webAppHtml } from "./src/webAppHtml";
 
 type NativeMessage =
   | { type: "external"; url?: string }
-  | { type: "notify" }
+  | { type: "notify"; accessToken?: string }
   | { type: "calendar"; event?: CalendarEventPayload }
   | { type: "ready" };
 
@@ -82,8 +82,8 @@ export default function App() {
   const webRef = useRef<WebView>(null);
   const html = useMemo(() => webAppHtml, []);
 
-  async function enablePush() {
-    const result = await registerForPushNotificationsAsync();
+  async function enablePush(accessToken?: string) {
+    const result = await registerForPushNotificationsAsync(accessToken);
     Alert.alert(result.ok ? "Notifications Ready" : "Notifications", result.message);
   }
 
@@ -231,7 +231,7 @@ export default function App() {
     }
 
     if (message.type === "notify") {
-      enablePush();
+      enablePush(message.accessToken);
     }
 
     if (message.type === "calendar") {

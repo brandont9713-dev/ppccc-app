@@ -26,6 +26,7 @@ $functions = @(
   "send-kids-korral-alert",
   "send-live-now",
   "submit-app-form",
+  "link-family-number",
   "upsert-app-event",
   "delete-app-event",
   "upsert-media-item"
@@ -33,7 +34,7 @@ $functions = @(
 
 foreach ($fn in $functions) {
   Write-Host "Deploying $fn..."
-  & $node $supabase functions deploy $fn --project-ref $projectRef
+  & $node $supabase functions deploy $fn --project-ref $projectRef --no-verify-jwt
   if ($LASTEXITCODE -ne 0) {
     throw "Failed to deploy $fn"
   }

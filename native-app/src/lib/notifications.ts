@@ -16,7 +16,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export async function registerForPushNotificationsAsync() {
+export async function registerForPushNotificationsAsync(accessToken?: string) {
   if (!Device.isDevice) {
     return { ok: false, message: "Push notifications need a real iPhone or Android device." };
   }
@@ -47,6 +47,7 @@ export async function registerForPushNotificationsAsync() {
   if (supabaseReady) {
     try {
       await invokeSupabaseFunction("register-push-token", {
+        accessToken,
         body: {
           expoPushToken: token.data,
           platform: Platform.OS === "ios" ? "ios" : "android",

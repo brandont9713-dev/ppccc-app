@@ -1,5 +1,8 @@
-export const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL ?? "";
-export const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ?? "";
+const fallbackSupabaseUrl = "https://lwrnoexybfqykfvxgjjs.supabase.co";
+const fallbackSupabaseAnonKey = "sb_publishable_4l0vcy9ofspgvk-oON7UxA_RT8pDBlI";
+
+export const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL ?? fallbackSupabaseUrl;
+export const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ?? fallbackSupabaseAnonKey;
 
 export const supabaseReady = Boolean(supabaseUrl && supabaseAnonKey);
 

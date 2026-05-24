@@ -25,6 +25,8 @@ const appConfig = {
 const demoAdminPasscode = "ppccctest2026";
 const localAdminStorageKey = "ppcc-local-admin-beta";
 const localAccountStorageKey = "ppcc-local-account-beta";
+const supabaseSessionStorageKey = "ppcc-supabase-session-beta";
+const betaUsernameDomain = "palopintocowboychurch.com";
 const hasLocalAdminMode = () => localStorage.getItem(localAdminStorageKey) === "true";
 
 function loadLocalAccount() {
@@ -38,6 +40,7 @@ function loadLocalAccount() {
       parentName: saved.parentName || "",
       role: saved.role || "end_user",
       linkedFamilies: Array.isArray(saved.linkedFamilies) ? saved.linkedFamilies : [],
+      supabaseUserId: saved.supabaseUserId || "",
     };
   } catch {
     return {
@@ -48,6 +51,7 @@ function loadLocalAccount() {
       parentName: "",
       role: "end_user",
       linkedFamilies: [],
+      supabaseUserId: "",
     };
   }
 }
@@ -182,6 +186,7 @@ const roles = {
 };
 
 const localAccount = loadLocalAccount();
+let supabaseSession = loadSupabaseSession();
 
 const state = {
   route: "home",
@@ -196,6 +201,7 @@ const state = {
     email: localAccount.isSignedIn ? localAccount.email || "" : "",
     phone: localAccount.phone || "",
     role: hasLocalAdminMode() ? "admin" : localAccount.role || "end_user",
+    supabaseUserId: localAccount.supabaseUserId || supabaseSession?.user?.id || "",
   },
   theme: localStorage.getItem("ppcc-theme") || "light",
   eventFilter: "All",
@@ -1582,6 +1588,13 @@ async function loadMedia() {
 }
 
 async function enableNotifications() {
+  if (sendNativeMessage({ type: "notify", accessToken: authAccessToken() })) {
+    state.notifications = true;
+    showToast(isSignedIn() ? "Notifications connected for this device." : "Notifications enabled. Sign in to attach them to your account.");
+    render();
+    return;
+  }
+
   if (!("Notification" in window)) {
     showToast("Notifications need the native build or a supported browser.");
     return;
@@ -1603,6 +1616,125 @@ function sendLocalNotification(title, body) {
       data: { url: "/" },
     });
   }).catch(() => new Notification(title, { body, icon: "/icons/icon.svg" }));
+}
+
+function loadSupabaseSession() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(supabaseSessionStorageKey) || "null");
+    if (!parsed?.access_token) return null;
+    if (parsed.expires_at && parsed.expires_at * 1000 < Date.now()) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function saveSupabaseSession(session) {
+  supabaseSession = session || null;
+  if (supabaseSession?.access_token) {
+    localStorage.setItem(supabaseSessionStorageKey, JSON.stringify(supabaseSession));
+  } else {
+    localStorage.removeItem(supabaseSessionStorageKey);
+  }
+}
+
+function authAccessToken() {
+  return supabaseSession?.access_token || "";
+}
+
+function normalizeLoginEmail(value) {
+  const raw = String(value || "").trim().toLowerCase();
+  if (!raw) return "";
+  return raw.includes("@") ? raw : `${raw.replace(/[^a-z0-9._-]/g, "")}@${betaUsernameDomain}`;
+}
+
+function supabaseHeaders(token = authAccessToken() || appConfig.supabaseAnonKey) {
+  return {
+    apikey: appConfig.supabaseAnonKey,
+    authorization: `Bearer ${token}`,
+    "content-type": "application/json",
+  };
+}
+
+async function supabaseAuthRequest(path, body) {
+  const response = await fetch(`${appConfig.supabaseUrl}/auth/v1/${path}`, {
+    method: "POST",
+    headers: supabaseHeaders(appConfig.supabaseAnonKey),
+    body: JSON.stringify(body),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.msg || data.error_description || data.error || "Auth request failed.");
+  return data;
+}
+
+async function loadSupabaseProfile(session = supabaseSession) {
+  if (!session?.access_token || !session?.user?.id) return null;
+  const response = await fetch(`${appConfig.supabaseUrl}/rest/v1/profiles?id=eq.${encodeURIComponent(session.user.id)}&select=id,email,display_name,role`, {
+    headers: {
+      apikey: appConfig.supabaseAnonKey,
+      authorization: `Bearer ${session.access_token}`,
+    },
+  });
+  const rows = await response.json().catch(() => []);
+  if (!response.ok || !Array.isArray(rows) || !rows[0]) return null;
+  return rows[0];
+}
+
+async function applySupabaseSession(data, fallback = {}) {
+  const session = {
+    access_token: data.access_token,
+    refresh_token: data.refresh_token,
+    expires_at: data.expires_at,
+    user: data.user,
+  };
+  saveSupabaseSession(session);
+  const profile = await loadSupabaseProfile(session).catch(() => null);
+  setLocalAccount({
+    name: profile?.display_name || fallback.name || data.user?.user_metadata?.display_name || data.user?.email?.split("@")[0] || "Church Family",
+    email: profile?.email || data.user?.email || fallback.email || "",
+    phone: fallback.phone || state.currentUser.phone || "",
+    parentName: fallback.parentName || state.parentName,
+    linkedFamilies: state.linkedFamilies,
+    role: profile?.role === "admin" ? "admin" : profile?.role === "kids_korral" ? "kids_korral" : "end_user",
+    supabaseUserId: data.user?.id || profile?.id || "",
+  });
+}
+
+async function signUpWithSupabase({ name, email, password, phone = "", parentName = "" }) {
+  const data = await supabaseAuthRequest("signup", {
+    email,
+    password,
+    data: { display_name: name, phone, parent_name: parentName },
+  });
+  if (data.access_token) {
+    await applySupabaseSession(data, { name, email, phone, parentName });
+    return { signedIn: true };
+  }
+  setLocalAccount({ name, email, phone, parentName, linkedFamilies: state.linkedFamilies });
+  return { signedIn: false };
+}
+
+async function signInWithSupabase({ email, password, name }) {
+  const data = await supabaseAuthRequest("token?grant_type=password", { email, password });
+  await applySupabaseSession(data, { name, email });
+}
+
+async function sendPasswordReset(email) {
+  await supabaseAuthRequest("recover", {
+    email,
+    redirect_to: "ppccc://reset-password",
+  });
+}
+
+async function invokeAppFunction(name, body = {}) {
+  const response = await fetch(`${appConfig.supabaseUrl}/functions/v1/${name}`, {
+    method: "POST",
+    headers: supabaseHeaders(),
+    body: JSON.stringify(body),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.error || `${name} failed.`);
+  return data;
 }
 
 function isLocalAdminMode() {
@@ -1635,6 +1767,7 @@ function saveAccountState() {
     parentName: state.parentName,
     role: state.currentUser.role === "admin" && hasLocalAdminMode() ? "end_user" : state.currentUser.role,
     linkedFamilies: state.linkedFamilies,
+    supabaseUserId: state.currentUser.supabaseUserId || "",
   }));
 }
 
@@ -1648,10 +1781,12 @@ function resetCurrentUser() {
     email: "",
     phone: "",
     role: "end_user",
+    supabaseUserId: "",
   };
+  saveSupabaseSession(null);
 }
 
-function setLocalAccount({ name, email, phone = "", parentName = "", linkedFamilies = [] }) {
+function setLocalAccount({ name, email, phone = "", parentName = "", linkedFamilies = [], role = "end_user", supabaseUserId = "" }) {
   state.accountSignedIn = true;
   state.accountMode = "profile";
   state.parentName = parentName || `${name}'s Family`;
@@ -1660,7 +1795,8 @@ function setLocalAccount({ name, email, phone = "", parentName = "", linkedFamil
     name,
     email,
     phone,
-    role: hasLocalAdminMode() ? "admin" : "end_user",
+    role: hasLocalAdminMode() ? "admin" : role,
+    supabaseUserId,
   };
   saveAccountState();
 }
@@ -2696,12 +2832,12 @@ function renderAccount() {
           <p class="muted account-note">Create a profile, save family info, and manage church alerts.</p>
           ${state.accountMode === "sign-in" ? `
             <div class="field">
-              <label for="signinEmail">Email Address</label>
-              <input id="signinEmail" inputmode="email" autocomplete="email" placeholder="you@example.com" />
+              <label for="signinEmail">Email or Username</label>
+              <input id="signinEmail" inputmode="email" autocomplete="username" placeholder="you@example.com or celtics3397" />
             </div>
             <div class="field">
-              <label for="signinName">Name</label>
-              <input id="signinName" autocomplete="name" placeholder="Your name" />
+              <label for="signinPassword">Password</label>
+              <input id="signinPassword" type="password" autocomplete="current-password" placeholder="Password" />
             </div>
             <button class="button full" id="signInAccount">Continue</button>
             <button class="button secondary full" data-go="forgot-password">Forgot Password</button>
@@ -2711,8 +2847,12 @@ function renderAccount() {
               <input id="createName" autocomplete="name" placeholder="Your name" />
             </div>
             <div class="field">
-              <label for="createEmail">Email Address</label>
-              <input id="createEmail" inputmode="email" autocomplete="email" placeholder="you@example.com" />
+              <label for="createEmail">Email or Username</label>
+              <input id="createEmail" inputmode="email" autocomplete="username" placeholder="you@example.com" />
+            </div>
+            <div class="field">
+              <label for="createPassword">Password</label>
+              <input id="createPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters" />
             </div>
             <div class="field">
               <label for="createPhone">Phone</label>
@@ -3031,7 +3171,15 @@ document.body.addEventListener("click", async (event) => {
       showToast("Live notifications require admin access.");
       return;
     }
-    showToast("Live now push prepared.");
+    try {
+      await invokeAppFunction("send-live-now", {
+        title: "Live Now",
+        body: "Palo Pinto Cowboy Church service is live.",
+      });
+      showToast("Live now push sent.");
+    } catch {
+      showToast("Live push needs admin sign-in and registered devices.");
+    }
     sendLocalNotification("Live Now", "Palo Pinto Cowboy Church service is live.");
   }
 
@@ -3063,12 +3211,17 @@ document.body.addEventListener("click", async (event) => {
   }
 
   if (target.id === "sendPasswordReset") {
-    const email = document.querySelector("#resetEmail")?.value?.trim();
-    if (!email || !email.includes("@")) {
-      showToast("Enter a valid email address.");
+    const email = normalizeLoginEmail(document.querySelector("#resetEmail")?.value);
+    if (!email) {
+      showToast("Enter your email or username.");
       return;
     }
-    showToast("If that email has an account, a reset link will be sent.");
+    try {
+      await sendPasswordReset(email);
+    } catch {
+      // Keep the message neutral so account existence cannot be guessed.
+    }
+    showToast("If that account exists, a reset link will be sent.");
   }
 
   if (target.id === "demoAdminSignIn") {
@@ -3119,11 +3272,16 @@ document.body.addEventListener("click", async (event) => {
 
   if (target.id === "createAccount") {
     const name = document.querySelector("#createName")?.value?.trim();
-    const email = document.querySelector("#createEmail")?.value?.trim();
+    const email = normalizeLoginEmail(document.querySelector("#createEmail")?.value);
+    const password = document.querySelector("#createPassword")?.value || "";
     const phone = document.querySelector("#createPhone")?.value?.trim() || "";
     const parentName = document.querySelector("#createFamilyName")?.value?.trim() || "";
-    if (!name || !email || !email.includes("@")) {
-      showToast("Enter your name and a valid email address.");
+    if (!name || !email) {
+      showToast("Enter your name and email or username.");
+      return;
+    }
+    if (password.length < 8) {
+      showToast("Use a password with at least 8 characters.");
       return;
     }
     const linkedFamilies = [];
@@ -3135,20 +3293,36 @@ document.body.addEventListener("click", async (event) => {
       }
       linkedFamilies.push(setupFamily.family);
     }
-    setLocalAccount({ name, email, phone, parentName, linkedFamilies });
-    showToast("Account setup saved on this device.");
+    try {
+      await signUpWithSupabase({ name, email, password, phone, parentName });
+      showToast(authAccessToken() ? "Account created and signed in." : "Account created. Check email if confirmation is required.");
+    } catch {
+      setLocalAccount({ name, email, phone, parentName, linkedFamilies });
+      showToast("Account saved on this device. Connection needed for cloud sign-in.");
+    }
+    for (const family of linkedFamilies) {
+      if (authAccessToken()) {
+        await invokeAppFunction("link-family-number", family).catch(() => {});
+      }
+    }
     render();
   }
 
   if (target.id === "signInAccount") {
-    const email = document.querySelector("#signinEmail")?.value?.trim();
-    const name = document.querySelector("#signinName")?.value?.trim() || email?.split("@")[0] || "Church Family";
-    if (!email || !email.includes("@")) {
-      showToast("Enter a valid email address.");
+    const email = normalizeLoginEmail(document.querySelector("#signinEmail")?.value);
+    const password = document.querySelector("#signinPassword")?.value || "";
+    const name = email?.split("@")[0] || "Church Family";
+    if (!email || !password) {
+      showToast("Enter your email/username and password.");
       return;
     }
-    setLocalAccount({ name, email, linkedFamilies: state.linkedFamilies });
-    showToast("Signed in on this device.");
+    try {
+      await signInWithSupabase({ email, password, name });
+      showToast("Signed in.");
+    } catch {
+      showToast("Sign in failed. Check the username and password.");
+      return;
+    }
     render();
   }
 
@@ -3172,6 +3346,9 @@ document.body.addEventListener("click", async (event) => {
       return;
     }
     state.linkedFamilies.push(result.family);
+    if (authAccessToken()) {
+      await invokeAppFunction("link-family-number", result.family).catch(() => {});
+    }
     if (isSignedIn()) saveAccountState();
     showToast(`Kids Korral number #${result.family.number} linked.`);
     render();
@@ -3195,7 +3372,13 @@ document.body.addEventListener("click", async (event) => {
       showToast("Enter a Kids Korral family number.");
       return;
     }
-    showToast(`Push sent to family linked to #${number}.`);
+    const message = document.querySelector("#alertReason")?.value || "Parent needed at Kids Korral";
+    try {
+      await invokeAppFunction("send-kids-korral-alert", { familyNumber: number, message });
+      showToast(`Push sent to family linked to #${number}.`);
+    } catch {
+      showToast("Kids Korral push needs staff sign-in and linked family devices.");
+    }
     sendLocalNotification("Kids Korral Alert", `Family #${number}, please check in with Kids Korral.`);
   }
 

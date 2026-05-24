@@ -38,7 +38,7 @@ Deno.serve(async (req) => {
   }
 
   const title = String(payload.title ?? "Live Now").trim().slice(0, 60);
-  const message = String(payload.message ?? "Sunday service is live.").trim().slice(0, 160);
+  const message = String(payload.body ?? payload.message ?? "Sunday service is live.").trim().slice(0, 160);
   if (!title || !message) {
     return json({ error: "Missing title or message" }, 400);
   }

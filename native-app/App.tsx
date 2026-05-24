@@ -31,6 +31,8 @@ type CalendarEventPayload = {
 const nativeBridge = `
   (function () {
     window.__PPCCC_NATIVE_APP__ = true;
+    document.documentElement.dataset.nativeApp = "true";
+    document.documentElement.dataset.platform = "${Platform.OS}";
 
     function send(message) {
       try {
@@ -60,6 +62,11 @@ const nativeBridge = `
       event.preventDefault();
       send({ type: "notify" });
     }, true);
+
+    var viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+      viewport.setAttribute("content", "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover");
+    }
 
     send({ type: "ready" });
   })();
@@ -256,6 +263,10 @@ export default function App() {
         allowsInlineMediaPlayback
         mediaPlaybackRequiresUserAction={false}
         setSupportMultipleWindows={false}
+        scalesPageToFit={false}
+        bounces={false}
+        overScrollMode="never"
+        textZoom={100}
         injectedJavaScript={nativeBridge}
         onMessage={handleMessage}
         onShouldStartLoadWithRequest={handleNavigation}

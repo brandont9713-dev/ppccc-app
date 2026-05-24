@@ -56,6 +56,10 @@ if (urlParams.get("preview") === "compare") {
   document.documentElement.dataset.preview = "compare";
 }
 
+if (urlParams.get("native") === "1") {
+  document.documentElement.dataset.nativeApp = "true";
+}
+
 const events = [
   {
     id: "sunday-service",
@@ -2923,6 +2927,7 @@ function renderSecurity() {
 
 function render() {
   title.textContent = state.route === "page" && appPages[state.pageId] ? appPages[state.pageId].title : titles[state.route];
+  app.dataset.route = state.route;
   backButton.classList.toggle("show", state.history.length > 0 && state.route !== "home");
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.classList.toggle("active", tab.dataset.route === state.route);

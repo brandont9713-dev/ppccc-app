@@ -58,9 +58,14 @@ Deno.serve(async (req) => {
     .eq("live_now", true);
 
   const profileIds = (preferences ?? []).map((item) => item.profile_id);
-  const { data: tokens } = profileIds.length
-    ? await admin.from("push_tokens").select("expo_push_token").in("profile_id", profileIds).eq("enabled", true)
-    : { data: [] };
+  let tokenQuery = admin
+    .from("push_tokens")
+    .select("expo_push_token, profile_id")
+    .eq("enabled", true);
+  tokenQuery = profileIds.length
+    ? tokenQuery.or(`profile_id.is.null,profile_id.in.(${profileIds.join(",")})`)
+    : tokenQuery.is("profile_id", null);
+  const { data: tokens } = await tokenQuery;
 
   const messages = (tokens ?? []).map((token) => ({
     to: token.expo_push_token,

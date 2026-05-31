@@ -22,11 +22,11 @@ Set-Location $appRoot
 $projectRef = "lwrnoexybfqykfvxgjjs"
 $publicFunctions = @(
   "get-teamup-events",
-  "submit-app-form"
+  "submit-app-form",
+  "register-push-token"
 )
 
 $authenticatedFunctions = @(
-  "register-push-token",
   "send-kids-korral-alert",
   "send-live-now",
   "link-family-number",

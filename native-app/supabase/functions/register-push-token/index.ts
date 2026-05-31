@@ -22,10 +22,7 @@ Deno.serve(async (req) => {
     global: { headers: { Authorization: authHeader } },
   });
 
-  const { data: userData, error: userError } = await userClient.auth.getUser();
-  if (userError || !userData.user) {
-    return json({ error: "Unauthorized" }, 401);
-  }
+  const { data: userData } = await userClient.auth.getUser();
 
   const payload = await readJson(req);
   if (!payload) {
@@ -42,7 +39,7 @@ Deno.serve(async (req) => {
 
   const { error } = await admin.from("push_tokens").upsert(
     {
-      profile_id: userData.user.id,
+      profile_id: userData.user?.id ?? null,
       expo_push_token: expoPushToken,
       platform,
       device_name: deviceName ?? null,

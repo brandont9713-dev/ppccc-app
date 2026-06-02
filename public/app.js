@@ -1696,6 +1696,11 @@ function isBetaAdminEmail(email) {
   return betaAdminEmails.has(String(email || "").trim().toLowerCase());
 }
 
+function effectiveUserRole() {
+  if (isBetaAdminEmail(state.currentUser.email)) return "admin";
+  return state.currentUser.role || "end_user";
+}
+
 async function supabaseAuthRequest(path, body) {
   const response = await fetch(`${appConfig.supabaseUrl}/auth/v1/${path}`, {
     method: "POST",
@@ -1828,11 +1833,11 @@ async function updateAdminUserRole(userId, role) {
 }
 
 function isAdminMode() {
-  return Boolean(authAccessToken()) && (state.currentUser.role === "admin" || isBetaAdminEmail(state.currentUser.email));
+  return Boolean(authAccessToken()) && effectiveUserRole() === "admin";
 }
 
 function canUseStaffTools() {
-  return Boolean(authAccessToken()) && ["admin", "kids_korral"].includes(state.currentUser.role);
+  return Boolean(authAccessToken()) && ["admin", "kids_korral"].includes(effectiveUserRole());
 }
 
 function isSignedIn() {
@@ -1859,7 +1864,7 @@ function saveAccountState() {
     email: state.currentUser.email,
     phone: state.currentUser.phone || "",
     parentName: state.parentName,
-    role: state.currentUser.role,
+    role: effectiveUserRole(),
     linkedFamilies: state.linkedFamilies,
     supabaseUserId: state.currentUser.supabaseUserId || "",
   }));
@@ -2300,7 +2305,7 @@ function goBack() {
 
 function renderHome() {
   const upcoming = teamupEvents.filter((event) => event.date >= todayIso()).slice(0, 3);
-  const accountLabel = isSignedIn() ? roles[state.currentUser.role]?.label || "Signed In" : "Guest";
+  const accountLabel = isSignedIn() ? roles[effectiveUserRole()]?.label || "Signed In" : "Guest";
   app.innerHTML = `
     <section class="home-hero">
       <span class="pill gold">Sunday 10:30 AM</span>
@@ -3075,7 +3080,7 @@ function renderAccount() {
         <div>
           <h2>${safeText(state.currentUser.name)}</h2>
           <p class="muted">${safeText(signedInEmail)}</p>
-          <span class="pill gold">${roles[state.currentUser.role].label}</span>
+          <span class="pill gold">${roles[effectiveUserRole()].label}</span>
         </div>
       </article>
       <article class="card settings-card account-access-card">

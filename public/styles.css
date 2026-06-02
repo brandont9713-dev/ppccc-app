@@ -2905,20 +2905,23 @@ h3 {
 }
 
 :root[data-native-app="true"] .tabs {
-  margin:
-    0
-    max(10px, env(safe-area-inset-right))
-    max(10px, env(safe-area-inset-bottom))
-    max(10px, env(safe-area-inset-left));
-  padding: 5px;
+  margin: 0;
+  padding:
+    7px
+    max(8px, env(safe-area-inset-right))
+    calc(7px + env(safe-area-inset-bottom))
+    max(8px, env(safe-area-inset-left));
   border: 1px solid var(--native-border);
-  border-radius: 23px;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  border-radius: 22px 22px 0 0;
   background:
-    linear-gradient(180deg, rgba(255, 248, 232, 0.82), rgba(229, 202, 164, 0.76));
+    linear-gradient(180deg, rgba(255, 248, 232, 0.94), rgba(229, 202, 164, 0.9));
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.45),
-    0 16px 34px rgba(48, 29, 16, 0.16);
-  backdrop-filter: blur(22px) saturate(1.15);
+    0 -16px 32px rgba(48, 29, 16, 0.12);
+  backdrop-filter: blur(24px) saturate(1.18);
 }
 
 :root[data-native-app="true"][data-theme="dark"] .tabs {
@@ -2930,8 +2933,8 @@ h3 {
 }
 
 :root[data-native-app="true"] .tab {
-  min-height: 54px;
-  border-radius: 18px;
+  min-height: 50px;
+  border-radius: 16px;
 }
 
 :root[data-native-app="true"] .tab span {

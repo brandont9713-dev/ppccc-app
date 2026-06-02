@@ -214,6 +214,7 @@ const state = {
   mediaSource: "Message library",
   mediaLoading: false,
   pendingUsers: [],
+  userSearch: "",
   usersLoading: false,
   usersLoadedAt: "",
 };
@@ -1661,6 +1662,23 @@ function supabaseHeaders(token = authAccessToken() || appConfig.supabaseAnonKey)
   };
 }
 
+function openImagePreview(src, alt = "") {
+  const existing = document.querySelector("#imagePreview");
+  existing?.remove();
+  const preview = document.createElement("div");
+  preview.id = "imagePreview";
+  preview.className = "image-preview";
+  preview.innerHTML = `
+    <button class="image-preview-close" type="button" aria-label="Close image preview">Close</button>
+    <img src="${safeText(src)}" alt="${safeText(alt || "Expanded image")}" />
+  `;
+  document.body.appendChild(preview);
+}
+
+function closeImagePreview() {
+  document.querySelector("#imagePreview")?.remove();
+}
+
 function appRoleFromDb(role) {
   if (role === "admin") return "admin";
   if (role === "kids_korral") return "kids_korral";
@@ -1784,6 +1802,8 @@ async function loadAdminUsers() {
       id: user.id,
       name: user.display_name || user.email?.split("@")[0] || "Church Family",
       email: user.email || "",
+      familyName: user.family_name || "",
+      phone: user.phone || "",
       role: appRoleFromDb(user.role),
       createdAt: user.created_at || "",
     }));
@@ -2641,7 +2661,19 @@ function renderManage() {
     app.innerHTML = `<section class="panel"><h2>Account Required</h2><p class="muted">This area is only available to approved admin accounts.</p></section>`;
     return;
   }
-  const users = state.pendingUsers.filter((user) => user.id || user.email);
+  const query = state.userSearch.trim().toLowerCase();
+  const users = state.pendingUsers
+    .filter((user) => user.id || user.email)
+    .filter((user) => {
+      if (!query) return true;
+      return [
+        user.name,
+        user.email,
+        user.familyName,
+        user.phone,
+        roles[user.role]?.label,
+      ].some((value) => String(value || "").toLowerCase().includes(query));
+    });
   app.innerHTML = `
     <section class="stack">
       <article class="screen-hero security-hero">
@@ -2659,6 +2691,11 @@ function renderManage() {
           </div>
           <button class="button secondary" id="refreshUsers">${state.usersLoading ? "Loading..." : "Refresh"}</button>
         </div>
+        <div class="field user-search-field">
+          <label for="userSearch">Search Users</label>
+          <input id="userSearch" value="${safeText(state.userSearch)}" placeholder="Name, email, family name, or phone" inputmode="search" autocomplete="off" />
+        </div>
+        <p class="muted small-note">${query ? `${users.length} match${users.length === 1 ? "" : "es"}` : `${state.pendingUsers.length} user${state.pendingUsers.length === 1 ? "" : "s"}`}</p>
       </article>
       ${state.usersLoading ? `<article class="card"><p class="muted">Loading users...</p></article>` : ""}
       ${users.length ? users.map((user, index) => `
@@ -2667,18 +2704,20 @@ function renderManage() {
             <div>
               <h3>${safeText(user.name)}</h3>
               <p class="muted">${safeText(user.email)}</p>
+              ${user.familyName ? `<p class="muted small-note">Family: ${safeText(user.familyName)}</p>` : ""}
+              ${user.phone ? `<p class="muted small-note">Phone: ${safeText(user.phone)}</p>` : ""}
             </div>
             <span class="pill ${user.role === "admin" ? "gold" : ""}">${roles[user.role].label}</span>
           </div>
           <div class="field">
             <label for="role-${index}">Permission</label>
-            <select id="role-${index}" data-user-role="${index}">
+            <select id="role-${index}" data-user-role-id="${safeText(user.id)}">
               <option value="end_user" ${user.role === "end_user" ? "selected" : ""}>General User</option>
               <option value="kids_korral" ${user.role === "kids_korral" ? "selected" : ""}>Kids Korral Staff</option>
               <option value="admin" ${user.role === "admin" ? "selected" : ""}>Admin</option>
             </select>
           </div>
-          <button class="button full" data-save-role="${index}">Update Permissions</button>
+          <button class="button full" data-save-role-id="${safeText(user.id)}">Update Permissions</button>
         </article>
       `).join("") : `<article class="card"><p class="muted">Tap Refresh to load app users.</p></article>`}
     </section>
@@ -3565,18 +3604,19 @@ document.body.addEventListener("click", async (event) => {
     sendLocalNotification("Kids Korral Alert", `Family #${number}, please check in with Kids Korral.`);
   }
 
-  if (target.dataset.saveRole) {
-    const index = Number(target.dataset.saveRole);
-    const select = document.querySelector(`[data-user-role="${index}"]`);
-    const user = state.pendingUsers[index];
+  if (target.dataset.saveRoleId) {
+    const userId = target.dataset.saveRoleId;
+    const select = target.closest(".user-role-card")?.querySelector("select[data-user-role-id]");
+    const userIndex = state.pendingUsers.findIndex((item) => item.id === userId);
+    const user = state.pendingUsers[userIndex];
     if (!user?.id || !select?.value) {
       showToast("Refresh users and try again.");
       return;
     }
     try {
       const profile = await updateAdminUserRole(user.id, select.value);
-      state.pendingUsers[index].role = appRoleFromDb(profile?.role || select.value);
-      showToast(`${state.pendingUsers[index].name} is now ${roles[state.pendingUsers[index].role].label}.`);
+      state.pendingUsers[userIndex].role = appRoleFromDb(profile?.role || select.value);
+      showToast(`${state.pendingUsers[userIndex].name} is now ${roles[state.pendingUsers[userIndex].role].label}.`);
     } catch {
       showToast("Could not update role. Admin access may be required.");
     }
@@ -3625,6 +3665,30 @@ document.body.addEventListener("click", async (event) => {
     showToast("Family profile saved.");
     render();
   }
+});
+
+document.body.addEventListener("input", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement)) return;
+  if (target.id === "userSearch") {
+    state.userSearch = target.value;
+    renderManage();
+    const input = document.querySelector("#userSearch");
+    input?.focus();
+    input?.setSelectionRange(state.userSearch.length, state.userSearch.length);
+  }
+});
+
+document.body.addEventListener("click", (event) => {
+  const closeButton = event.target.closest?.(".image-preview-close");
+  if (closeButton || event.target.id === "imagePreview") {
+    closeImagePreview();
+    return;
+  }
+
+  const image = event.target.closest?.("img");
+  if (!image || image.closest("button") || image.closest(".tabs") || image.closest(".topbar") || image.closest(".image-preview")) return;
+  openImagePreview(image.currentSrc || image.src, image.alt);
 });
 
 if ("serviceWorker" in navigator) {

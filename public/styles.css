@@ -4105,3 +4105,69 @@ h3 {
     grid-template-columns: 1fr;
   }
 }
+
+/* OTA repair: Home feature cards should not float their action bar over tappable images. */
+:root[data-native-app="true"] .feature-card.image-card {
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--native-hairline);
+  border-radius: 24px;
+  background: var(--native-glass);
+  box-shadow: var(--native-soft-press);
+}
+
+:root[data-native-app="true"] .feature-card.image-card img {
+  width: 100%;
+  border-radius: 24px 24px 0 0;
+  box-shadow: none;
+}
+
+:root[data-native-app="true"] .feature-card.image-card .card-body {
+  margin: 0;
+  padding: 14px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+:root[data-native-app="true"] .feature-card .row {
+  align-items: center;
+  gap: 10px;
+}
+
+:root[data-native-app="true"] .feature-card h3 {
+  min-width: 0;
+  margin-bottom: 0;
+  overflow-wrap: anywhere;
+}
+
+:root[data-native-app="true"] .feature-card .button {
+  flex: 0 0 auto;
+}
+
+/* Restore staff to the regular app grid instead of a horizontal carousel. */
+.staff-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+:root[data-native-app="true"] .staff-grid {
+  gap: 12px;
+}
+
+:root[data-native-app="true"] .staff-grid .staff-card {
+  min-width: 0;
+}
+
+:root[data-native-app="true"] .staff-grid .staff-card img {
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+@media (min-width: 700px) {
+  .staff-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

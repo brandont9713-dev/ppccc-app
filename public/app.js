@@ -514,7 +514,7 @@ const appPages = {
   },
   women: { title: "Women's Ministry", body: "PPCCC Cowgirls create opportunities for women to gather, grow, and give together.", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/gals_who_gather_website_1.png" },
   "young-adults": { title: "Young Adults Group", image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/young_adults_website.png", body: "Every Wednesday at 6:30 PM for ages 18-29. Chris Pruitt 940-452-0026. Lay Pastor John Knight 940-452-2961." },
-  youth: { title: "Youth Ministry", image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/palo_pinto_county_cowboy.jpg", body: "A group for 7th-12th grade students. Every Wednesday dinner at 6:15 PM and study at 6:30 PM in the barn. Bryce Harrington 940-452-4910." },
+  youth: { title: "Youth Ministry", image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/palo_pinto_county_cowboy.jpg", body: "A group for 7th-12th grade students. Every Wednesday dinner at 6:15 PM and study at 6:30 PM in the barn. Katie Peugh leads Youth Ministry." },
   "laughter-lemonade": { title: "Laughter & Lemonade RSVP", image: "https://faithconnector.s3.amazonaws.com/6267/images/page/specific/laughter_lemonade.jpg", body: "RSVP for Laughter & Lemonade and let the team know who is coming.", signup: "laughter" },
   "dutch-oven": { title: "Dutch Oven Class RSVP", image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/2026_dutch_oven_class_500_x_300_px.png", body: "Sign up for the Dutch Oven Class and share how many people will attend.", signup: "dutch" },
 };
@@ -590,7 +590,7 @@ Object.assign(appPages, {
   youth: {
     title: "Youth Ministry",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/palo_pinto_county_cowboy.jpg",
-    body: "Youth Ministry is for students in 7th-12th grade who love Jesus and are learning to keep Him at the center of their lives. They meet every Wednesday with dinner at 6:15 PM and study at 6:30 PM in the barn. Contact: Bryce Harrington, 940-452-4910.",
+    body: "Youth Ministry is for students in 7th-12th grade who love Jesus and are learning to keep Him at the center of their lives. They meet every Wednesday with dinner at 6:15 PM and study at 6:30 PM in the barn. Katie Peugh leads Youth Ministry.",
     gallery: ["https://faithconnector.s3.amazonaws.com/6267/images/marquee/youth1.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/marquee/youth2.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/marquee/youth3.jpg", "https://faithconnector.s3.amazonaws.com/6267/images/marquee/youth4.jpg"],
   },
 });
@@ -874,7 +874,7 @@ Object.assign(appPages, {
     title: "Youth Ministry",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/palo_pinto_county_cowboy.jpg",
     body: "Youth Ministry\n\nFor 7th-12th grade students who love Jesus and are learning to keep Him at the center of their lives.\n\nEvery Wednesday\nDinner at 6:15 PM\nStudy at 6:30 PM in the barn.",
-    people: [{ name: "Bryce Harrington", role: "940-452-4910", image: placeholderPersonImage }],
+    people: [{ name: "Katie Peugh", role: "Youth Ministry Leader", image: "https://faithconnector.s3.amazonaws.com/6267/images/member/ff987398_31fc_4115_b249_421e9d176279.jpg" }],
     gallery: [
       "https://faithconnector.s3.amazonaws.com/6267/images/marquee/youth1.jpg",
       "https://faithconnector.s3.amazonaws.com/6267/images/marquee/youth2.jpg",
@@ -1142,7 +1142,7 @@ Object.assign(appPages, {
   youth: {
     title: "Youth Ministry",
     image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/palo_pinto_county_cowboy.jpg",
-    body: "Youth Ministry\n\nWe are a fun loving group of kids in 7th-12th grade that love Jesus and are learning to keep Him the center of our lives.\n\nEvery Wednesday Dinner at 6:15pm and Study at 6:30pm in the barn.\n\nBryce Harrington 940-452-4910",
+    body: "Youth Ministry\n\nWe are a fun loving group of kids in 7th-12th grade that love Jesus and are learning to keep Him the center of our lives.\n\nEvery Wednesday Dinner at 6:15pm and Study at 6:30pm in the barn.\n\nKatie Peugh leads Youth Ministry.",
     imageTiles: [
       { image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/youth1.jpg" },
       { image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/youth2.jpg" },
@@ -1152,7 +1152,7 @@ Object.assign(appPages, {
       { image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/youth7.jpg" },
       { image: "https://faithconnector.s3.amazonaws.com/6267/images/marquee/youth6.jpg" },
       { image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/4012_2_imagelink_events_1.jpg" },
-      { image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/06671cf7_3ae9_492b_a9e2_623130cc6024.jpg", label: "Bryce Harrington 940-452-4910" },
+      { image: "https://faithconnector.s3.amazonaws.com/6267/images/member/ff987398_31fc_4115_b249_421e9d176279.jpg", label: "Katie Peugh - Youth Ministry Leader" },
       { image: "https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/4012_2_imagelink_outreach_1.jpg" },
     ],
   },
@@ -2741,7 +2741,7 @@ function renderStaff() {
         <h2>Meet the Staff</h2>
         <p class="muted">Pastors, staff, ministry leaders, and church office contacts.</p>
       </article>
-      <section class="staff-carousel" aria-label="Staff photos">
+      <section class="staff-grid" aria-label="Staff photos">
         ${staffMembers.map((member) => `
           <article class="staff-card card">
             ${member.image ? `<img src="${member.image}" alt="${member.name}" />` : `<div class="staff-placeholder">No photo</div>`}
@@ -2752,7 +2752,6 @@ function renderStaff() {
           </article>
         `).join("")}
       </section>
-      <p class="muted swipe-hint">Swipe sideways to see more staff.</p>
     </section>
   `;
 }

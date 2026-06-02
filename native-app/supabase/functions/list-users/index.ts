@@ -5,6 +5,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
+const betaAdminEmails = new Set(["celtics3397@yahoo.com"]);
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -33,11 +34,13 @@ Deno.serve(async (req) => {
     .eq("id", userData.user.id)
     .single();
 
-  if (requesterError || requester?.role !== "admin") {
+  const requesterEmail = userData.user.email?.toLowerCase() ?? "";
+  const isBetaAdmin = betaAdminEmails.has(requesterEmail);
+  if ((requesterError || requester?.role !== "admin") && !isBetaAdmin) {
     return json({ error: "Forbidden: admin access required" }, 403);
   }
 
-  const { data: profileRows, error: profileError } = await userClient
+  const { data: profileRows, error: profileError } = await admin
     .from("profiles")
     .select("id,email,display_name,role,created_at")
     .order("created_at", { ascending: false })

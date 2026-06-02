@@ -3930,3 +3930,178 @@ h3 {
     grid-auto-columns: minmax(240px, 30%);
   }
 }
+
+/* OTA layout repair: keep narrow iPhone text from colliding or overflowing. */
+.topbar > div {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.topbar h1,
+.topbar .eyebrow {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.topbar h1 {
+  font-size: clamp(23px, 7vw, 28px);
+  line-height: 1.04;
+}
+
+.top-actions {
+  flex: 0 0 auto;
+}
+
+.icon-button {
+  flex: 0 0 auto;
+}
+
+.hero-actions,
+.split-actions,
+.account-actions {
+  min-width: 0;
+}
+
+.hero-actions .button,
+.split-actions .button,
+.account-actions .button,
+.dashboard-card,
+.quick-action,
+.native-row,
+.tab {
+  min-width: 0;
+}
+
+.button,
+.link-button,
+.native-row,
+.quick-action,
+.dashboard-card,
+.tab {
+  overflow-wrap: anywhere;
+}
+
+.dashboard-grid {
+  align-items: stretch;
+}
+
+.dashboard-card {
+  grid-template-rows: auto 1fr;
+  gap: 8px;
+  align-content: start;
+  justify-items: start;
+}
+
+.dashboard-card strong {
+  margin-bottom: 0;
+  hyphens: auto;
+}
+
+.dashboard-card .muted {
+  align-self: start;
+}
+
+:root[data-native-app="true"] .dashboard-card {
+  min-height: auto;
+  padding: 14px;
+}
+
+.quick-action {
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+}
+
+.quick-action strong,
+.quick-action span {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.native-row {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.native-row strong,
+.native-row span,
+.row-action {
+  max-width: 100%;
+}
+
+.native-row strong,
+.native-row span:not(.row-icon):not(.row-action) {
+  overflow-wrap: anywhere;
+}
+
+.row-action {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.tabs {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.tab {
+  padding-inline: 2px;
+  overflow: hidden;
+}
+
+.tab span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tab .tab-icon {
+  overflow: visible;
+  text-overflow: clip;
+}
+
+@media (max-width: 390px) {
+  .topbar {
+    gap: 8px;
+  }
+
+  .top-actions {
+    gap: 5px;
+  }
+
+  .icon-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .back-button.show {
+    padding-inline: 10px;
+  }
+
+  .hero-actions,
+  .split-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+  }
+
+  .dashboard-card strong {
+    font-size: 14px;
+  }
+
+  .dashboard-card .muted {
+    -webkit-line-clamp: 3;
+    font-size: 13px;
+  }
+
+  .tab span {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 340px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -27,6 +27,7 @@ const appConfig = {
 const localAccountStorageKey = "ppcc-local-account-beta";
 const supabaseSessionStorageKey = "ppcc-supabase-session-beta";
 const betaUsernameDomain = "palopintocowboychurch.com";
+const betaAdminEmails = new Set(["celtics3397@yahoo.com"]);
 const eventHistoryDays = 45;
 const eventFutureMonths = 18;
 
@@ -1691,6 +1692,10 @@ function dbRoleFromApp(role) {
   return "general";
 }
 
+function isBetaAdminEmail(email) {
+  return betaAdminEmails.has(String(email || "").trim().toLowerCase());
+}
+
 async function supabaseAuthRequest(path, body) {
   const response = await fetch(`${appConfig.supabaseUrl}/auth/v1/${path}`, {
     method: "POST",
@@ -1724,13 +1729,14 @@ async function applySupabaseSession(data, fallback = {}) {
   };
   saveSupabaseSession(session);
   const profile = await loadSupabaseProfile(session).catch(() => null);
+  const email = profile?.email || data.user?.email || fallback.email || "";
   setLocalAccount({
     name: profile?.display_name || fallback.name || data.user?.user_metadata?.display_name || data.user?.email?.split("@")[0] || "Church Family",
-    email: profile?.email || data.user?.email || fallback.email || "",
+    email,
     phone: fallback.phone || state.currentUser.phone || "",
     parentName: fallback.parentName || state.parentName,
     linkedFamilies: state.linkedFamilies,
-    role: appRoleFromDb(profile?.role),
+    role: isBetaAdminEmail(email) ? "admin" : appRoleFromDb(profile?.role),
     supabaseUserId: data.user?.id || profile?.id || "",
   });
 }
@@ -1822,7 +1828,7 @@ async function updateAdminUserRole(userId, role) {
 }
 
 function isAdminMode() {
-  return state.currentUser.role === "admin" && Boolean(authAccessToken());
+  return Boolean(authAccessToken()) && (state.currentUser.role === "admin" || isBetaAdminEmail(state.currentUser.email));
 }
 
 function canUseStaffTools() {

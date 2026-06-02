@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 const allowedRoles = new Set(["general", "kids_korral", "admin"]);
+const betaAdminEmails = new Set(["celtics3397@yahoo.com"]);
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -24,7 +25,9 @@ Deno.serve(async (req) => {
   }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
   const authHeader = req.headers.get("Authorization") ?? "";
+  const admin = createClient(supabaseUrl, serviceKey);
   const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY") ?? "", {
     global: { headers: { Authorization: authHeader } },
   });
@@ -40,14 +43,25 @@ Deno.serve(async (req) => {
     .eq("id", userData.user.id)
     .single();
 
-  if (requesterError || requester?.role !== "admin") {
+  const requesterEmail = userData.user.email?.toLowerCase() ?? "";
+  const isBetaAdmin = betaAdminEmails.has(requesterEmail);
+  if ((requesterError || requester?.role !== "admin") && !isBetaAdmin) {
     return json({ error: "Forbidden: admin access required" }, 403);
   }
 
-  const { data, error } = await userClient
+  const { data: targetUserData, error: targetUserError } = await admin.auth.admin.getUserById(userId);
+  if (targetUserError || !targetUserData.user?.email) {
+    return json({ error: targetUserError?.message ?? "User not found" }, 404);
+  }
+
+  const { data, error } = await admin
     .from("profiles")
-    .update({ role })
-    .eq("id", userId)
+    .upsert({
+      id: userId,
+      email: targetUserData.user.email,
+      display_name: targetUserData.user.user_metadata?.display_name ?? targetUserData.user.email.split("@")[0] ?? "Church Family",
+      role,
+    }, { onConflict: "id" })
     .select("id,email,display_name,role,created_at")
     .single();
 

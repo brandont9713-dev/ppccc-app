@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import * as Calendar from "expo-calendar/legacy";
 import { useMemo, useRef } from "react";
-import { Alert, Linking, Platform, SafeAreaView, StyleSheet } from "react-native";
+import { Alert, Linking, Platform, StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
 import type { WebViewMessageEvent, WebViewNavigation } from "react-native-webview";
 
@@ -191,7 +191,7 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={styles.shell}>
+    <View style={styles.shell}>
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
       <WebView
         ref={webRef}
@@ -211,7 +211,7 @@ export default function App() {
         onShouldStartLoadWithRequest={handleNavigation}
         style={styles.webview}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

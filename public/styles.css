@@ -3322,3 +3322,130 @@ h3 {
     min-height: 198px;
   }
 }
+
+/* Native shell cleanup: remove the framed web-page layer in the installed app. */
+:root[data-native-app="true"] {
+  --content-gutter: clamp(15px, 4.5vw, 22px);
+  --native-surface:
+    linear-gradient(145deg, rgba(255, 248, 232, 0.9), rgba(234, 211, 179, 0.84));
+  --native-raised:
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    0 7px 16px rgba(55, 32, 17, 0.08);
+}
+
+:root[data-native-app="true"] html,
+:root[data-native-app="true"] body,
+:root[data-native-app="true"] .app-shell,
+:root[data-native-app="true"] .phone {
+  min-width: 100%;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 12% -4%, rgba(255, 246, 222, 0.5), transparent 32%),
+    radial-gradient(circle at 92% 6%, rgba(177, 113, 48, 0.22), transparent 30%),
+    linear-gradient(180deg, rgba(242, 224, 195, 0.92), rgba(224, 198, 159, 0.9)),
+    var(--site-bg);
+  background-position: center;
+  background-size: auto, auto, auto, 760px auto;
+}
+
+:root[data-native-app="true"][data-theme="dark"] html,
+:root[data-native-app="true"][data-theme="dark"] body,
+:root[data-native-app="true"][data-theme="dark"] .app-shell,
+:root[data-native-app="true"][data-theme="dark"] .phone {
+  background:
+    radial-gradient(circle at 12% -4%, rgba(210, 151, 76, 0.14), transparent 32%),
+    radial-gradient(circle at 92% 6%, rgba(177, 113, 48, 0.16), transparent 30%),
+    linear-gradient(180deg, rgba(31, 23, 17, 0.94), rgba(16, 11, 8, 0.94)),
+    var(--site-bg);
+  background-position: center;
+  background-size: auto, auto, auto, 800px auto;
+}
+
+:root[data-native-app="true"] .content {
+  padding:
+    16px
+    max(var(--content-gutter), env(safe-area-inset-left))
+    calc(106px + env(safe-area-inset-bottom))
+    max(var(--content-gutter), env(safe-area-inset-right));
+  background:
+    linear-gradient(180deg, rgba(255, 248, 232, 0.16), rgba(225, 199, 160, 0.08));
+}
+
+:root[data-native-app="true"][data-theme="dark"] .content {
+  background:
+    linear-gradient(180deg, rgba(210, 151, 76, 0.08), rgba(16, 11, 8, 0.1));
+}
+
+:root[data-native-app="true"] .content > * {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+}
+
+:root[data-native-app="true"] .topbar {
+  padding-top: max(16px, env(safe-area-inset-top));
+  padding-inline:
+    max(var(--content-gutter), env(safe-area-inset-left))
+    max(var(--content-gutter), env(safe-area-inset-right));
+  background:
+    linear-gradient(180deg, rgba(255, 248, 232, 0.9), rgba(238, 215, 184, 0.72));
+  border-bottom: 1px solid rgba(103, 70, 39, 0.16);
+  box-shadow: 0 8px 22px rgba(55, 32, 17, 0.06);
+}
+
+:root[data-native-app="true"][data-theme="dark"] .topbar {
+  background:
+    linear-gradient(180deg, rgba(34, 25, 18, 0.92), rgba(18, 13, 10, 0.72));
+  border-bottom-color: rgba(202, 145, 72, 0.13);
+}
+
+:root[data-native-app="true"] .tabs {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-inline: 0;
+  padding:
+    6px
+    max(8px, env(safe-area-inset-left))
+    max(8px, env(safe-area-inset-bottom))
+    max(8px, env(safe-area-inset-right));
+  border-width: 1px 0 0;
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 248, 232, 0.94), rgba(234, 211, 179, 0.9));
+  box-shadow: 0 -8px 22px rgba(55, 32, 17, 0.08);
+}
+
+:root[data-native-app="true"][data-theme="dark"] .tabs {
+  background:
+    linear-gradient(180deg, rgba(33, 25, 18, 0.94), rgba(17, 12, 9, 0.92));
+  border-top-color: rgba(202, 145, 72, 0.13);
+}
+
+:root[data-native-app="true"] .card,
+:root[data-native-app="true"] .panel,
+:root[data-native-app="true"] .settings-card,
+:root[data-native-app="true"] .settings-group.card,
+:root[data-native-app="true"] .native-row,
+:root[data-native-app="true"] .quick-action,
+:root[data-native-app="true"] .event-card,
+:root[data-native-app="true"] .family-card,
+:root[data-native-app="true"] .empty-state {
+  box-shadow: var(--native-raised);
+}
+
+@media (min-width: 700px) {
+  :root[data-native-app="true"] {
+    --content-gutter: clamp(24px, 4vw, 42px);
+  }
+
+  :root[data-native-app="true"] .content > * {
+    width: min(100%, 900px);
+    margin-inline: auto;
+  }
+
+  :root[data-native-app="true"] .topbar,
+  :root[data-native-app="true"] .tabs {
+    padding-inline: max(24px, calc((100vw - 960px) / 2));
+  }
+}

@@ -2154,7 +2154,7 @@ function linkList(items) {
       <button class="native-row" ${action}>
         ${thumb ? `<img src="${thumb}" alt="" />` : iconMarkup}
         <span><strong>${item.title}</strong><span class="muted">${cleanSubtitle(item)}</span></span>
-        <span class="chevron">&gt;</span>
+        <span class="row-action">Open</span>
       </button>
     `;
   }).join("")}</div>`;
@@ -2730,7 +2730,7 @@ function renderStaff() {
         <h2>Meet the Staff</h2>
         <p class="muted">Pastors, staff, ministry leaders, and church office contacts.</p>
       </article>
-      <section class="staff-grid">
+      <section class="staff-carousel" aria-label="Staff photos">
         ${staffMembers.map((member) => `
           <article class="staff-card card">
             ${member.image ? `<img src="${member.image}" alt="${member.name}" />` : `<div class="staff-placeholder">No photo</div>`}
@@ -2741,6 +2741,7 @@ function renderStaff() {
           </article>
         `).join("")}
       </section>
+      <p class="muted swipe-hint">Swipe sideways to see more staff.</p>
     </section>
   `;
 }

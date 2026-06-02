@@ -794,6 +794,9 @@ h3 {
 .settings-card .info-list,
 .settings-card .field,
 .settings-card .account-switch,
+.settings-card .account-actions,
+.settings-card .account-summary-grid,
+.settings-card .profile-form-panel,
 .settings-card .linked-family-list,
 .settings-card .linked-setup,
 .settings-card .empty-state,
@@ -834,6 +837,55 @@ h3 {
   border: 1px solid color-mix(in srgb, var(--line) 74%, var(--blue) 26%);
   border-radius: 13px;
   background: color-mix(in srgb, var(--card) 86%, var(--blue) 14%);
+}
+
+.account-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.account-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+.account-summary-item {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+  padding: 11px 10px;
+  border: 1px solid color-mix(in srgb, var(--line) 78%, var(--green) 22%);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--card) 90%, var(--green) 10%);
+}
+
+.account-summary-item strong,
+.account-summary-item span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.account-summary-item strong {
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.profile-form-panel {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+  border-radius: var(--card-radius);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--white) 50%, transparent), color-mix(in srgb, var(--card-warm) 28%, transparent));
+}
+
+.profile-form-panel .field:last-child {
+  margin-bottom: 0;
 }
 
 .linked-setup {
@@ -2086,6 +2138,23 @@ h3 {
   border: 0;
 }
 
+:root[data-native-app="true"] .account-actions {
+  gap: 9px;
+}
+
+:root[data-native-app="true"] .account-summary-grid {
+  gap: 8px;
+}
+
+:root[data-native-app="true"] .account-summary-item,
+:root[data-native-app="true"] .profile-form-panel {
+  border-color: color-mix(in srgb, var(--line) 64%, rgba(255, 247, 222, 0.3));
+  background:
+    var(--paper-grain),
+    linear-gradient(145deg, color-mix(in srgb, var(--white) 78%, var(--paper) 22%), color-mix(in srgb, var(--card-warm) 82%, #8a5a2c 18%));
+  box-shadow: var(--native-shadow);
+}
+
 :root[data-native-app="true"] .account-note,
 :root[data-native-app="true"] .empty-state,
 :root[data-native-app="true"] .family-card {
@@ -2378,6 +2447,8 @@ h3 {
 :root[data-native-app="true"][data-theme="dark"] .menu-card,
 :root[data-native-app="true"][data-theme="dark"] .native-row,
 :root[data-native-app="true"][data-theme="dark"] .settings-card .native-row,
+:root[data-native-app="true"][data-theme="dark"] .account-summary-item,
+:root[data-native-app="true"][data-theme="dark"] .profile-form-panel,
 :root[data-native-app="true"][data-theme="dark"] .account-note,
 :root[data-native-app="true"][data-theme="dark"] .empty-state,
 :root[data-native-app="true"][data-theme="dark"] .family-card {
@@ -2830,6 +2901,8 @@ h3 {
 :root[data-native-app="true"] .panel,
 :root[data-native-app="true"] .settings-card,
 :root[data-native-app="true"] .settings-group.card,
+:root[data-native-app="true"] .account-summary-item,
+:root[data-native-app="true"] .profile-form-panel,
 :root[data-native-app="true"] .account-note,
 :root[data-native-app="true"] .empty-state,
 :root[data-native-app="true"] .family-card {
@@ -3221,6 +3294,10 @@ h3 {
 }
 
 @media (max-width: 520px) {
+  .account-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
   :root[data-native-app="true"] .card,
   :root[data-native-app="true"] .panel,
   :root[data-native-app="true"] .settings-card,
@@ -3429,6 +3506,8 @@ h3 {
 :root[data-native-app="true"] .native-row,
 :root[data-native-app="true"] .quick-action,
 :root[data-native-app="true"] .event-card,
+:root[data-native-app="true"] .account-summary-item,
+:root[data-native-app="true"] .profile-form-panel,
 :root[data-native-app="true"] .family-card,
 :root[data-native-app="true"] .empty-state {
   box-shadow: var(--native-raised);
@@ -3447,5 +3526,250 @@ h3 {
   :root[data-native-app="true"] .topbar,
   :root[data-native-app="true"] .tabs {
     padding-inline: max(24px, calc((100vw - 960px) / 2));
+  }
+}
+
+/* Broad native UI pass: soften repeated boxes into grouped app surfaces. */
+:root[data-native-app="true"] {
+  --native-glass:
+    linear-gradient(180deg, rgba(255, 250, 238, 0.78), rgba(234, 211, 179, 0.58));
+  --native-hairline: color-mix(in srgb, var(--line) 48%, rgba(255, 250, 238, 0.42));
+  --native-soft-press: 0 4px 12px rgba(55, 32, 17, 0.07);
+}
+
+:root[data-native-app="true"][data-theme="dark"] {
+  --native-glass:
+    linear-gradient(180deg, rgba(38, 28, 20, 0.78), rgba(20, 14, 10, 0.62));
+  --native-hairline: rgba(202, 145, 72, 0.14);
+  --native-soft-press: 0 4px 12px rgba(0, 0, 0, 0.24);
+}
+
+:root[data-native-app="true"] .topbar,
+:root[data-native-app="true"] .tabs {
+  backdrop-filter: blur(18px) saturate(1.12);
+}
+
+:root[data-native-app="true"] .back-button,
+:root[data-native-app="true"] .icon-button {
+  border-color: var(--native-hairline);
+  background: color-mix(in srgb, var(--card) 72%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 5px 12px rgba(55, 32, 17, 0.07);
+}
+
+:root[data-native-app="true"] .content {
+  scroll-padding-bottom: calc(120px + env(safe-area-inset-bottom));
+}
+
+:root[data-native-app="true"] .stack {
+  gap: clamp(15px, 4vw, 22px);
+}
+
+:root[data-native-app="true"] .panel,
+:root[data-native-app="true"] .card,
+:root[data-native-app="true"] .settings-card,
+:root[data-native-app="true"] .settings-group.card,
+:root[data-native-app="true"] .menu-card {
+  border-color: var(--native-hairline);
+  background: var(--native-glass);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 8px 20px rgba(55, 32, 17, 0.07);
+}
+
+:root[data-native-app="true"][data-theme="dark"] .panel,
+:root[data-native-app="true"][data-theme="dark"] .card,
+:root[data-native-app="true"][data-theme="dark"] .settings-card,
+:root[data-native-app="true"][data-theme="dark"] .settings-group.card,
+:root[data-native-app="true"][data-theme="dark"] .menu-card {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 227, 179, 0.06),
+    0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+:root[data-native-app="true"] .menu-card,
+:root[data-native-app="true"] .settings-card,
+:root[data-native-app="true"] .settings-group.card {
+  padding: 15px;
+}
+
+:root[data-native-app="true"] .menu-card h3,
+:root[data-native-app="true"] .settings-card h3,
+:root[data-native-app="true"] .settings-group h3 {
+  margin-inline: 2px;
+}
+
+:root[data-native-app="true"] .menu-card .native-list,
+:root[data-native-app="true"] .settings-card .native-list,
+:root[data-native-app="true"] .settings-card .info-list {
+  gap: 6px;
+  margin-inline: -3px;
+}
+
+:root[data-native-app="true"] .menu-card .native-row,
+:root[data-native-app="true"] .settings-card .native-row {
+  min-height: 68px;
+  border: 0;
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(255, 250, 238, 0.54), rgba(229, 202, 164, 0.34));
+  box-shadow: none;
+}
+
+:root[data-native-app="true"][data-theme="dark"] .menu-card .native-row,
+:root[data-native-app="true"][data-theme="dark"] .settings-card .native-row {
+  background:
+    linear-gradient(145deg, rgba(255, 227, 179, 0.07), rgba(0, 0, 0, 0.08));
+}
+
+:root[data-native-app="true"] .native-row::before {
+  opacity: 0.4;
+}
+
+:root[data-native-app="true"] .native-row .chevron {
+  font-size: 18px;
+  opacity: 0.72;
+}
+
+:root[data-native-app="true"] .dashboard-card,
+:root[data-native-app="true"] .quick-action,
+:root[data-native-app="true"] .event-card,
+:root[data-native-app="true"] .account-summary-item,
+:root[data-native-app="true"] .profile-form-panel,
+:root[data-native-app="true"] .family-card,
+:root[data-native-app="true"] .account-note,
+:root[data-native-app="true"] .empty-state {
+  border-color: var(--native-hairline);
+  background: var(--native-glass);
+  box-shadow: var(--native-soft-press);
+}
+
+:root[data-native-app="true"] .dashboard-card {
+  min-height: 128px;
+  border-radius: 24px;
+  padding: 16px;
+}
+
+:root[data-native-app="true"] .quick-action {
+  min-height: 78px;
+  border-radius: 22px;
+  padding: 14px 15px;
+}
+
+:root[data-native-app="true"] .quick-action span,
+:root[data-native-app="true"] .dashboard-card .muted {
+  line-height: 1.3;
+}
+
+:root[data-native-app="true"] .image-card.card,
+:root[data-native-app="true"] .page-hero.card {
+  overflow: visible;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+:root[data-native-app="true"] .image-card img,
+:root[data-native-app="true"] .page-hero img,
+:root[data-native-app="true"] .app-image-tile img {
+  border-radius: 24px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 12px 26px rgba(55, 32, 17, 0.13);
+}
+
+:root[data-native-app="true"] .image-card .card-body,
+:root[data-native-app="true"] .page-hero .card-body {
+  position: relative;
+  margin: -18px 12px 0;
+  padding: 15px;
+  border: 1px solid var(--native-hairline);
+  border-radius: 22px;
+  background: var(--native-glass);
+  box-shadow: var(--native-soft-press);
+}
+
+:root[data-native-app="true"] .app-image-tile {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+:root[data-native-app="true"] .tile-label {
+  bottom: 14px;
+  border: 1px solid rgba(255, 250, 238, 0.22);
+  border-radius: 999px;
+  background: rgba(45, 33, 24, 0.78);
+  backdrop-filter: blur(10px);
+}
+
+:root[data-native-app="true"] .info-row {
+  border-top-color: var(--native-hairline);
+}
+
+:root[data-native-app="true"] .month-grid {
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid var(--native-hairline);
+  background: color-mix(in srgb, var(--card) 54%, transparent);
+}
+
+:root[data-native-app="true"] .day-cell {
+  border: 0;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--card) 42%, transparent);
+}
+
+:root[data-native-app="true"] .day-cell.has-event {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--gold) 30%, var(--card) 70%), color-mix(in srgb, var(--green) 16%, var(--card) 84%));
+  box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--gold) 44%, transparent);
+}
+
+:root[data-native-app="true"] .filter-chip {
+  min-height: 38px;
+  padding-inline: 13px;
+  border-color: var(--native-hairline);
+  background: color-mix(in srgb, var(--card) 62%, transparent);
+  box-shadow: none;
+}
+
+:root[data-native-app="true"] .filter-chip.active {
+  box-shadow: 0 7px 16px color-mix(in srgb, var(--gold) 18%, transparent);
+}
+
+:root[data-native-app="true"] .field input,
+:root[data-native-app="true"] .field select {
+  background: color-mix(in srgb, var(--card) 68%, transparent);
+  box-shadow: inset 0 1px 2px rgba(55, 32, 17, 0.07);
+}
+
+:root[data-native-app="true"] .button,
+:root[data-native-app="true"] .link-button,
+:root[data-native-app="true"] .native-row,
+:root[data-native-app="true"] .quick-action,
+:root[data-native-app="true"] .dashboard-card,
+:root[data-native-app="true"] .category-tile {
+  -webkit-touch-callout: none;
+}
+
+@media (max-width: 520px) {
+  :root[data-native-app="true"] .dashboard-grid,
+  :root[data-native-app="true"] .category-grid,
+  :root[data-native-app="true"] .staff-grid {
+    gap: 11px;
+  }
+
+  :root[data-native-app="true"] .menu-card,
+  :root[data-native-app="true"] .settings-card,
+  :root[data-native-app="true"] .settings-group.card {
+    padding: 13px;
+  }
+
+  :root[data-native-app="true"] .image-card .card-body,
+  :root[data-native-app="true"] .page-hero .card-body {
+    margin-inline: 9px;
   }
 }

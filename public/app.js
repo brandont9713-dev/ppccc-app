@@ -13,6 +13,8 @@ const appConfig = {
   generatedMediaUrl: "/media.generated.json",
   notificationApiUrl: "/api/notifications/send",
   passwordResetApiUrl: "/api/auth/password-reset",
+  listUsersFunction: "list-users",
+  updateUserRoleFunction: "update-user-role",
   supabaseUrl: "https://lwrnoexybfqykfvxgjjs.supabase.co",
   supabaseAnonKey: "sb_publishable_4l0vcy9ofspgvk-oON7UxA_RT8pDBlI",
   contentSyncApiUrl: "",
@@ -211,10 +213,9 @@ const state = {
   mediaLoadedAt: "",
   mediaSource: "Message library",
   mediaLoading: false,
-  pendingUsers: [
-    { name: "Pastor Account", email: "pastor@example.com", role: "end_user" },
-    { name: "Church Member", email: "member@example.com", role: "end_user" },
-  ],
+  pendingUsers: [],
+  usersLoading: false,
+  usersLoadedAt: "",
 };
 
 const titles = {
@@ -230,6 +231,7 @@ const titles = {
   feedback: "Feedback",
   security: "Privacy & Safety",
   "forgot-password": "Reset Password",
+  "change-password": "Change Password",
 };
 
 const websiteSections = [
@@ -1659,6 +1661,18 @@ function supabaseHeaders(token = authAccessToken() || appConfig.supabaseAnonKey)
   };
 }
 
+function appRoleFromDb(role) {
+  if (role === "admin") return "admin";
+  if (role === "kids_korral") return "kids_korral";
+  return "end_user";
+}
+
+function dbRoleFromApp(role) {
+  if (role === "admin") return "admin";
+  if (role === "kids_korral") return "kids_korral";
+  return "general";
+}
+
 async function supabaseAuthRequest(path, body) {
   const response = await fetch(`${appConfig.supabaseUrl}/auth/v1/${path}`, {
     method: "POST",
@@ -1698,7 +1712,7 @@ async function applySupabaseSession(data, fallback = {}) {
     phone: fallback.phone || state.currentUser.phone || "",
     parentName: fallback.parentName || state.parentName,
     linkedFamilies: state.linkedFamilies,
-    role: profile?.role === "admin" ? "admin" : profile?.role === "kids_korral" ? "kids_korral" : "end_user",
+    role: appRoleFromDb(profile?.role),
     supabaseUserId: data.user?.id || profile?.id || "",
   });
 }
@@ -1729,6 +1743,25 @@ async function sendPasswordReset(email) {
   });
 }
 
+async function changeSupabasePassword({ currentPassword = "", newPassword = "" }) {
+  if (!authAccessToken()) throw new Error("Sign in required.");
+  if (currentPassword && state.currentUser.email) {
+    await signInWithSupabase({
+      email: state.currentUser.email,
+      password: currentPassword,
+      name: state.currentUser.name,
+    });
+  }
+  const response = await fetch(`${appConfig.supabaseUrl}/auth/v1/user`, {
+    method: "PUT",
+    headers: supabaseHeaders(authAccessToken()),
+    body: JSON.stringify({ password: newPassword }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.msg || data.error_description || data.error || "Password update failed.");
+  return data;
+}
+
 async function invokeAppFunction(name, body = {}) {
   const response = await fetch(`${appConfig.supabaseUrl}/functions/v1/${name}`, {
     method: "POST",
@@ -1738,6 +1771,35 @@ async function invokeAppFunction(name, body = {}) {
   const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(data.error || `${name} failed.`);
   return data;
+}
+
+async function loadAdminUsers() {
+  if (!isAdminMode()) return [];
+  state.usersLoading = true;
+  render();
+  try {
+    const data = await invokeAppFunction(appConfig.listUsersFunction);
+    const users = Array.isArray(data.users) ? data.users : [];
+    state.pendingUsers = users.map((user) => ({
+      id: user.id,
+      name: user.display_name || user.email?.split("@")[0] || "Church Family",
+      email: user.email || "",
+      role: appRoleFromDb(user.role),
+      createdAt: user.created_at || "",
+    }));
+    state.usersLoadedAt = new Date().toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+    return state.pendingUsers;
+  } finally {
+    state.usersLoading = false;
+  }
+}
+
+async function updateAdminUserRole(userId, role) {
+  const data = await invokeAppFunction(appConfig.updateUserRoleFunction, {
+    userId,
+    role: dbRoleFromApp(role),
+  });
+  return data.profile;
 }
 
 function isAdminMode() {
@@ -2579,18 +2641,32 @@ function renderManage() {
     app.innerHTML = `<section class="panel"><h2>Account Required</h2><p class="muted">This area is only available to approved admin accounts.</p></section>`;
     return;
   }
+  const users = state.pendingUsers.filter((user) => user.id || user.email);
   app.innerHTML = `
     <section class="stack">
-      <article class="panel">
-        <h2>User Permissions</h2>
-        <p class="muted">New signups start as general users. Promote trusted users when needed.</p>
+      <article class="screen-hero security-hero">
+        <span class="pill gold">Admin Only</span>
+        <div>
+          <h2>User Permissions</h2>
+          <p>New accounts start as general users. Promote only approved staff or Kids Korral leaders.</p>
+        </div>
       </article>
-      ${state.pendingUsers.map((user, index) => `
-        <article class="card">
+      <article class="card settings-card">
+        <div class="row">
+          <div>
+            <h3>Account Roles</h3>
+            <p class="muted">${state.usersLoadedAt ? `Last loaded ${state.usersLoadedAt}` : "Load current app accounts from the secure user list."}</p>
+          </div>
+          <button class="button secondary" id="refreshUsers">${state.usersLoading ? "Loading..." : "Refresh"}</button>
+        </div>
+      </article>
+      ${state.usersLoading ? `<article class="card"><p class="muted">Loading users...</p></article>` : ""}
+      ${users.length ? users.map((user, index) => `
+        <article class="card user-role-card">
           <div class="row">
             <div>
-              <h3>${user.name}</h3>
-              <p class="muted">${user.email}</p>
+              <h3>${safeText(user.name)}</h3>
+              <p class="muted">${safeText(user.email)}</p>
             </div>
             <span class="pill ${user.role === "admin" ? "gold" : ""}">${roles[user.role].label}</span>
           </div>
@@ -2604,7 +2680,7 @@ function renderManage() {
           </div>
           <button class="button full" data-save-role="${index}">Update Permissions</button>
         </article>
-      `).join("")}
+      `).join("") : `<article class="card"><p class="muted">Tap Refresh to load app users.</p></article>`}
     </section>
   `;
 }
@@ -2866,55 +2942,64 @@ function renderAppPage() {
 }
 
 function renderAccount() {
+  const signedInEmail = state.currentUser.email || "Email not added";
+  const signedInPhone = state.currentUser.phone || "Phone not added";
+  const familyCount = state.linkedFamilies.length;
   if (!isSignedIn()) {
     app.innerHTML = `
       <section class="stack">
         <article class="settings-profile">
           <div class="avatar">P</div>
           <div>
-            <h2>Set Up Your Account</h2>
-            <p class="muted">Save your profile, alerts, and Kids Korral family links.</p>
+            <h2>Account Settings</h2>
+            <p class="muted">Sign in to save profile details, alerts, and Kids Korral links.</p>
             <span class="pill gold">Account Setup</span>
           </div>
         </article>
         <article class="card settings-card account-access-card">
-          <h3>Account Access</h3>
+          <h3>${state.accountMode === "sign-in" ? "Sign In" : "Create Account"}</h3>
           <div class="account-switch" role="group" aria-label="Account access mode">
             <button class="filter-chip ${state.accountMode === "create" ? "active" : ""}" data-account-mode="create">Create Account</button>
             <button class="filter-chip ${state.accountMode === "sign-in" ? "active" : ""}" data-account-mode="sign-in">Sign In</button>
           </div>
-          <p class="muted account-note">Create a profile, save family info, and manage church alerts.</p>
+          <p class="muted account-note">${state.accountMode === "sign-in" ? "Use your church app email or username to continue." : "New accounts can save family info and manage church alerts."}</p>
           ${state.accountMode === "sign-in" ? `
-            <div class="field">
-              <label for="signinEmail">Email or Username</label>
-              <input id="signinEmail" inputmode="email" autocomplete="username" placeholder="you@example.com" />
+            <div class="profile-form-panel">
+              <div class="field">
+                <label for="signinEmail">Email or Username</label>
+                <input id="signinEmail" inputmode="email" autocomplete="username" placeholder="you@example.com" />
+              </div>
+              <div class="field">
+                <label for="signinPassword">Password</label>
+                <input id="signinPassword" type="password" autocomplete="current-password" placeholder="Password" />
+              </div>
             </div>
-            <div class="field">
-              <label for="signinPassword">Password</label>
-              <input id="signinPassword" type="password" autocomplete="current-password" placeholder="Password" />
+            <div class="account-actions">
+              <button class="button full" id="signInAccount">Sign In</button>
+              <button class="button secondary full" data-go="forgot-password">Forgot Password</button>
             </div>
-            <button class="button full" id="signInAccount">Continue</button>
-            <button class="button secondary full" data-go="forgot-password">Forgot Password</button>
           ` : `
-            <div class="field">
-              <label for="createName">Name</label>
-              <input id="createName" autocomplete="name" placeholder="Your name" />
-            </div>
-            <div class="field">
-              <label for="createEmail">Email or Username</label>
-              <input id="createEmail" inputmode="email" autocomplete="username" placeholder="you@example.com" />
-            </div>
-            <div class="field">
-              <label for="createPassword">Password</label>
-              <input id="createPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters" />
-            </div>
-            <div class="field">
-              <label for="createPhone">Phone</label>
-              <input id="createPhone" inputmode="tel" autocomplete="tel" placeholder="Phone number" />
-            </div>
-            <div class="field">
-              <label for="createFamilyName">Family Display Name</label>
-              <input id="createFamilyName" autocomplete="organization" placeholder="Smith Family" />
+            <div class="profile-form-panel">
+              <div class="field">
+                <label for="createName">Full Name</label>
+                <input id="createName" autocomplete="name" placeholder="Your name" />
+              </div>
+              <div class="field">
+                <label for="createEmail">Email or Username</label>
+                <input id="createEmail" inputmode="email" autocomplete="username" placeholder="you@example.com" />
+              </div>
+              <div class="field">
+                <label for="createPassword">Password</label>
+                <input id="createPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters" />
+              </div>
+              <div class="field">
+                <label for="createPhone">Phone</label>
+                <input id="createPhone" inputmode="tel" autocomplete="tel" placeholder="Phone number" />
+              </div>
+              <div class="field">
+                <label for="createFamilyName">Family Display Name</label>
+                <input id="createFamilyName" autocomplete="organization" placeholder="Smith Family" />
+              </div>
             </div>
             <div class="linked-setup">
               <h4>Link Kids Korral</h4>
@@ -2944,18 +3029,30 @@ function renderAccount() {
         <div class="avatar">${safeText(state.currentUser.name.slice(0, 1))}</div>
         <div>
           <h2>${safeText(state.currentUser.name)}</h2>
-          <p class="muted">${safeText(state.currentUser.email)}</p>
+          <p class="muted">${safeText(signedInEmail)}</p>
           <span class="pill gold">${roles[state.currentUser.role].label}</span>
         </div>
       </article>
       <article class="card settings-card account-access-card">
-        <h3>Account</h3>
-        <div class="admin-status-row">
-          <strong>Account Details</strong>
-          <span class="pill gold">Signed In</span>
+        <h3>Account Overview</h3>
+        <div class="account-summary-grid">
+          <div class="account-summary-item">
+            <span class="muted">Status</span>
+            <strong>Signed In</strong>
+          </div>
+          <div class="account-summary-item">
+            <span class="muted">Phone</span>
+            <strong>${safeText(signedInPhone)}</strong>
+          </div>
+          <div class="account-summary-item">
+            <span class="muted">Kids Korral</span>
+            <strong>${familyCount ? `${familyCount} linked` : "None linked"}</strong>
+          </div>
         </div>
         <p class="muted">Manage your profile, alert preferences, and Kids Korral links.</p>
-        <button class="button secondary full" id="signOutAccount">Sign Out</button>
+        <div class="account-actions">
+          <button class="button secondary full" id="signOutAccount">Sign Out</button>
+        </div>
       </article>
       <article class="card settings-card beta-admin-card">
         <h3>Staff Access</h3>
@@ -2968,27 +3065,31 @@ function renderAccount() {
       </article>
       <article class="card settings-card">
         <h3>Profile</h3>
-        <div class="field">
-          <label for="accountName">Name</label>
-          <input id="accountName" value="${safeText(state.currentUser.name)}" />
+        <div class="profile-form-panel">
+          <div class="field">
+            <label for="accountName">Full Name</label>
+            <input id="accountName" value="${safeText(state.currentUser.name)}" />
+          </div>
+          <div class="field">
+            <label for="accountEmail">Email Address</label>
+            <input id="accountEmail" value="${safeText(state.currentUser.email)}" inputmode="email" autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="accountPhone">Phone</label>
+            <input id="accountPhone" value="${safeText(state.currentUser.phone || "")}" inputmode="tel" autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label for="parentName">Family Display Name</label>
+            <input id="parentName" value="${safeText(state.parentName)}" />
+          </div>
         </div>
-        <div class="field">
-          <label for="accountEmail">Email Address</label>
-          <input id="accountEmail" value="${safeText(state.currentUser.email)}" inputmode="email" autocomplete="email" />
+        <div class="account-actions">
+          <button class="button full" id="saveAccount">Save Profile</button>
         </div>
-        <div class="field">
-          <label for="accountPhone">Phone</label>
-          <input id="accountPhone" value="${safeText(state.currentUser.phone || "")}" inputmode="tel" autocomplete="tel" />
-        </div>
-        <div class="field">
-          <label for="parentName">Family Display Name</label>
-          <input id="parentName" value="${safeText(state.parentName)}" />
-        </div>
-        <button class="button full" id="saveAccount">Save Profile</button>
       </article>
       <article class="card settings-card">
         <h3>Kids Korral Links</h3>
-        <p class="muted">Link one or more Kids Korral family numbers and confirm the child and pickup name for each one.</p>
+        <p class="muted">Link Kids Korral family numbers and confirm the child and pickup name for each one.</p>
         ${linkedFamilyCards({ removable: true })}
         <div class="linked-setup">
           ${kidsFamilyForm("settings", "addKidsFamily")}
@@ -2997,6 +3098,7 @@ function renderAccount() {
       <article class="card settings-card">
         <h3>Account Security</h3>
         ${linkList([
+          { title: "Change Password", route: "change-password", subtitle: "Update your password", icon: "shield" },
           { title: "Forgot Password", route: "forgot-password", subtitle: "Email reset link", icon: "shield" },
           { title: "Privacy & Safety", route: "security", subtitle: "Account, alerts, and child safety", icon: "shield" },
         ])}
@@ -3077,6 +3179,49 @@ function renderForgotPassword() {
   `;
 }
 
+function renderChangePassword() {
+  if (!isSignedIn() || !authAccessToken()) {
+    app.innerHTML = `
+      <section class="stack">
+        <article class="panel">
+          <h2>Sign In Required</h2>
+          <p class="muted">Sign in first, then you can change your password from Settings.</p>
+          <button class="button full" data-go="account">Go to Settings</button>
+        </article>
+      </section>
+    `;
+    return;
+  }
+
+  app.innerHTML = `
+    <section class="stack">
+      <article class="screen-hero security-hero">
+        <span class="pill gold">Account Security</span>
+        <div>
+          <h2>Change Password</h2>
+          <p>Update your signed-in account password.</p>
+        </div>
+      </article>
+      <article class="card settings-card">
+        <div class="field">
+          <label for="currentPassword">Current Password</label>
+          <input id="currentPassword" type="password" autocomplete="current-password" placeholder="Current password" />
+        </div>
+        <div class="field">
+          <label for="newPassword">New Password</label>
+          <input id="newPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters" />
+        </div>
+        <div class="field">
+          <label for="confirmPassword">Confirm New Password</label>
+          <input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Re-enter new password" />
+        </div>
+        <button class="button full" id="changePassword">Update Password</button>
+        <p class="muted small-note">Use a unique password that is not shared with another website or app.</p>
+      </article>
+    </section>
+  `;
+}
+
 function renderSecurity() {
   const securityItems = [
     ["Private by default", "Church communication is kept separate from ads, tracking, and selling personal data."],
@@ -3128,6 +3273,7 @@ function render() {
   if (state.route === "contact") renderContact();
   if (state.route === "feedback") renderFeedback();
   if (state.route === "forgot-password") renderForgotPassword();
+  if (state.route === "change-password") renderChangePassword();
   if (state.route === "security") renderSecurity();
   if (state.route === "page") renderAppPage();
 }
@@ -3150,6 +3296,13 @@ document.body.addEventListener("click", async (event) => {
 
   if (target.dataset.go) {
     navigate(target.dataset.go);
+    if (target.dataset.go === "manage" && isAdminMode() && !state.usersLoadedAt && !state.usersLoading) {
+      loadAdminUsers().then(() => render()).catch(() => {
+        state.usersLoading = false;
+        showToast("Could not load users. Check admin access and connection.");
+        render();
+      });
+    }
   }
 
   if (target.dataset.page) {
@@ -3339,6 +3492,31 @@ document.body.addEventListener("click", async (event) => {
     render();
   }
 
+  if (target.id === "changePassword") {
+    const currentPassword = document.querySelector("#currentPassword")?.value || "";
+    const newPassword = document.querySelector("#newPassword")?.value || "";
+    const confirmPassword = document.querySelector("#confirmPassword")?.value || "";
+    if (!currentPassword) {
+      showToast("Enter your current password.");
+      return;
+    }
+    if (newPassword.length < 8) {
+      showToast("Use a new password with at least 8 characters.");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      showToast("The new passwords do not match.");
+      return;
+    }
+    try {
+      await changeSupabasePassword({ currentPassword, newPassword });
+      showToast("Password updated.");
+      navigate("account");
+    } catch {
+      showToast("Could not update password. Check your current password and try again.");
+    }
+  }
+
   if (target.id === "addKidsFamily") {
     const prefix = target.dataset.familyPrefix || "kids";
     const result = readFamilyForm(prefix);
@@ -3390,8 +3568,29 @@ document.body.addEventListener("click", async (event) => {
   if (target.dataset.saveRole) {
     const index = Number(target.dataset.saveRole);
     const select = document.querySelector(`[data-user-role="${index}"]`);
-    state.pendingUsers[index].role = select.value;
-    showToast(`${state.pendingUsers[index].name} is now ${roles[select.value].label}.`);
+    const user = state.pendingUsers[index];
+    if (!user?.id || !select?.value) {
+      showToast("Refresh users and try again.");
+      return;
+    }
+    try {
+      const profile = await updateAdminUserRole(user.id, select.value);
+      state.pendingUsers[index].role = appRoleFromDb(profile?.role || select.value);
+      showToast(`${state.pendingUsers[index].name} is now ${roles[state.pendingUsers[index].role].label}.`);
+    } catch {
+      showToast("Could not update role. Admin access may be required.");
+    }
+    render();
+  }
+
+  if (target.id === "refreshUsers") {
+    try {
+      await loadAdminUsers();
+      showToast("Users loaded.");
+    } catch {
+      state.usersLoading = false;
+      showToast("Could not load users. Check admin access and connection.");
+    }
     render();
   }
 

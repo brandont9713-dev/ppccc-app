@@ -32,7 +32,9 @@ $authenticatedFunctions = @(
   "link-family-number",
   "upsert-app-event",
   "delete-app-event",
-  "upsert-media-item"
+  "upsert-media-item",
+  "list-users",
+  "update-user-role"
 )
 
 foreach ($fn in $publicFunctions) {

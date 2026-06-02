@@ -4116,7 +4116,22 @@ h3 {
   box-shadow: var(--native-soft-press);
 }
 
+:root[data-native-app="true"] .home-cr-card.image-card {
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--native-hairline);
+  border-radius: 24px;
+  background: var(--native-glass);
+  box-shadow: var(--native-soft-press);
+}
+
 :root[data-native-app="true"] .feature-card.image-card img {
+  width: 100%;
+  border-radius: 24px 24px 0 0;
+  box-shadow: none;
+}
+
+:root[data-native-app="true"] .home-cr-card.image-card img {
   width: 100%;
   border-radius: 24px 24px 0 0;
   box-shadow: none;
@@ -4131,9 +4146,22 @@ h3 {
   box-shadow: none;
 }
 
+:root[data-native-app="true"] .home-cr-card.image-card .card-body {
+  margin: 0;
+  padding: 15px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
 :root[data-native-app="true"] .feature-card .row {
   align-items: center;
   gap: 10px;
+}
+
+:root[data-native-app="true"] .beta-admin-card .native-list {
+  margin-top: 12px;
 }
 
 :root[data-native-app="true"] .feature-card h3 {

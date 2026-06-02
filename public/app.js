@@ -2171,6 +2171,24 @@ function linkList(items) {
   }).join("")}</div>`;
 }
 
+function staffToolsList() {
+  if (!isSignedIn() || !authAccessToken()) {
+    return `<p class="muted small-note">Sign in to use staff tools.</p>`;
+  }
+  if (!canUseStaffTools()) {
+    return `<p class="muted small-note">No staff tools are available for this account yet.</p>`;
+  }
+  const tools = [];
+  if (isAdminMode()) {
+    tools.push(
+      { title: "User Permissions", route: "manage", subtitle: "View users and update roles", icon: "shield" },
+      { title: "Live Broadcast Alert", route: "live", subtitle: "Send Live Now notification", icon: "bell" },
+    );
+  }
+  tools.push({ title: "Kids Korral Alerts", route: "kids", subtitle: "Send parent alerts by family number", icon: "bell" });
+  return linkList(tools);
+}
+
 function linkedFamilyCards({ removable = false } = {}) {
   if (!state.linkedFamilies.length) {
     return `
@@ -2364,7 +2382,7 @@ function renderHome() {
         </div>
       </div>
     </section>
-    <article class="image-card card">
+    <article class="image-card card home-cr-card">
       <img src="https://faithconnector.s3.amazonaws.com/6267/images/library/design_assets/cr_website_3.png" alt="Celebrate Recovery" />
       <div class="card-body">
         <h2>Celebrate Recovery</h2>
@@ -3064,6 +3082,7 @@ function renderAccount() {
             <strong>Staff Tools</strong>
             <span class="pill ${canUseStaffTools() ? "gold" : ""}">${canUseStaffTools() ? "Available" : "Role Required"}</span>
           </div>
+          ${staffToolsList()}
           <p class="muted small-note">Staff tools are limited to approved church roles.</p>
         </article>
         ${settingsSupportCards()}
@@ -3110,6 +3129,7 @@ function renderAccount() {
           <strong>Staff Tools</strong>
           <span class="pill ${canUseStaffTools() ? "gold" : ""}">${canUseStaffTools() ? "Available" : "Role Required"}</span>
         </div>
+        ${staffToolsList()}
         <p class="muted small-note">Staff tools are limited to approved church roles.</p>
       </article>
       <article class="card settings-card">
@@ -3326,6 +3346,32 @@ function render() {
   if (state.route === "security") renderSecurity();
   if (state.route === "page") renderAppPage();
 }
+
+let swipeStartX = 0;
+let swipeStartY = 0;
+let swipeBackCandidate = false;
+
+app.addEventListener("touchstart", (event) => {
+  const touch = event.touches?.[0];
+  if (!touch || !state.history.length) return;
+  const target = event.target;
+  if (target?.closest?.("input, textarea, select, button, .image-preview")) return;
+  swipeStartX = touch.clientX;
+  swipeStartY = touch.clientY;
+  swipeBackCandidate = swipeStartX <= 48;
+}, { passive: true });
+
+app.addEventListener("touchend", (event) => {
+  if (!swipeBackCandidate || !state.history.length) return;
+  const touch = event.changedTouches?.[0];
+  swipeBackCandidate = false;
+  if (!touch) return;
+  const deltaX = touch.clientX - swipeStartX;
+  const deltaY = touch.clientY - swipeStartY;
+  if (deltaX > 86 && Math.abs(deltaX) > Math.abs(deltaY) * 1.7) {
+    goBack();
+  }
+}, { passive: true });
 
 document.body.addEventListener("click", async (event) => {
   const target = event.target.closest("button");

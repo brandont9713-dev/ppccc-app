@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import * as Calendar from "expo-calendar/legacy";
-import { useMemo, useRef } from "react";
+import * as Updates from "expo-updates";
+import { useEffect, useMemo, useRef } from "react";
 import { Alert, Linking, Platform, StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
 import type { WebViewMessageEvent, WebViewNavigation } from "react-native-webview";
@@ -74,6 +75,23 @@ function isExternalUrl(url: string) {
 export default function App() {
   const webRef = useRef<WebView>(null);
   const html = useMemo(() => webAppHtml, []);
+
+  useEffect(() => {
+    async function applyLatestUpdate() {
+      try {
+        if (!Updates.isEnabled) return;
+        const update = await Updates.checkForUpdateAsync();
+        if (update.isAvailable) {
+          await Updates.fetchUpdateAsync();
+          await Updates.reloadAsync();
+        }
+      } catch {
+        // The bundled app remains usable when offline or when Expo update checks fail.
+      }
+    }
+
+    applyLatestUpdate();
+  }, []);
 
   async function enablePush(accessToken?: string) {
     const result = await registerForPushNotificationsAsync(accessToken);

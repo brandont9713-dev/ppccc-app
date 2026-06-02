@@ -1745,8 +1745,7 @@ async function signUpWithSupabase({ name, email, password, phone = "", parentNam
     await applySupabaseSession(data, { name, email, phone, parentName });
     return { signedIn: true };
   }
-  setLocalAccount({ name, email, phone, parentName, linkedFamilies: state.linkedFamilies });
-  return { signedIn: false };
+  return { signedIn: false, created: Boolean(data.user?.id) };
 }
 
 async function signInWithSupabase({ email, password, name }) {
@@ -3492,11 +3491,11 @@ document.body.addEventListener("click", async (event) => {
       linkedFamilies.push(setupFamily.family);
     }
     try {
-      await signUpWithSupabase({ name, email, password, phone, parentName });
-      showToast(authAccessToken() ? "Account created and signed in." : "Account created. Check email if confirmation is required.");
+      const result = await signUpWithSupabase({ name, email, password, phone, parentName });
+      showToast(result.signedIn ? "Account created and signed in." : "Account created. Check email if confirmation is required, then sign in.");
     } catch {
-      setLocalAccount({ name, email, phone, parentName, linkedFamilies });
-      showToast("Account saved. Check your connection to finish sign-in.");
+      showToast("Account was not created. Check connection, email, and password, then try again.");
+      return;
     }
     for (const family of linkedFamilies) {
       if (authAccessToken()) {

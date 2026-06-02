@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@types/react": "latest",
-    "eas-cli": "^19.0.8",
+    "eas-cli": "^20.0.0",
     "supabase": "^2.101.0",
     "typescript": "latest"
   }
